@@ -1,0 +1,51 @@
+name: Diagnóstico
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostico:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Conferir a configuração
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_GRAPH_BASE: ${{ vars.IG_GRAPH_BASE }}
+          PUBLIC_BASE_URL: ${{ vars.PUBLIC_BASE_URL }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          IA_MODELO: ${{ vars.IA_MODELO }}
+          SITE_TESTE_URL: ${{ vars.SITE_TESTE_URL }}
+          DRY_RUN: ${{ vars.DRY_RUN }}
+          TIKTOK_MODO: ${{ vars.TIKTOK_MODO }}
+          TIKTOK_MIDIA_URL: ${{ vars.TIKTOK_MIDIA_URL }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+          TIKTOK_REFRESH_TOKEN_SAIDA: ${{ github.workspace }}/.tiktok_refresh_token
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: python main.py diagnostico --telegram
+
+      - name: Guardar o novo token do TikTok (o teste pode renová-lo)
+        if: always() && hashFiles('.tiktok_refresh_token') != ''
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          if [ -n "$GH_TOKEN" ]; then gh secret set TIKTOK_REFRESH_TOKEN < .tiktok_refresh_token; fi
+          rm -f .tiktok_refresh_token

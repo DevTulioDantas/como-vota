@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quem vota como você?</title>
+<meta name="description" content="Responda como você votaria em votações reais do Congresso e descubra quais deputados e senadores votaram mais parecido com você.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: coluna única de cédula — topo com a marca, um cartão por pergunta, resultado em lista ranqueada.
+     Cores e tipos do Guia de Marca "Como Vota, Deputado?" v1.0. */
+  :root {
+    --papel: #F6F3EC;
+    --azul: #0E2233;
+    --amarelo: #FFC93C;
+    --verde: #1FA97A;
+    --vermelho: #E4433C;
+    --cinza: #8A94A0;
+
+    --bg: var(--papel);
+    --fg: #101820;
+    --suave: #4A5562;
+    --linha: #E2DCCF;
+    --cartao: #FFFFFF;
+    --tinta-forte: var(--azul);
+    --sobre-amarelo: var(--azul);
+    --marca-fundo: var(--amarelo);
+    --marca-texto: var(--azul);
+
+    --titulo: "Archivo Black", "Arial Black", Impact, sans-serif;
+    --corpo: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: var(--azul); --fg: var(--papel); --suave: #C9D4DE; --linha: rgba(246,243,236,.16);
+      --cartao: #15304A; --tinta-forte: var(--papel); --marca-fundo: transparent; --marca-texto: var(--amarelo);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: var(--azul); --fg: var(--papel); --suave: #C9D4DE; --linha: rgba(246,243,236,.16);
+    --cartao: #15304A; --tinta-forte: var(--papel); --marca-fundo: transparent; --marca-texto: var(--amarelo);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--corpo); font-size: 17px; line-height: 1.55; }
+  .pagina { max-width: 720px; margin: 0 auto; padding-inline: 18px; padding-block: 18px 64px; }
+  h1, h2, h3 { font-family: var(--titulo); font-weight: 400; text-transform: uppercase; line-height: 1.05; margin: 0; text-wrap: balance; color: var(--tinta-forte); }
+  a { color: inherit; }
+  button, select { font: inherit; }
+  :focus-visible { outline: 3px solid var(--amarelo); outline-offset: 2px; }
+  .mono { font-family: var(--mono); }
+
+  /* ---------- topo ---------- */
+  .topo { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-block: 6px 22px; border-bottom: 3px solid var(--linha); margin-bottom: 28px; }
+  .marca { font-family: var(--titulo); text-transform: uppercase; font-size: 17px; letter-spacing: .02em; white-space: nowrap; }
+  .marca b { font-weight: 400; background: var(--marca-fundo); color: var(--marca-texto); padding: 1px 6px; margin-left: 2px; }
+  .topo .rot { font-family: var(--mono); font-size: 13px; color: var(--suave); text-transform: uppercase; letter-spacing: .08em; }
+  .aviso-demo { background: var(--vermelho); color: #fff; font-family: var(--mono); font-size: 13px; font-weight: 600; padding: 8px 12px; border-radius: 8px; margin-bottom: 22px; }
+
+  /* ---------- intro ---------- */
+  .intro h1 { font-size: clamp(40px, 9vw, 68px); }
+  .intro h1 em { font-style: normal; background: var(--amarelo); color: var(--azul); padding: 0 .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .intro .lead { font-size: 20px; color: var(--suave); margin: 18px 0 30px; max-width: 34em; }
+  .passos-intro { list-style: none; padding: 0; margin: 0 0 30px; display: grid; gap: 14px; }
+  .passos-intro li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; }
+  .passos-intro li span { width: 40px; height: 40px; border-radius: 50%; background: var(--azul); color: var(--amarelo); font-family: var(--mono); font-weight: 700; display: grid; place-items: center; border: 2px solid var(--amarelo); }
+  .passos-intro li p { margin: 7px 0 0; min-width: 0; }
+  .campo { display: grid; gap: 6px; margin-bottom: 26px; max-width: 360px; }
+  .campo label { font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--suave); }
+  select { padding: 12px 14px; border-radius: 10px; border: 2px solid var(--linha); background: var(--cartao); color: var(--fg); }
+  .botao-principal { display: inline-flex; align-items: center; gap: 12px; background: var(--amarelo); color: var(--sobre-amarelo); border: 0; border-radius: 12px; padding: 16px 26px; font-family: var(--titulo); text-transform: uppercase; font-size: 19px; cursor: pointer; }
+  .botao-principal small { font-family: var(--mono); font-size: 13px; text-transform: none; opacity: .8; }
+  .letra-miuda { font-size: 14px; color: var(--suave); margin-top: 22px; max-width: 38em; }
+
+  /* ---------- pergunta ---------- */
+  .progresso { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 13px; color: var(--suave); margin-bottom: 8px; }
+  .trilho { height: 8px; background: var(--linha); border-radius: 99px; overflow: hidden; margin-bottom: 26px; }
+  .trilho div { height: 100%; background: var(--amarelo); transition: width .25s ease; }
+  .cedula { background: var(--cartao); border: 2px solid var(--linha); border-radius: 18px; padding: 26px 24px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-family: var(--mono); font-size: 13px; color: var(--suave); margin-bottom: 14px; }
+  .casa { border: 2px solid var(--tinta-forte); color: var(--tinta-forte); padding: 1px 8px; border-radius: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .tema { background: var(--azul); color: var(--amarelo); padding: 3px 9px; border-radius: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+  .cedula h2 { font-size: clamp(25px, 5.4vw, 34px); margin-bottom: 14px; }
+  .cedula .resumo { margin: 0 0 16px; font-size: 18px; }
+  .significa { border-left: 5px solid var(--amarelo); padding: 10px 14px; background: color-mix(in srgb, var(--amarelo) 12%, transparent); font-weight: 600; margin-bottom: 14px; }
+  .link-texto { font-size: 15px; font-weight: 600; }
+  .opcoes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
+  .opcao { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px; border-radius: 14px; border: 3px solid transparent; cursor: pointer; font-family: var(--titulo); text-transform: uppercase; font-size: 21px; color: #fff; }
+  .opcao.sim { background: var(--verde); }
+  .opcao.nao { background: var(--vermelho); }
+  .opcao[aria-pressed="true"] { border-color: var(--fg); }
+  .opcao svg { flex: none; }
+  .secundarias { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; }
+  .botao-texto { background: none; border: 0; color: var(--suave); font-weight: 600; cursor: pointer; padding: 10px 4px; text-decoration: underline; text-underline-offset: 3px; }
+  .botao-texto:disabled { visibility: hidden; }
+
+  /* ---------- resultado ---------- */
+  .resultado h1 { font-size: clamp(32px, 7vw, 50px); margin-bottom: 10px; }
+  .resultado .sub { color: var(--suave); margin: 0 0 18px; }
+  .bloco-casa { border-top: 3px solid var(--linha); padding-top: 24px; margin-top: 8px; }
+  .titulo-casa { font-size: clamp(26px, 6vw, 36px); margin-bottom: 8px; }
+  .filtro { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
+  .filtro label { font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--suave); }
+  .ranking { list-style: none; padding: 0; margin: 0 0 34px; display: grid; gap: 12px; }
+  .pessoa { background: var(--cartao); border: 2px solid var(--linha); border-radius: 16px; overflow: hidden; }
+  .pessoa.primeiro { border-color: var(--amarelo); }
+  .pessoa-topo { display: grid; grid-template-columns: auto auto 1fr auto; gap: 14px; align-items: center; padding: 16px 18px; }
+  .pos { font-family: var(--mono); font-weight: 700; color: var(--suave); font-size: 15px; }
+  .ini { width: 54px; height: 54px; border-radius: 50%; background: var(--papel); color: var(--azul); border: 4px solid var(--amarelo); display: grid; place-items: center; font-family: var(--titulo); font-size: 19px; }
+  .quem { min-width: 0; }
+  .quem strong { display: block; font-family: var(--titulo); font-weight: 400; text-transform: uppercase; font-size: 18px; line-height: 1.1; overflow-wrap: anywhere; }
+  .quem span { font-family: var(--mono); font-size: 13px; color: var(--suave); }
+  .pct { font-family: var(--mono); font-weight: 700; font-size: 30px; text-align: right; font-variant-numeric: tabular-nums; }
+  .pct small { display: block; font-size: 12px; font-weight: 400; color: var(--suave); }
+  .abrir { width: 100%; text-align: left; background: none; border: 0; border-top: 2px solid var(--linha); padding: 12px 18px; color: var(--fg); font-weight: 600; cursor: pointer; }
+  .comparacao { overflow-x: auto; padding: 0 18px 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--suave); padding: 8px 6px; border-bottom: 2px solid var(--linha); }
+  td { padding: 10px 6px; border-bottom: 1px solid var(--linha); vertical-align: middle; }
+  td.v { white-space: nowrap; font-weight: 700; font-family: var(--mono); font-size: 13px; }
+  td.v span { display: inline-flex; align-items: center; gap: 6px; }
+  .igual { color: var(--verde); } .diferente { color: var(--vermelho); } .fora { color: var(--cinza); }
+
+  h3 { font-size: 22px; margin-bottom: 14px; }
+  .partidos { display: grid; gap: 8px; margin-bottom: 34px; }
+  .lp { display: grid; grid-template-columns: 82px 1fr 52px; gap: 12px; align-items: center; font-size: 15px; }
+  .lp b { font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lp .b { height: 14px; border-radius: 99px; background: var(--linha); overflow: hidden; }
+  .lp .b div { height: 100%; background: var(--tinta-forte); }
+  .lp span { font-family: var(--mono); font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+
+  .card-bloco { background: var(--cartao); border: 2px solid var(--linha); border-radius: 18px; padding: 20px; margin-bottom: 34px; display: grid; grid-template-columns: minmax(0, 200px) 1fr; gap: 20px; align-items: center; }
+  .card-bloco img { width: 100%; max-width: 100%; border-radius: 10px; display: block; }
+  .card-bloco p { margin: 0 0 14px; }
+  .acoes { display: flex; flex-wrap: wrap; gap: 10px; }
+  .botao-sec { background: transparent; color: var(--fg); border: 2px solid var(--fg); border-radius: 10px; padding: 10px 16px; font-weight: 700; cursor: pointer; }
+  .estado-acao { font-size: 14px; color: var(--suave); margin-top: 10px; min-height: 1.4em; }
+
+  details { border-top: 3px solid var(--linha); padding-block: 14px; }
+  summary { font-family: var(--titulo); text-transform: uppercase; cursor: pointer; font-size: 17px; }
+  details p, details li { color: var(--suave); font-size: 15px; }
+  .rodape { margin-top: 40px; font-family: var(--mono); font-size: 12px; color: var(--suave); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+
+  @media (max-width: 520px) {
+    .pessoa-topo { grid-template-columns: auto 1fr auto; }
+    .pos { display: none; }
+    .card-bloco { grid-template-columns: 1fr; }
+    .card-bloco img { max-width: 220px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header class="topo">
+    <div class="marca">Como Vota <b>Deputado?</b></div>
+    <div class="rot">Teste de afinidade</div>
+  </header>
+  <div id="aviso-demo" class="aviso-demo" hidden>PRÉVIA COM DADOS FICTÍCIOS: perguntas, nomes e votos são inventados.</div>
+  <main id="app"><p>Carregando o teste…</p></main>
+  <footer class="rodape">
+    <span>Fonte dos votos: Dados Abertos da Câmara dos Deputados e do Senado Federal</span>
+    <span id="atualizado"></span>
+  </footer>
+</div>
+
+<script>
+/* ===================== configuração ===================== */
+const CONFIG = {
+  // Endereço do contador anônimo (Cloudflare Worker em contador/worker.js).
+  // Vazio = nada é enviado para lugar nenhum.
+  contadorUrl: "",
+  handle: "@comovotadeputado",
+  site: "comovotadeputado.com.br",
+  minimoRespostas: 5,       // respostas SIM/NÃO para liberar o resultado
+  fracaoMinimaComum: 0.6,   // parlamentar precisa ter votado em 60% das perguntas que você respondeu
+};
+
+/* ===================== utilidades ===================== */
+const $app = document.getElementById("app");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const iniciais = nome => {
+  const p = String(nome).replace(/\./g, " ").split(/\s+/).filter(w => w && !/^(de|da|do|das|dos|e)$/i.test(w));
+  return ((p[0] || "?")[0] + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase();
+};
+const dataBr = iso => iso ? iso.slice(0, 10).split("-").reverse().join("/") : "";
+const icone = (tipo, t = 22) => {
+  const c = { S: ["#1FA97A", '<path d="M11 20.5l6 6 12-13" fill="none" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>'],
+              N: ["#E4433C", '<path d="M13 13l14 14M27 13L13 27" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>'],
+              X: ["#8A94A0", '<path d="M12 20h16" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>'] }[tipo] || null;
+  const [cor, desenho] = c || ["#8A94A0", '<path d="M12 20h16" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>'];
+  return `<svg width="${t}" height="${t}" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="${cor}"/>${desenho}</svg>`;
+};
+const ROTULO_VOTO = { S: "SIM", N: "NÃO", A: "ABSTENÇÃO", O: "OBSTRUÇÃO", X: "OUTRO" };
+
+/* ===================== estado ===================== */
+let DADOS = null;
+const estado = { tela: "intro", i: 0, respostas: {}, uf: "", abertos: new Set(), contado: false };
+
+/* ===================== cálculo (roda só no navegador) ===================== */
+const CASA = {
+  camara: { titulo: "Deputados federais", quem: "Deputado", nome: "Câmara", da: "da Câmara" },
+  senado: { titulo: "Senadores", quem: "Senador", nome: "Senado", da: "do Senado" },
+};
+const perguntasDa = casa => DADOS.perguntas.filter(q => (q.casa || "camara") === casa);
+
+function calcular(respostas, uf, casa) {
+  const ids = new Set(perguntasDa(casa).map(q => q.id));
+  const respondidas = Object.entries(respostas).filter(([q, r]) => ids.has(q) && (r === "S" || r === "N"));
+  const minimo = Math.max(3, Math.ceil(respondidas.length * CONFIG.fracaoMinimaComum));
+  const pessoas = [];
+  const porPartido = {};
+  if (respondidas.length < 3) return { pessoas, partidos: [], respondidas: respondidas.length, minimo, insuficiente: true };
+  for (const p of DADOS.parlamentares) {
+    if ((p.casa || "camara") !== casa) continue;
+    let comum = 0, iguais = 0;
+    for (const [q, r] of respondidas) {
+      const v = p.votos[q];
+      if (v === "S" || v === "N") { comum++; if (v === r) iguais++; }
+    }
+    if (comum === 0) continue;
+    const pp = porPartido[p.partido] ||= { partido: p.partido, comum: 0, iguais: 0, membros: 0 };
+    pp.comum += comum; pp.iguais += iguais; pp.membros++;
+    if (comum >= minimo && (!uf || p.uf === uf)) pessoas.push({ ...p, comum, iguais, pct: iguais / comum });
+  }
+  pessoas.sort((a, b) => b.pct - a.pct || b.comum - a.comum || a.nome.localeCompare(b.nome, "pt-BR"));
+  const partidos = Object.values(porPartido).filter(p => p.membros >= (casa === "senado" ? 2 : 3))
+    .map(p => ({ ...p, pct: p.iguais / p.comum })).sort((a, b) => b.pct - a.pct);
+  return { pessoas, partidos, respondidas: respondidas.length, minimo };
+}
+
+/* ===================== contador anônimo (opcional) ===================== */
+function contarAnonimamente(resultados) {
+  if (!CONFIG.contadorUrl || estado.contado || DADOS.demo) return;
+  estado.contado = true;
+  // Só respostas e o partido de maior afinidade em cada Casa. Sem nome, sem e-mail, sem cookie, sem ID.
+  const partidos = {};
+  for (const [casa, r] of Object.entries(resultados)) partidos[casa] = r.partidos[0]?.partido || "";
+  const corpo = JSON.stringify({ versao: DADOS.gerado_em, respostas: estado.respostas, partidos });
+  try { fetch(CONFIG.contadorUrl, { method: "POST", body: corpo, headers: { "Content-Type": "application/json" }, credentials: "omit", keepalive: true }).catch(() => {}); } catch (e) {}
+}
+
+/* ===================== telas ===================== */
+function telaIntro() {
+  const n = DADOS.perguntas.length;
+  const ufs = [...new Set(DADOS.parlamentares.map(p => p.uf))].sort();
+  $app.innerHTML = `
+    <section class="intro">
+      <h1>Quem vota <em>como você?</em></h1>
+      <p class="lead">Diga como você votaria em ${n} votações reais do Congresso. No fim, veja quais deputados e senadores votaram mais parecido com você.</p>
+      <ol class="passos-intro">
+        <li><span>1</span><p>Leia o resumo de cada proposta. O texto completo está a um clique.</p></li>
+        <li><span>2</span><p>Responda SIM ou NÃO. Se não tiver opinião, pule.</p></li>
+        <li><span>3</span><p>Compare suas respostas com os votos registrados de cada deputado e senador.</p></li>
+      </ol>
+      <div class="campo">
+        <label for="uf-intro">Seu estado (opcional)</label>
+        <select id="uf-intro"><option value="">Todo o Brasil</option>${ufs.map(u => `<option ${u === estado.uf ? "selected" : ""}>${u}</option>`).join("")}</select>
+      </div>
+      <button class="botao-principal" id="comecar">Começar <small>${n} perguntas · ~3 min</small></button>
+      <p class="letra-miuda"><strong>Isto não é recomendação de voto.</strong> O teste mostra apenas a coincidência entre suas respostas e votos já registrados. Suas respostas ficam no seu aparelho: nada que identifique você é enviado ou guardado.</p>
+    </section>`;
+  document.getElementById("uf-intro").onchange = e => { estado.uf = e.target.value; };
+  document.getElementById("comecar").onclick = () => { estado.tela = "pergunta"; estado.i = 0; render(); };
+}
+
+function telaPergunta() {
+  const ps = DADOS.perguntas, q = ps[estado.i], n = ps.length, atual = estado.respostas[q.id];
+  $app.innerHTML = `
+    <div class="progresso"><span>Pergunta ${estado.i + 1} de ${n}</span><span>${Object.values(estado.respostas).filter(r => r !== "P").length} respondidas</span></div>
+    <div class="trilho"><div style="width:${(estado.i / n) * 100}%"></div></div>
+    <article class="cedula">
+      <div class="meta"><span class="casa">${CASA[q.casa || "camara"].nome}</span>${q.tema ? `<span class="tema">${esc(q.tema)}</span>` : ""}<span>${esc(q.proposicao)}</span><span>${dataBr(q.data)}</span></div>
+      <h2>${esc(q.titulo)}</h2>
+      <p class="resumo">${esc(q.resumo)}</p>
+      <div class="significa">${esc(q.sim_significa)}</div>
+      ${q.link ? `<a class="link-texto" href="${esc(q.link)}" target="_blank" rel="noopener">Ler o texto completo ↗</a>` : ""}
+      <div class="opcoes">
+        <button class="opcao sim" data-r="S" aria-pressed="${atual === "S"}">${icone("S", 26)}Sim</button>
+        <button class="opcao nao" data-r="N" aria-pressed="${atual === "N"}">${icone("N", 26)}Não</button>
+      </div>
+      <div class="secundarias">
+        <button class="botao-texto" id="voltar" ${estado.i === 0 ? "disabled" : ""}>← Voltar</button>
+        <button class="botao-texto" data-r="P">Pular esta</button>
+      </div>
+    </article>`;
+  $app.querySelectorAll("[data-r]").forEach(b => b.onclick = () => responder(b.dataset.r));
+  document.getElementById("voltar").onclick = () => { estado.i--; render(); };
+}
+
+function responder(r) {
+  estado.respostas[DADOS.perguntas[estado.i].id] = r;
+  if (estado.i < DADOS.perguntas.length - 1) { estado.i++; render(); return; }
+  const validas = Object.values(estado.respostas).filter(x => x === "S" || x === "N").length;
+  if (validas < CONFIG.minimoRespostas) { telaPoucas(validas); return; }
+  estado.tela = "resultado"; render();
+}
+
+function telaPoucas(validas) {
+  $app.innerHTML = `
+    <section class="cedula">
+      <h2>Quase lá</h2>
+      <p>Você respondeu SIM ou NÃO em ${validas} pergunta${validas === 1 ? "" : "s"}. Para a comparação fazer sentido, responda pelo menos ${CONFIG.minimoRespostas}.</p>
+      <button class="botao-principal" id="rever">Rever as que pulei</button>
+    </section>`;
+  document.getElementById("rever").onclick = () => {
+    const idx = DADOS.perguntas.findIndex(q => estado.respostas[q.id] === "P" || !estado.respostas[q.id]);
+    estado.tela = "pergunta"; estado.i = Math.max(0, idx); render();
+  };
+}
+
+function linhaComparacao(p) {
+  return perguntasDa(p.casa || "camara").map(q => {
+    const r = estado.respostas[q.id], v = p.votos[q.id];
+    if (r !== "S" && r !== "N") return "";
+    const comparavel = v === "S" || v === "N";
+    const classe = !comparavel ? "fora" : v === r ? "igual" : "diferente";
+    const voto = v ? ROTULO_VOTO[v] : "NÃO VOTOU";
+    return `<tr><td>${esc(q.titulo)}</td>
+      <td class="v"><span>${icone(r, 18)}${ROTULO_VOTO[r]}</span></td>
+      <td class="v ${classe}"><span>${icone(comparavel ? v : "X", 18)}${voto}</span></td></tr>`;
+  }).join("");
+}
+
+function blocoCasa(casa, res) {
+  const c = CASA[casa];
+  const top = res.pessoas.slice(0, estado.uf ? 5 : 3);
+  if (res.insuficiente) return `
+    <section class="bloco-casa"><h2 class="titulo-casa">${c.titulo}</h2>
+    <p class="cedula">Você respondeu SIM ou NÃO em ${res.respondidas} pergunta${res.respondidas === 1 ? "" : "s"} ${c.da}. Responda pelo menos 3 para ver este resultado.</p></section>`;
+  return `
+    <section class="bloco-casa">
+      <h2 class="titulo-casa">${c.titulo}</h2>
+      <p class="sub">Com base nas suas ${res.respondidas} respostas sobre votações ${c.da}. Só entra quem votou em pelo menos ${res.minimo} delas.</p>
+      ${top.length ? `<ol class="ranking">${top.map((p, k) => `
+        <li class="pessoa ${k === 0 ? "primeiro" : ""}">
+          <div class="pessoa-topo">
+            <span class="pos">${k + 1}º</span>
+            <span class="ini" aria-hidden="true">${esc(iniciais(p.nome))}</span>
+            <span class="quem"><strong>${esc(p.nome)}</strong><span>${esc(p.partido)} · ${esc(p.uf)}</span></span>
+            <span class="pct">${Math.round(p.pct * 100)}%<small>${p.iguais} de ${p.comum}</small></span>
+          </div>
+          <button class="abrir" data-id="${esc(p.id)}" aria-expanded="${estado.abertos.has(p.id)}">${estado.abertos.has(p.id) ? "Esconder" : "Ver"} voto a voto</button>
+          ${estado.abertos.has(p.id) ? `<div class="comparacao"><table><thead><tr><th>Votação</th><th>Você</th><th>${c.quem}</th></tr></thead><tbody>${linhaComparacao(p)}</tbody></table></div>` : ""}
+        </li>`).join("")}</ol>`
+      : `<p class="cedula">Nenhum ${c.quem.toLowerCase()}${estado.uf ? ` de ${esc(estado.uf)}` : ""} votou em votações suficientes para comparar com as suas respostas.</p>`}
+      ${res.partidos.length ? `<h3>Afinidade por partido · ${c.nome}</h3>
+      <div class="partidos">${res.partidos.slice(0, 12).map(p => `
+        <div class="lp"><b>${esc(p.partido)}</b><div class="b"><div style="width:${Math.round(p.pct * 100)}%"></div></div><span>${Math.round(p.pct * 100)}%</span></div>`).join("")}
+      </div>` : ""}
+    </section>`;
+}
+
+function telaResultado() {
+  const casas = DADOS.casas || ["camara"];
+  const resultados = {};
+  for (const casa of casas) resultados[casa] = calcular(estado.respostas, estado.uf, casa);
+  contarAnonimamente(resultados);
+  const ufs = [...new Set(DADOS.parlamentares.map(p => p.uf))].sort();
+  const melhores = casas.map(casa => resultados[casa].pessoas[0] && { ...resultados[casa].pessoas[0], casa }).filter(Boolean);
+
+  $app.innerHTML = `
+    <section class="resultado">
+      <h1>Quem votou mais parecido com você</h1>
+      <div class="filtro">
+        <label for="uf-res">Mostrar</label>
+        <select id="uf-res"><option value="">Todo o Brasil</option>${ufs.map(u => `<option ${u === estado.uf ? "selected" : ""}>${u}</option>`).join("")}</select>
+      </div>
+      ${casas.map(casa => blocoCasa(casa, resultados[casa])).join("")}
+
+      ${melhores.length ? `<h3>Compartilhe</h3>
+      <div class="card-bloco">
+        <img id="card-img" alt="Card com o resultado do teste">
+        <div>
+          <p>Mostre seu resultado nos Stories e desafie alguém a fazer o teste.</p>
+          <div class="acoes">
+            <button class="botao-sec" id="compartilhar">Compartilhar</button>
+            <button class="botao-sec" id="baixar">Baixar imagem</button>
+          </div>
+          <p class="estado-acao" id="estado-acao" role="status"></p>
+        </div>
+      </div>` : ""}
+
+      <div class="acoes" style="margin-bottom:30px"><button class="botao-principal" id="refazer">Refazer o teste</button></div>
+
+      <details><summary>Como o resultado é calculado</summary>
+        <p>Deputados são comparados só com as perguntas da Câmara, e senadores só com as do Senado. Para cada parlamentar, olhamos as perguntas em que você respondeu SIM ou NÃO e o voto que ele registrou na mesma votação. A porcentagem é quantas vezes os dois coincidiram.</p>
+        <ul><li>Abstenção, obstrução e ausência não contam a favor nem contra: a votação sai da conta daquele parlamentar.</li>
+        <li>Para evitar resultados enganosos, só aparece quem votou em pelo menos ${Math.round(CONFIG.fracaoMinimaComum * 100)}% das perguntas que você respondeu naquela Casa.</li>
+        <li>A afinidade por partido soma os votos de todos os parlamentares do partido (partido atual de cada um).</li></ul>
+      </details>
+      <details><summary>Como as perguntas foram escolhidas</summary>
+        <p>São votações nominais do Plenário da Câmara e do Senado, de temas variados, escolhidas pela equipe do Como Vota Deputado?. Cada pergunta usa o mesmo modelo de texto, com um resumo neutro, o que significava votar SIM e o link para o texto oficial.</p>
+      </details>
+      <details><summary>Privacidade</summary>
+        <p>O cálculo acontece no seu aparelho. Não pedimos nome nem e-mail e não usamos cookies ou rastreadores nesta página. ${CONFIG.contadorUrl ? "Para estatísticas gerais, somamos as respostas de forma anônima: guardamos só totais, como \"quantas pessoas responderam SIM na pergunta 3\", sem nada que identifique quem respondeu." : "Nenhuma resposta é enviada para servidores."}</p>
+      </details>
+      <details><summary>Aviso</summary>
+        <p>Isto não é recomendação de voto. O teste mostra apenas a coincidência com votos já registrados em um conjunto limitado de votações.</p>
+      </details>
+    </section>`;
+
+  document.getElementById("uf-res").onchange = e => { estado.uf = e.target.value; render(); };
+  $app.querySelectorAll(".abrir").forEach(b => b.onclick = () => {
+    const id = b.dataset.id; estado.abertos.has(id) ? estado.abertos.delete(id) : estado.abertos.add(id); render();
+  });
+  document.getElementById("refazer").onclick = () => { estado.respostas = {}; estado.abertos.clear(); estado.contado = false; estado.tela = "intro"; render(); };
+  if (melhores.length) prepararCard(melhores);
+}
+
+/* ===================== card para Stories (1080x1920) ===================== */
+async function prepararCard(melhores) {
+  try { await Promise.all(["48px 'Archivo Black'", "700 48px 'IBM Plex Mono'", "500 40px Inter"].map(f => document.fonts.load(f))); } catch (e) {}
+  const c = document.createElement("canvas"); c.width = 1080; c.height = 1920;
+  const g = c.getContext("2d");
+  const AZ = "#0E2233", AM = "#FFC93C", PA = "#F6F3EC", TX = "#C9D4DE";
+  g.fillStyle = AZ; g.fillRect(0, 0, 1080, 1920);
+  g.fillStyle = AM; g.fillRect(0, 0, 1080, 170);
+  g.fillStyle = AZ; g.font = "52px 'Archivo Black', 'Arial Black', sans-serif"; g.textBaseline = "middle";
+  g.fillText("QUEM VOTA COMO VOCÊ?", 80, 88);
+  g.fillStyle = TX; g.font = "500 46px Inter, sans-serif"; g.textBaseline = "alphabetic";
+  g.fillText("No Congresso, quem votou mais", 80, 300);
+  g.fillText("parecido comigo:", 80, 362);
+
+  const bloco = (p, y0) => {
+    const rot = p.casa === "senado" ? "SENADOR(A)" : "DEPUTADO(A)";
+    g.fillStyle = "rgba(255,255,255,.06)"; g.strokeStyle = "rgba(255,255,255,.18)"; g.lineWidth = 3;
+    g.beginPath(); g.roundRect(60, y0, 960, 560, 36); g.fill(); g.stroke();
+    g.textAlign = "left"; g.fillStyle = AM; g.font = "700 38px 'IBM Plex Mono', monospace";
+    g.fillText(rot, 110, y0 + 82);
+    // iniciais
+    g.beginPath(); g.arc(200, y0 + 250, 100, 0, Math.PI * 2); g.fillStyle = AM; g.fill();
+    g.beginPath(); g.arc(200, y0 + 250, 84, 0, Math.PI * 2); g.fillStyle = PA; g.fill();
+    g.fillStyle = AZ; g.font = "72px 'Archivo Black', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+    g.fillText(iniciais(p.nome), 200, y0 + 256);
+    g.textBaseline = "alphabetic"; g.textAlign = "left";
+    // nome (até 2 linhas)
+    g.fillStyle = PA; g.font = "60px 'Archivo Black', sans-serif";
+    const palavras = p.nome.toUpperCase().split(" "), linhas = [];
+    let linha = "";
+    for (const w of palavras) { const t = linha ? linha + " " + w : w; if (g.measureText(t).width > 640 && linha) { linhas.push(linha); linha = w; } else linha = t; }
+    linhas.push(linha);
+    let y = y0 + (linhas.length > 1 ? 220 : 250);
+    for (const l of linhas.slice(0, 2)) { g.fillText(l, 340, y); y += 66; }
+    g.fillStyle = TX; g.font = "600 38px 'IBM Plex Mono', monospace";
+    g.fillText(`${p.partido} · ${p.uf}`, 340, y + 4);
+    g.fillStyle = AM; g.font = "700 150px 'IBM Plex Mono', monospace";
+    g.fillText(`${Math.round(p.pct * 100)}%`, 110, y0 + 500);
+    g.fillStyle = TX; g.font = "500 36px Inter, sans-serif";
+    g.fillText(`concordamos em ${p.iguais} de ${p.comum}`, 560, y0 + 470);
+  };
+  const ys = melhores.length > 1 ? [450, 1080] : [700];
+  melhores.slice(0, 2).forEach((p, k) => bloco(p, ys[k]));
+
+  g.textAlign = "center";
+  g.fillStyle = AM; g.fillRect(0, 1750, 1080, 170);
+  g.fillStyle = AZ; g.font = "44px 'Archivo Black', sans-serif";
+  g.fillText("FAÇA O TESTE", 540, 1820);
+  g.font = "700 36px 'IBM Plex Mono', monospace";
+  g.fillText(`${CONFIG.site} · ${CONFIG.handle}`, 540, 1876);
+  if (DADOS.demo) {
+    g.save(); g.translate(540, 1000); g.rotate(-0.4); g.fillStyle = "rgba(228,67,60,.35)";
+    g.font = "110px 'Archivo Black', sans-serif"; g.fillText("EXEMPLO FICTÍCIO", 0, 0); g.restore();
+  }
+  const url = c.toDataURL("image/png");
+  const img = document.getElementById("card-img"); if (img) img.src = url;
+  const status = t => { const el = document.getElementById("estado-acao"); if (el) el.textContent = t; };
+  const baixar = document.getElementById("baixar");
+  if (baixar) baixar.onclick = () => {
+    try { const a = document.createElement("a"); a.href = url; a.download = "quem-vota-como-voce.png"; a.click(); status("Se o download não começar, toque e segure na imagem para salvar."); }
+    catch (e) { status("Toque e segure na imagem para salvar."); }
+  };
+  const comp = document.getElementById("compartilhar");
+  if (comp) comp.onclick = async () => {
+    try {
+      const blob = await (await fetch(url)).blob();
+      const arq = new File([blob], "quem-vota-como-voce.png", { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [arq] })) {
+        await navigator.share({ files: [arq], text: `Faça o teste: ${CONFIG.site}` });
+      } else { status("Seu navegador não compartilha imagens direto. Salve a imagem e poste nos Stories."); }
+    } catch (e) { status("Não foi possível abrir o compartilhamento. Salve a imagem e poste nos Stories."); }
+  };
+}
+
+/* ===================== inicialização ===================== */
+function render() {
+  if (estado.tela === "intro") telaIntro();
+  else if (estado.tela === "pergunta") telaPergunta();
+  else telaResultado();
+  window.scrollTo({ top: 0 });
+}
+
+fetch("quiz.json", { cache: "no-store" })
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => {
+    DADOS = d;
+    document.getElementById("aviso-demo").hidden = !d.demo;
+    document.getElementById("atualizado").textContent = `Atualizado em ${dataBr(d.gerado_em)}`;
+    render();
+  })
+  .catch(() => { $app.innerHTML = '<p class="cedula">Não foi possível carregar as perguntas do teste. Recarregue a página para tentar de novo.</p>'; });
+</script>
+</body>
+</html>

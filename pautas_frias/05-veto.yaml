@@ -1,0 +1,21 @@
+titulo: O Congresso pode derrubar um veto?
+resumo: Pode. O presidente da República veta, mas a palavra final sobre o veto é do Congresso Nacional.
+fonte: Constituição Federal, art. 66
+slides:
+  - tipo: numero
+    numero: "15"
+    rotulo: dias úteis para decidir
+    texto: Depois que o Congresso aprova um projeto de lei, o presidente tem 15 dias úteis para sancionar ou vetar, no todo ou em parte. Se ficar em silêncio, a sanção é automática.
+  - tipo: texto
+    titulo: Veto parcial
+    texto: O veto parcial só pode atingir o texto inteiro de um artigo, parágrafo, inciso ou alínea. Não dá para vetar uma palavra solta.
+  - tipo: numero
+    numero: "257 + 41"
+    rotulo: votos para derrubar
+    texto: O veto é analisado em sessão conjunta. Para derrubá-lo, é preciso a maioria absoluta dos deputados (257) e dos senadores (41).
+  - tipo: texto
+    titulo: Prazo
+    texto: O Congresso tem 30 dias, contados do recebimento, para analisar o veto. Passado esse prazo, o veto tranca a pauta da sessão conjunta.
+  - tipo: texto
+    titulo: Veto derrubado, e aí?
+    texto: A parte vetada volta para o texto da lei e é enviada para promulgação.

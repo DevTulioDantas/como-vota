@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+site/midia/
+.tiktok_refresh_token
+.ig_access_token
+
+# imagens vão para o branch midia (scripts/midia.sh), não para o histórico
+data/drafts/**/*.jpg
+_midia/

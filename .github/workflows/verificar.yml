@@ -1,0 +1,72 @@
+name: Verificar aprovações e publicar
+
+on:
+  schedule:
+    # a cada 15 minutos (o GitHub pode atrasar alguns minutos)
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: como-vota-estado
+  cancel-in-progress: false
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: "Instalar dependências (sem navegador, aqui não gera imagem)"
+        run: pip install -r requirements.txt
+
+      - name: Restaurar imagens do branch midia
+        run: bash scripts/midia.sh restaurar
+
+      - name: Ler Telegram e publicar aprovados
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_GRAPH_BASE: ${{ vars.IG_GRAPH_BASE }}
+          TIKTOK_MODO: ${{ vars.TIKTOK_MODO }}
+          TIKTOK_MIDIA_URL: ${{ vars.TIKTOK_MIDIA_URL }}
+          TIKTOK_PRIVACIDADE: ${{ vars.TIKTOK_PRIVACIDADE }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+          TIKTOK_REFRESH_TOKEN_SAIDA: ${{ github.workspace }}/.tiktok_refresh_token
+          PUBLIC_BASE_URL: ${{ vars.PUBLIC_BASE_URL }}
+          HORARIOS_PUBLICACAO: ${{ vars.HORARIOS_PUBLICACAO }}
+          DRY_RUN: ${{ vars.DRY_RUN }}
+        run: python main.py verificar
+
+      - name: Guardar o novo token do TikTok (quando o TikTok troca)
+        if: always() && hashFiles('.tiktok_refresh_token') != ''
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::O TikTok trocou o refresh token, mas o secret GH_PAT não existe. Atualize TIKTOK_REFRESH_TOKEN à mão."
+          else
+            gh secret set TIKTOK_REFRESH_TOKEN < .tiktok_refresh_token
+          fi
+          rm -f .tiktok_refresh_token
+
+      - name: Salvar estado
+        run: |
+          git config user.name "como-vota-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Atualiza status dos posts"
+          git pull -q --rebase --autostash origin "$GITHUB_REF_NAME"
+          git push

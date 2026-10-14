@@ -1,0 +1,21 @@
+titulo: Por que todo estado tem 3 senadores?
+resumo: Enquanto a Câmara representa o povo, o Senado representa os estados. Por isso todos têm o mesmo número de cadeiras.
+fonte: Constituição Federal, art. 46
+slides:
+  - tipo: numero
+    numero: "81"
+    rotulo: senadores
+    texto: Cada estado e o Distrito Federal elegem 3 senadores, não importa o tamanho da população.
+  - tipo: numero
+    numero: "8 anos"
+    rotulo: de mandato
+    texto: O mandato de senador dura 8 anos, o dobro do mandato de deputado.
+  - tipo: texto
+    titulo: Renovação alternada
+    texto: A cada 4 anos, o Senado renova parte das cadeiras, alternadamente 1/3 e 2/3.
+    itens:
+      - "1/3: 27 vagas, um senador por estado"
+      - "2/3: 54 vagas, dois senadores por estado"
+  - tipo: texto
+    titulo: Eleição majoritária
+    texto: Diferente dos deputados, os senadores são eleitos pelo sistema majoritário, em que vence quem tiver mais votos. Cada senador é eleito com dois suplentes.

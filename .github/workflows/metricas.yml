@@ -1,0 +1,78 @@
+name: Métricas do Instagram
+
+on:
+  schedule:
+    # todo dia, 5h47 em Brasília (8h47 UTC)
+    - cron: "47 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: como-vota-estado
+  cancel-in-progress: false
+
+jobs:
+  metricas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependências (sem navegador)
+        run: pip install -r requirements.txt
+
+      - name: Conferir e renovar o token do Instagram
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_GRAPH_BASE: ${{ vars.IG_GRAPH_BASE }}
+          IG_ACCESS_TOKEN_SAIDA: ${{ github.workspace }}/.ig_access_token
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python main.py token-instagram
+
+      - name: Guardar o token novo do Instagram
+        if: always() && hashFiles('.ig_access_token') != ''
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::Token do Instagram renovado, mas o secret GH_PAT não existe. Atualize IG_ACCESS_TOKEN à mão."
+          else
+            gh secret set IG_ACCESS_TOKEN < .ig_access_token
+          fi
+          rm -f .ig_access_token
+
+      - name: Atualizar métricas dos posts publicados
+        if: always()
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_GRAPH_BASE: ${{ vars.IG_GRAPH_BASE }}
+        run: |
+          python main.py metricas
+          python main.py formatos
+
+      - name: Relatório semanal (segundas)
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python main.py relatorio --se-segunda
+
+      - name: Salvar no repositório
+        if: always()
+        run: |
+          git config user.name "como-vota-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Atualiza métricas"
+          git pull -q --rebase --autostash origin "$GITHUB_REF_NAME"
+          git push

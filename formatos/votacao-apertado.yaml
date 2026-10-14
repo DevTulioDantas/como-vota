@@ -1,0 +1,14 @@
+id: votacao-apertado
+aplica_a: votacao
+nome: Placar apertado
+gancho: diferença de votos em destaque
+capa: apertado
+faixa_capa: Veja o voto deles →
+# só vale quando a diferença entre SIM e NÃO for de até 10% dos votos
+# (em PEC e PLP: quando os votos SIM ficarem a até 10% do mínimo necessário)
+quando:
+  margem_max: 0.10
+sequencia: [capa, placar, dissidentes, partidos, cta_teste, final]
+legenda_gancho: "{decisao_txt}: {titulo}"
+origem: Estrutura de "contraste" (um dado que surpreende na capa). Só a estrutura.
+ativo: true

@@ -1,0 +1,34 @@
+# Curadoria do teste "Quem vota como você?"
+#
+# Cada item é uma pergunta do teste, baseada em UMA votação nominal da Câmara ou do Senado.
+#   votacao:       id da votação, o mesmo dos rascunhos do bot
+#                  Câmara: camara-2611313-34 · Senado: senado-12345
+#   data:          OBRIGATÓRIO para o Senado: dia da sessão (AAAA-MM-DD)
+#   tema:          para equilibrar o teste (economia, segurança, meio ambiente...)
+#   titulo:        o que foi votado, em até ~70 caracteres
+#   resumo:        1 a 2 frases NEUTRAS explicando a proposta
+#   sim_significa: o que significava votar SIM (evita confusão em destaques e emendas)
+#   link:          opcional; por padrão usa a página oficial da proposição
+#
+# Regras para manter o teste justo:
+#   - 15 a 20 perguntas, com temas variados (no máximo 3 por tema);
+#   - pelo menos 8 da Câmara e 8 do Senado, para os dois resultados fazerem sentido;
+#   - mesmo modelo de texto para todas, sem adjetivos;
+#   - prefira votações de mérito (texto-base), não requerimentos;
+#   - publique no site os critérios de escolha (seção "Como funciona").
+#
+# Para gerar o site:  python main.py quiz
+# Para testar com dados fictícios:  python main.py quiz --demo
+
+perguntas: []
+#  - votacao: camara-0000000-00
+#    tema: Economia
+#    titulo: Exemplo de título
+#    resumo: Exemplo de resumo neutro da proposta.
+#    sim_significa: Votar SIM era aprovar a proposta.
+#  - votacao: senado-00000
+#    data: 2026-09-10
+#    tema: Segurança
+#    titulo: Exemplo de título
+#    resumo: Exemplo de resumo neutro da proposta.
+#    sim_significa: Votar SIM era aprovar a proposta.

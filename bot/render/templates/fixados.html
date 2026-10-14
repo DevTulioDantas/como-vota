@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  {{ fontes_css|safe }}
+  /* 3 posts fixados de conversão — Guia de Marca v1.0 — 1080x1350 (4:5) */
+  :root {
+    --azul: #0E2233; --amarelo: #FFC93C; --verde: #1FA97A; --vermelho: #E4433C;
+    --cinza: #8A94A0; --tinta: #101820; --papel: #F6F3EC; --papel-linha: #E2DCCF;
+    --azul-texto: #C9D4DE; --suave: #4A5562;
+    --titulo: "Archivo Black", "Arial Black", sans-serif;
+    --corpo: "Inter", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #000; font-family: var(--corpo); }
+  .slide { width: 1080px; height: 1350px; position: relative; overflow: hidden; padding: 72px 80px 0;
+           display: flex; flex-direction: column; background: var(--papel); color: var(--tinta); }
+  .slide.escuro { background: var(--azul); color: var(--papel); }
+  h1, h2, .t { font-family: var(--titulo); font-weight: 400; text-transform: uppercase; line-height: 1.02; }
+  h2 { font-size: 80px; margin-bottom: 56px; }
+  .mono { font-family: var(--mono); }
+
+  .topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 64px; }
+  .marca { font-family: var(--titulo); font-size: 28px; text-transform: uppercase; }
+  .marca b { font-weight: 400; background: var(--amarelo); color: var(--azul); padding: 2px 8px; margin-left: 4px; }
+  .escuro .marca b { background: none; color: var(--amarelo); padding: 0; }
+  .serie { font-family: var(--mono); font-weight: 700; font-size: 24px; letter-spacing: .08em; text-transform: uppercase; color: var(--cinza); }
+  .escuro .serie { color: var(--amarelo); }
+
+  .rodape { margin-top: auto; padding: 26px 0 46px; border-top: 3px solid var(--papel-linha);
+            display: flex; justify-content: space-between; font-family: var(--mono); font-size: 22px; color: var(--cinza); }
+  .escuro .rodape { border-top-color: rgba(246,243,236,.16); color: var(--azul-texto); }
+
+  /* ---------- capas em série ---------- */
+  .capa .num { font-family: var(--mono); font-weight: 700; font-size: 250px; line-height: .8; color: var(--amarelo); letter-spacing: -.05em; }
+  .capa .kicker { font-family: var(--mono); font-weight: 700; font-size: 28px; letter-spacing: .1em; text-transform: uppercase; color: var(--azul-texto); margin: 44px 0 22px; }
+  .capa h1 { font-size: 96px; color: var(--papel); }
+  .capa h1 em { font-style: normal; color: var(--amarelo); }
+  .capa .sub { font-size: 36px; line-height: 1.4; color: var(--azul-texto); margin-top: 36px; max-width: 880px; }
+  .faixa { position: absolute; left: 0; right: 0; bottom: 0; height: 136px; background: var(--amarelo); color: var(--azul);
+           display: flex; align-items: center; justify-content: space-between; padding: 0 80px;
+           font-family: var(--titulo); font-size: 44px; text-transform: uppercase; }
+  .faixa .mono { font-size: 28px; font-weight: 700; text-transform: none; }
+
+  /* ---------- texto ---------- */
+  .lead { font-size: 50px; line-height: 1.36; font-weight: 600; max-width: 900px; }
+  .escuro .lead { color: var(--papel); }
+  .apoio { font-size: 40px; line-height: 1.42; color: #2A3746; margin-top: 36px; max-width: 900px; }
+  .escuro .apoio { color: var(--azul-texto); }
+  .itens { list-style: none; display: flex; flex-direction: column; gap: 60px; margin-top: 20px; }
+  .itens li { display: flex; gap: 30px; font-size: 48px; line-height: 1.25; font-weight: 700; }
+  .itens li::before { content: ""; flex: none; width: 28px; height: 28px; margin-top: 16px; background: var(--azul); }
+  .itens.nao li::before { background: none; border: 5px solid var(--azul); }
+  .itens li small { display: block; font-size: 34px; font-weight: 500; color: var(--suave); margin-top: 10px; line-height: 1.35; }
+
+  /* número gigante */
+  .gigante { font-family: var(--mono); font-weight: 700; color: var(--amarelo); line-height: .9; letter-spacing: -.05em; font-size: 280px; }
+  .par { display: flex; gap: 60px; align-items: flex-end; }
+  .par .rot { font-family: var(--titulo); text-transform: uppercase; font-size: 40px; margin-top: 14px; }
+  .carimbo { position: absolute; font-family: var(--titulo); text-transform: uppercase; letter-spacing: .08em; color: var(--amarelo);
+             border: 7px solid currentColor; border-radius: 14px; padding: 10px 30px 8px; transform: rotate(-8deg); font-size: 52px; }
+
+  /* ---------- formatos (mockups) ---------- */
+  .formato .tag { font-family: var(--mono); font-weight: 700; font-size: 26px; color: var(--suave); letter-spacing: .08em; margin-bottom: 14px; }
+  .formato h2 { margin-bottom: 36px; }
+  .mock { background: var(--azul); color: var(--papel); border-radius: 26px; padding: 52px 54px; margin-bottom: 52px; zoom: 1.12;
+          box-shadow: 0 18px 0 -6px rgba(14,34,51,.12); }
+  .mock .ref { font-family: var(--mono); font-weight: 700; color: var(--amarelo); font-size: 26px; }
+  .mock .ttl { font-family: var(--titulo); text-transform: uppercase; font-size: 40px; margin: 12px 0 26px; }
+  .mock .placar { display: flex; align-items: center; gap: 18px; font-family: var(--mono); font-weight: 700; font-size: 64px; }
+  .mock .placar .x { color: var(--cinza); font-size: 44px; }
+  .mock .barra { display: flex; height: 22px; border-radius: 99px; overflow: hidden; margin-top: 24px; }
+  .mock .ilustr { font-family: var(--mono); font-size: 20px; color: var(--cinza); margin-top: 18px; }
+  .mock .pessoa { display: flex; align-items: center; gap: 28px; margin-bottom: 26px; }
+  .mock .ini { width: 120px; height: 120px; border-radius: 50%; background: var(--papel); border: 7px solid var(--amarelo); color: var(--azul);
+               display: flex; align-items: center; justify-content: center; font-family: var(--titulo); font-size: 46px; flex: none; }
+  .mock .nm { font-family: var(--titulo); text-transform: uppercase; font-size: 40px; }
+  .mock .pu { font-family: var(--mono); font-size: 24px; color: var(--azul-texto); margin-top: 6px; }
+  .mock .linha { display: flex; justify-content: space-between; align-items: center; border: 2px solid rgba(255,255,255,.15);
+                 background: rgba(255,255,255,.06); border-radius: 14px; padding: 16px 24px; margin-top: 12px; font-size: 26px; font-weight: 700; }
+  .mock .linha span { display: flex; align-items: center; gap: 12px; font-family: var(--titulo); font-weight: 400; font-size: 26px; }
+  .mock .grande { font-family: var(--mono); font-weight: 700; font-size: 170px; line-height: .9; color: var(--amarelo); letter-spacing: -.04em; }
+  .mock .lst { display: flex; align-items: center; gap: 14px; height: 54px; border-bottom: 2px solid rgba(255,255,255,.12); font-size: 26px; font-weight: 700; }
+  .mock .lst .pts { flex: 1; border-bottom: 4px dotted var(--papel); opacity: .4; margin-top: 6px; }
+  .mock .lst .p { font-family: var(--mono); font-size: 22px; color: var(--azul-texto); }
+  .formato .apoio { margin-top: 0; }
+
+  /* ---------- passos ---------- */
+  .passo .bola { width: 200px; height: 200px; border-radius: 50%; background: var(--amarelo); color: var(--azul);
+                 font-family: var(--mono); font-weight: 700; font-size: 110px; display: flex; align-items: center; justify-content: center; margin: 40px 0 50px; }
+  .passo h2 { font-size: 96px; color: var(--papel); }
+  .passo .lead { font-size: 54px; }
+
+  /* ---------- final ---------- */
+  .final { align-items: center; text-align: center; }
+  .final .logo { width: 660px; height: auto; margin-top: 10px; }
+  .final h1 { font-size: 66px; color: var(--papel); margin-top: 34px; }
+  .cta { display: inline-block; margin-top: 40px; background: var(--amarelo); color: var(--azul); font-family: var(--titulo);
+         font-size: 44px; text-transform: uppercase; padding: 22px 46px; border-radius: 16px; }
+  .final .apoio { margin-top: 30px; text-align: center; }
+  .final .rodape { width: 100%; }
+  .ico { flex: none; }
+</style>
+</head>
+<body>
+{% macro icone(classe, t=40) -%}
+<svg class="ico" width="{{ t }}" height="{{ t }}" viewBox="0 0 40 40" aria-hidden="true">
+  {%- if classe == "Sim" %}<circle cx="20" cy="20" r="20" fill="#1FA97A"/><path d="M11 20.5l6 6 12-13" fill="none" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+  {%- elif classe == "Não" %}<circle cx="20" cy="20" r="20" fill="#E4433C"/><path d="M13 13l14 14M27 13L13 27" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>
+  {%- else %}<circle cx="20" cy="20" r="20" fill="#8A94A0"/><path d="M12 20h16" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>{%- endif %}
+</svg>
+{%- endmacro %}
+{% macro topo(serie) -%}<div class="topo"><div class="marca">Como Vota <b>Deputado?</b></div><div class="serie">{{ serie }}</div></div>{%- endmacro %}
+{% macro rodape(n, t) -%}<div class="rodape"><span>{{ handle }}</span><span>{{ n }}/{{ t }}</span></div>{%- endmacro %}
+{% macro final(id, n, titulo, apoio) -%}
+<section class="slide escuro final" id="{{ id }}">
+  {{ logo_svg|safe }}
+  <h1>{{ titulo }}</h1>
+  <div class="cta">Seguir {{ handle }}</div>
+  <p class="apoio">{{ apoio }}</p>
+  {{ rodape(n, n) }}
+</section>
+{%- endmacro %}
+
+{# ================================================================ POST 01 — QUEM SOMOS #}
+<section class="slide escuro capa" id="p1-1">
+  {{ topo("Comece por aqui") }}
+  <div class="num">01</div>
+  <div class="kicker">Quem somos</div>
+  <h1>Você sabe como votou o <em>seu deputado?</em></h1>
+  <p class="sub">A gente mostra: as principais votações do Congresso, nome por nome.</p>
+  <div class="faixa"><span>Arraste →</span><span class="mono">6 slides</span></div>
+</section>
+
+<section class="slide escuro" id="p1-2">
+  {{ topo("Quem somos") }}
+  <div class="par">
+    <div><div class="gigante">513</div><div class="rot">deputados</div></div>
+    <div><div class="gigante">81</div><div class="rot">senadores</div></div>
+  </div>
+  <p class="lead" style="margin-top:70px">Eles votam as leis que mexem com o seu salário, os seus impostos e os serviços que você usa.</p>
+  <p class="apoio">Mas acompanhar como cada um vota, votação por votação, dá trabalho. Nós fazemos esse trabalho por você.</p>
+  {{ rodape(2, 6) }}
+</section>
+
+<section class="slide" id="p1-3">
+  {{ topo("Quem somos") }}
+  <h2>O que fazemos</h2>
+  <ul class="itens">
+    <li><span>Mostramos o voto de cada parlamentar<small>Nas votações nominais da Câmara e do Senado.</small></span></li>
+    <li><span>Explicamos o que estava em jogo<small>Em linguagem simples, sem juridiquês.</small></span></li>
+    <li><span>Ensinamos como o Congresso funciona<small>PEC, veto, medida provisória: o básico, sem enrolação.</small></span></li>
+  </ul>
+  {{ rodape(3, 6) }}
+</section>
+
+<section class="slide" id="p1-4">
+  {{ topo("Quem somos") }}
+  <h2>O que não fazemos</h2>
+  <ul class="itens nao">
+    <li><span>Não dizemos se o voto foi certo ou errado<small>A avaliação é sua.</small></span></li>
+    <li><span>Não apoiamos partido nem candidato<small>As mesmas regras e o mesmo visual para todo mundo.</small></span></li>
+    <li><span>Não inventamos número<small>Todo post traz a fonte oficial.</small></span></li>
+  </ul>
+  {{ rodape(4, 6) }}
+</section>
+
+<section class="slide escuro" id="p1-5">
+  {{ topo("Quem somos") }}
+  <h2 style="color:var(--papel); position:relative">Só dados<br>oficiais<span class="carimbo" style="right:-10px; top:-20px">Oficial</span></h2>
+  <p class="lead">Todos os votos vêm dos sistemas de Dados Abertos da Câmara dos Deputados e do Senado Federal.</p>
+  <p class="apoio">É a mesma informação pública que fica nos sites do Congresso, só que organizada para caber na tela do seu celular.</p>
+  {{ rodape(5, 6) }}
+</section>
+
+{{ final("p1-6", 6, "Siga e saiba como vota quem representa você", "Votações novas aparecem aqui assim que saem.") }}
+
+{# ================================================================ POST 02 — O QUE TEM AQUI #}
+<section class="slide escuro capa" id="p2-1">
+  {{ topo("O que tem aqui") }}
+  <div class="num">02</div>
+  <div class="kicker">O que você encontra</div>
+  <h1>4 jeitos de <em>acompanhar o Congresso</em> pelo celular</h1>
+  <p class="sub">Do placar da votação de ontem à lista dos deputados do seu estado.</p>
+  <div class="faixa"><span>Arraste →</span><span class="mono">6 slides</span></div>
+</section>
+
+<section class="slide formato" id="p2-2">
+  {{ topo("O que tem aqui") }}
+  <div class="tag">FORMATO 1/4</div>
+  <h2>Votação do dia</h2>
+  <div class="mock">
+    <div class="ref">PL 0000/2026 · CÂMARA</div>
+    <div class="ttl">Placar</div>
+    <div class="placar">{{ icone("Sim", 56) }}275 <span class="x">×</span> 201{{ icone("Não", 56) }}</div>
+    <div class="barra"><div style="width:55%;background:var(--verde)"></div><div style="width:40%;background:var(--vermelho)"></div><div style="width:5%;background:var(--cinza)"></div></div>
+    <div class="ilustr">exemplo ilustrativo</div>
+  </div>
+  <p class="apoio">Votou algo importante? Você vê o placar, o voto de cada partido e quem votou contra o próprio partido.</p>
+  {{ rodape(2, 6) }}
+</section>
+
+<section class="slide formato" id="p2-3">
+  {{ topo("O que tem aqui") }}
+  <div class="tag">FORMATO 2/4</div>
+  <h2>Voto da semana</h2>
+  <div class="mock">
+    <div class="pessoa"><div class="ini">NS</div><div><div class="nm">Nome Sobrenome</div><div class="pu">PARTIDO · UF · exemplo ilustrativo</div></div></div>
+    <div class="linha">Pauta 1 <span style="color:var(--verde)">{{ icone("Sim", 34) }}SIM</span></div>
+    <div class="linha">Pauta 2 <span style="color:var(--vermelho)">{{ icone("Não", 34) }}NÃO</span></div>
+    <div class="linha">Pauta 3 <span style="color:var(--cinza)">{{ icone("Ausente", 34) }}NÃO VOTOU</span></div>
+  </div>
+  <p class="apoio">Toda semana, um parlamentar em destaque e como ele votou nas principais pautas. Escolhido por rodízio, sem preferência.</p>
+  {{ rodape(3, 6) }}
+</section>
+
+<section class="slide formato" id="p2-4">
+  {{ topo("O que tem aqui") }}
+  <div class="tag">FORMATO 3/4</div>
+  <h2>Entenda o Congresso</h2>
+  <div class="mock">
+    <div class="grande">308</div>
+    <div class="ttl" style="margin-bottom:0">votos para aprovar uma PEC na Câmara</div>
+  </div>
+  <p class="apoio">PEC, medida provisória, veto, quórum: explicações curtas para você entender o que está sendo votado.</p>
+  {{ rodape(4, 6) }}
+</section>
+
+<section class="slide formato" id="p2-5">
+  {{ topo("O que tem aqui") }}
+  <div class="tag">FORMATO 4/4</div>
+  <h2>Bancada do estado</h2>
+  <div class="mock">
+    <div class="ref" style="margin-bottom:14px">QUEM REPRESENTA O SEU ESTADO</div>
+    <div class="lst">Nome Sobrenome<span class="pts"></span><span class="p">PARTIDO</span></div>
+    <div class="lst">Nome Sobrenome<span class="pts"></span><span class="p">PARTIDO</span></div>
+    <div class="lst">Nome Sobrenome<span class="pts"></span><span class="p">PARTIDO</span></div>
+    <div class="ilustr">exemplo ilustrativo</div>
+  </div>
+  <p class="apoio">Um estado por vez: quem são os deputados que representam você e de quais partidos eles são.</p>
+  {{ rodape(5, 6) }}
+</section>
+
+{{ final("p2-6", 6, "Não perca nenhuma votação", "Siga e ative as notificações do perfil.") }}
+
+{# ================================================================ POST 03 — FAÇA PARTE #}
+<section class="slide escuro capa" id="p3-1">
+  {{ topo("Faça parte") }}
+  <div class="num">03</div>
+  <div class="kicker">Como acompanhar</div>
+  <h1>Acompanhe o seu deputado em <em>3 passos</em></h1>
+  <p class="sub">Leva menos de um minuto, e você passa a saber como ele vota nas principais votações.</p>
+  <div class="faixa"><span>Arraste →</span><span class="mono">5 slides</span></div>
+</section>
+
+<section class="slide escuro passo" id="p3-2">
+  {{ topo("Faça parte") }}
+  <div class="bola">1</div>
+  <h2>Siga o perfil</h2>
+  <p class="lead" style="color:var(--azul-texto); font-weight:500">As votações aparecem aqui com o placar, o voto de cada partido e o voto nome por nome.</p>
+  {{ rodape(2, 5) }}
+</section>
+
+<section class="slide escuro passo" id="p3-3">
+  {{ topo("Faça parte") }}
+  <div class="bola">2</div>
+  <h2>Ative as notificações</h2>
+  <p class="lead" style="color:var(--azul-texto); font-weight:500">No nosso perfil, toque no sininho e escolha receber avisos de publicações. Assim você fica sabendo assim que sai uma votação nova.</p>
+  {{ rodape(3, 5) }}
+</section>
+
+<section class="slide escuro passo" id="p3-4">
+  {{ topo("Faça parte") }}
+  <div class="bola">3</div>
+  <h2>Compartilhe com alguém do seu estado</h2>
+  <p class="lead" style="color:var(--azul-texto); font-weight:500">Informação pública só funciona quando chega às pessoas. Mande para quem também quer saber como vota quem representa o seu estado.</p>
+  {{ rodape(4, 5) }}
+</section>
+
+{{ final("p3-5", 5, "Pronto para acompanhar?", "Salve este post e mande para quem também quer saber.") }}
+</body>
+</html>

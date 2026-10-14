@@ -1,0 +1,53 @@
+name: Site do teste
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", "quiz/**"]
+  schedule:
+    # segundas, 6h47 em Brasília: atualiza partidos/UF dos parlamentares
+    - cron: "47 9 * * 1"
+  # também é disparado pelos workflows que geram posts (imagens novas para o TikTok)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: site
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Gerar quiz.json a partir da curadoria
+        run: |
+          pip install requests python-dotenv Jinja2 PyYAML playwright
+          # Sem perguntas na curadoria, mantém o quiz.json que estiver no repositório
+          python main.py quiz || echo "Curadoria vazia: usando o quiz.json existente"
+
+      - name: Restaurar imagens do branch midia
+        run: bash scripts/midia.sh restaurar
+
+      - name: Copiar imagens 9:16 recentes para o site (o TikTok baixa daqui)
+        run: python main.py midia-site --dias 14
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4

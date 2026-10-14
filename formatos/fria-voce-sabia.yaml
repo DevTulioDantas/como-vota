@@ -1,0 +1,10 @@
+id: fria-voce-sabia
+aplica_a: fria
+nome: Você sabia?
+gancho: curiosidade
+capa_kicker: Você sabia?
+faixa_capa: Arraste para entender →
+cta_teste: meio
+legenda_gancho: "Você sabia? {titulo}"
+origem: Estrutura de curiosidade no primeiro slide. Só a estrutura.
+ativo: true

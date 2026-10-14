@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  {{ fontes_css|safe }}
+  :root {
+    --azul: #0E2233; --amarelo: #FFC93C; --verde: #1FA97A; --vermelho: #E4433C;
+    --cinza: #8A94A0; --tinta: #101820; --papel: #F6F3EC; --azul-texto: #C9D4DE;
+    --titulo: "Archivo Black", "Arial Black", sans-serif;
+    --corpo: "Inter", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #000; font-family: var(--corpo); }
+
+  #post {
+    width: 1080px; height: 1350px; background: var(--azul); color: var(--papel);
+    display: flex; flex-direction: column; position: relative; overflow: hidden;
+  }
+  .faixa {
+    background: var(--amarelo); color: var(--tinta); height: 112px; flex: none;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 60px;
+    font-family: var(--titulo); font-size: 40px; text-transform: uppercase;
+  }
+  .faixa .mono { font-family: var(--mono); font-weight: 700; font-size: 32px; text-transform: none; }
+
+  .quem { display: flex; align-items: center; gap: 48px; padding: 64px 64px 52px; flex: none; }
+  .avatar {
+    width: 260px; height: 260px; border-radius: 50%; flex: none;
+    background: var(--papel); border: 13px solid var(--amarelo);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--titulo); font-size: 104px; color: var(--azul); letter-spacing: -.02em;
+  }
+  .quem .cargo { font-family: var(--mono); font-size: 26px; color: var(--cinza); text-transform: uppercase; letter-spacing: .06em; }
+  .quem h1 { font-family: var(--titulo); font-weight: 400; text-transform: uppercase; line-height: 1.02; margin: 10px 0 14px; }
+  .quem .pu { font-family: var(--mono); font-weight: 700; font-size: 36px; color: var(--azul-texto); }
+
+  .pautas { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: 0 64px; }
+  .card {
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 30px;
+    background: rgba(255,255,255,.06); border: 2px solid rgba(255,255,255,.15); border-radius: 22px;
+    padding: 0 44px; min-height: {{ altura_card }}px;
+  }
+  .card .num { font-family: var(--mono); font-weight: 700; font-size: 28px; color: var(--amarelo); }
+  .card .num small { font-weight: 400; color: var(--cinza); font-size: 22px; margin-left: 10px; }
+  .card .tema { font-size: {{ fonte_tema }}px; font-weight: 700; line-height: 1.22; margin-top: 8px; }
+  .voto { display: flex; align-items: center; gap: 16px; font-family: var(--titulo); font-size: 40px; text-transform: uppercase; white-space: nowrap; }
+  .voto.Sim { color: var(--verde); }
+  .voto.Não { color: var(--vermelho); }
+  .voto.Abstenção, .voto.Obstrução, .voto.Outro, .voto.Ausente { color: var(--cinza); }
+
+  .legenda { display: flex; gap: 40px; padding: 34px 64px 30px; font-family: var(--mono); font-size: 24px; color: var(--cinza); flex: none; }
+  .legenda span { display: flex; align-items: center; gap: 10px; }
+  .rodape {
+    background: var(--amarelo); color: var(--tinta); height: 100px; flex: none;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 60px;
+    font-family: var(--titulo); font-size: 32px; text-transform: uppercase;
+  }
+  .ico { flex: none; }
+  .demo {
+    position: absolute; top: 46%; left: -15%; width: 130%; transform: rotate(-24deg);
+    text-align: center; font-family: var(--titulo); font-size: 80px; letter-spacing: .08em;
+    color: rgba(228, 67, 60, .2); pointer-events: none;
+  }
+</style>
+</head>
+<body>
+{% macro icone(classe, t=40) -%}
+<svg class="ico" width="{{ t }}" height="{{ t }}" viewBox="0 0 40 40" aria-hidden="true">
+  {%- if classe == "Sim" %}
+  <circle cx="20" cy="20" r="20" fill="#1FA97A"/><path d="M11 20.5l6 6 12-13" fill="none" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+  {%- elif classe == "Não" %}
+  <circle cx="20" cy="20" r="20" fill="#E4433C"/><path d="M13 13l14 14M27 13L13 27" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>
+  {%- else %}
+  <circle cx="20" cy="20" r="20" fill="#8A94A0"/><path d="M12 20h16" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>
+  {%- endif %}
+</svg>
+{%- endmacro %}
+
+<div id="post">
+  <div class="faixa"><span>Voto da semana</span><span class="mono">{{ semana }}</span></div>
+
+  <div class="quem">
+    <div class="avatar">{{ iniciais }}</div>
+    <div>
+      <div class="cargo">{{ cargo }}</div>
+      <h1 style="font-size: {{ fonte_nome }}px">{{ nome }}</h1>
+      <div class="pu">{{ partido }} · {{ uf }}</div>
+    </div>
+  </div>
+
+  <div class="pautas">
+    {% for it in itens %}
+    <div class="card">
+      <div>
+        <div class="num">{{ it.proposicao }}{% if it.resultado %}<small>{{ it.resultado|lower }}</small>{% endif %}</div>
+        <div class="tema">{{ it.tema }}</div>
+      </div>
+      <div class="voto {{ it.classe }}">{{ icone(it.classe, 46) }}{{ it.rotulo }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="legenda">
+    <span>{{ icone("Sim", 26) }}SIM</span>
+    <span>{{ icone("Não", 26) }}NÃO</span>
+    <span>{{ icone("Ausente", 26) }}ABSTENÇÃO / NÃO VOTOU</span>
+  </div>
+
+  <div class="rodape"><span>Fonte oficial: {{ fonte }}</span><span>→</span></div>
+  {% if demo %}<div class="demo">EXEMPLO FICTÍCIO</div>{% endif %}
+</div>
+</body>
+</html>

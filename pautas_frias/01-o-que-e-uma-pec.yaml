@@ -1,0 +1,29 @@
+titulo: O que é uma PEC?
+resumo: A Proposta de Emenda à Constituição muda o texto da Constituição Federal. É a votação mais difícil do Congresso.
+fonte: Constituição Federal, art. 60
+slides:
+  - tipo: texto
+    titulo: Quem pode propor
+    itens:
+      - Pelo menos 1/3 dos deputados (171) ou 1/3 dos senadores (27)
+      - O presidente da República
+      - Mais da metade das Assembleias Legislativas dos estados
+  - tipo: numero
+    numero: "308"
+    rotulo: votos na Câmara
+    texto: É preciso o apoio de 3/5 dos deputados (308 de 513) em cada um dos dois turnos de votação.
+  - tipo: numero
+    numero: "49"
+    rotulo: votos no Senado
+    texto: No Senado a regra é a mesma, 3/5 dos senadores (49 de 81), também em dois turnos.
+  - tipo: texto
+    titulo: Sem sanção, sem veto
+    texto: Aprovada nas duas Casas, a PEC é promulgada pelas Mesas da Câmara e do Senado. O presidente da República não sanciona nem pode vetar.
+  - tipo: texto
+    titulo: O que nenhuma PEC pode abolir
+    texto: "São as chamadas cláusulas pétreas:"
+    itens:
+      - A forma federativa de Estado
+      - O voto direto, secreto, universal e periódico
+      - A separação dos Poderes
+      - Os direitos e garantias individuais

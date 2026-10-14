@@ -1,0 +1,25 @@
+titulo: "Medida Provisória: a lei que já começa valendo"
+resumo: O presidente da República pode editar uma MP com força de lei imediata. Mas ela tem prazo para ser aprovada pelo Congresso.
+fonte: Constituição Federal, art. 62
+slides:
+  - tipo: texto
+    titulo: O que é
+    texto: Em caso de relevância e urgência, o presidente da República pode editar uma Medida Provisória. Ela tem força de lei desde a publicação.
+  - tipo: numero
+    numero: "60 + 60"
+    rotulo: dias de validade
+    texto: A MP vale por 60 dias, prorrogáveis uma vez por mais 60. Se o Congresso não aprovar nesse prazo, ela perde a validade. O prazo para durante o recesso parlamentar.
+  - tipo: numero
+    numero: "45"
+    rotulo: dias para trancar a pauta
+    texto: Se não for votada em 45 dias, a MP passa a trancar a pauta da Casa em que estiver, e as demais deliberações legislativas ficam suspensas até ela ser votada.
+  - tipo: texto
+    titulo: Quando vira lei
+    texto: Aprovada pela Câmara e pelo Senado, a MP vira lei. Se o texto for alterado, ele vira um Projeto de Lei de Conversão (PLV), que segue para sanção.
+  - tipo: texto
+    titulo: Limites
+    texto: "Uma MP não pode tratar, entre outros temas, de:"
+    itens:
+      - Nacionalidade, cidadania, direitos políticos e direito eleitoral
+      - Direito penal e processual penal
+    rodape: Uma MP rejeitada ou que perdeu a validade não pode ser reeditada na mesma sessão legislativa.

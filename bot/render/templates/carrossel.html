@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  {{ fontes_css|safe }}
+
+  /* Guia de Marca "Como Vota, Deputado?" v1.0 */
+  :root {
+    --azul: #0E2233;      /* Azul-Documentos: fundo principal */
+    --amarelo: #FFC93C;   /* Amarelo-Voto: destaque / CTA */
+    --verde: #1FA97A;     /* Verde-Aprova: SIM */
+    --vermelho: #E4433C;  /* Vermelho-Rejeita: NÃO */
+    --cinza: #8A94A0;     /* Cinza-Urna: abstenção / faltou */
+    --tinta: #101820;
+    --papel: #F6F3EC;     /* Off-White */
+    --papel-linha: #E2DCCF;
+    --azul-texto: #C9D4DE;
+    --titulo: "Archivo Black", "Arial Black", sans-serif;
+    --corpo: "Inter", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #000; font-family: var(--corpo); color: var(--tinta); }
+
+  .slide {
+    width: 1080px; height: 1080px; position: relative; overflow: hidden;
+    padding: 60px 68px 0; display: flex; flex-direction: column;
+    background: var(--papel); color: var(--tinta);
+  }
+  .slide.escuro { background: var(--azul); color: var(--papel); }
+
+  h1, h2, .titulo { font-family: var(--titulo); text-transform: uppercase; font-weight: 400; line-height: 1.04; }
+  .mono { font-family: var(--mono); }
+
+  /* ---------- topo ---------- */
+  .topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+  .marca { font-family: var(--titulo); font-size: 25px; letter-spacing: .02em; text-transform: uppercase; }
+  .marca b { font-weight: 400; background: var(--amarelo); color: var(--azul); padding: 2px 8px; margin-left: 4px; }
+  .escuro .marca b { background: none; color: var(--amarelo); padding: 0; }
+  .ref { font-family: var(--mono); font-size: 22px; font-weight: 600; color: var(--cinza); }
+  .escuro .ref { color: var(--azul-texto); }
+
+  /* ---------- rodapé com barra de resultado ---------- */
+  .rodape { margin-top: auto; padding: 22px 0 40px; border-top: 3px solid var(--papel-linha); }
+  .escuro .rodape { border-top-color: rgba(246, 243, 236, .16); }
+  .resultado-linha { display: flex; align-items: center; gap: 16px; font-family: var(--mono); font-size: 22px; font-weight: 700; }
+  .barra { flex: 1; display: flex; height: 16px; border-radius: 99px; overflow: hidden; background: var(--papel-linha); }
+  .barra div { height: 100%; }
+  .fonte { display: flex; justify-content: space-between; margin-top: 14px; font-size: 19px; color: var(--cinza); }
+  .fonte .mono { font-size: 19px; }
+  .escuro .fonte { color: var(--azul-texto); }
+
+  /* ---------- ícones de voto (nunca emoji) ---------- */
+  .ico { display: inline-block; flex: none; vertical-align: middle; }
+
+  /* ---------- capa ---------- */
+  .capa { padding-bottom: 0; }
+  .capa .ref { color: var(--amarelo); font-size: 26px; margin-bottom: 30px; }
+  .capa h1 { font-size: 66px; color: var(--papel); }
+  .capa .resumo { font-size: 30px; line-height: 1.42; color: var(--azul-texto); margin-top: 30px; max-width: 920px; }
+  .carimbo {
+    position: absolute; font-family: var(--titulo); text-transform: uppercase; letter-spacing: .08em;
+    border: 7px solid currentColor; border-radius: 12px; padding: 8px 26px 6px; transform: rotate(-6deg);
+  }
+  .capa .carimbo { right: 70px; bottom: 170px; font-size: 52px; }
+  .capa h1.pergunta { font-size: 86px; color: var(--papel); }
+  .capa .tema-capa { font-size: 40px; line-height: 1.25; font-weight: 700; color: var(--papel); margin-top: 28px; max-width: 900px; }
+  .capa .placar-capa { display: flex; align-items: center; gap: 20px; font-family: var(--mono); font-weight: 700; font-size: 150px;
+                       line-height: 1; letter-spacing: -.04em; margin: 4px 0 34px; color: var(--papel); }
+  .capa .placar-capa span { color: var(--cinza); font-size: 90px; }
+  .capa h1.apertado { font-size: 92px; color: var(--papel); }
+  /* mapa em grade */
+  .mapa { display: flex; gap: 34px; align-items: flex-start; }
+  .grade-uf { display: grid; grid-template-columns: repeat(7, 86px); grid-template-rows: repeat(7, 86px); gap: 7px; flex: none; }
+  .grade-uf div { border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .grade-uf b { font-family: var(--titulo); font-weight: 400; font-size: 24px; line-height: 1; }
+  .grade-uf span { font-family: var(--mono); font-weight: 700; font-size: 16px; margin-top: 5px; }
+  .mapa-lado { display: flex; flex-direction: column; gap: 22px; font-size: 22px; line-height: 1.35; color: #2A3746; min-width: 0; }
+  .escala { display: flex; height: 22px; border-radius: 6px; overflow: hidden; background: linear-gradient(90deg, #E4433C, #E2DCCF, #1FA97A); }
+  .escala-rot { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 16px; margin-top: 6px; color: #4A5562; }
+  .contagem b { font-family: var(--mono); font-size: 30px; display: block; }
+  .capa h1.apertado em { font-style: normal; color: var(--amarelo); }
+  .capa .placar-mini { display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-weight: 700; font-size: 34px; color: var(--azul-texto); margin-top: 26px; }
+  .capa .carimbo.aprovada { color: var(--verde); }
+  .capa .carimbo.rejeitada { color: var(--vermelho); }
+  .capa .carimbo.resultado { color: var(--azul-texto); }
+  .faixa {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 120px; background: var(--amarelo); color: var(--azul);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 68px;
+    font-family: var(--titulo); font-size: 42px; text-transform: uppercase;
+  }
+  .faixa span.mono { font-family: var(--mono); font-size: 24px; font-weight: 700; text-transform: none; }
+
+  /* ---------- placar ---------- */
+  h2 { font-size: 54px; margin-bottom: 34px; }
+  .placar { display: flex; gap: 40px; align-items: flex-end; position: relative; }
+  .placar .lado { flex: 1; }
+  .placar .rotulo { display: flex; align-items: center; gap: 14px; font-family: var(--titulo); font-size: 34px; text-transform: uppercase; }
+  .placar .num { font-family: var(--mono); font-weight: 700; font-size: 168px; line-height: 1; letter-spacing: -.04em; margin-top: 8px; }
+  .placar .x { font-family: var(--mono); font-size: 80px; color: var(--cinza); padding-bottom: 30px; }
+  .placar .carimbo { color: var(--amarelo); font-size: 34px; right: 0; top: -84px; border-width: 5px; transform: rotate(-9deg); }
+  .barra-grande { display: flex; height: 30px; border-radius: 8px; overflow: hidden; margin: 36px 0 22px; background: rgba(246,243,236,.15); }
+  .barra-grande div { height: 100%; }
+  .outros { display: flex; gap: 34px; font-family: var(--mono); font-size: 24px; color: var(--azul-texto); }
+  .outros span { display: flex; align-items: center; gap: 10px; }
+  .votado { font-size: 25px; line-height: 1.45; color: var(--azul-texto); margin-top: 26px; }
+  .quorum { margin-top: 22px; font-size: 26px; padding: 14px 18px; border: 3px solid var(--amarelo); border-radius: 10px; }
+  .quorum b { font-family: var(--mono); color: var(--amarelo); }
+  .governo { margin-top: 22px; font-size: 26px; display: flex; gap: 12px; align-items: center; }
+  .governo b { font-family: var(--mono); color: var(--amarelo); }
+
+  /* ---------- partidos ---------- */
+  .legenda { display: flex; gap: 28px; font-size: 21px; font-weight: 600; margin: -14px 0 22px; color: #4A5562; }
+  .legenda span { display: flex; align-items: center; gap: 8px; }
+  .partidos { display: flex; flex-direction: column; gap: 9px; }
+  .lp { display: grid; grid-template-columns: 176px 1fr 132px; align-items: center; gap: 20px; height: 47px; }
+  .lp .nome { font-weight: 700; font-size: 25px; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lp .nome small { display: block; font-family: var(--mono); font-weight: 400; font-size: 15px; color: var(--cinza); }
+  .lp .b { display: flex; height: 26px; border-radius: 5px; overflow: hidden; background: var(--papel-linha); }
+  .lp .b div { height: 100%; }
+  .lp .q { font-family: var(--mono); font-weight: 700; font-size: 23px; text-align: right; }
+
+  /* ---------- cédula (dissidentes) ---------- */
+  .cedula { display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; }
+  .linha-cedula { display: flex; align-items: center; gap: 12px; height: 62px; border-bottom: 2px solid var(--papel-linha); font-size: 23px; }
+  .linha-cedula .n { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
+  .linha-cedula .pu { font-family: var(--mono); font-size: 18px; color: #4A5562; white-space: nowrap; }
+  .linha-cedula .pontos { flex: 1; min-width: 16px; height: 0; border-bottom: 4px dotted var(--tinta); opacity: .55; margin-top: 6px; }
+  .mais { margin-top: 20px; font-size: 22px; color: #4A5562; }
+  .mais b { font-family: var(--mono); }
+
+  /* ---------- final ---------- */
+  .final { align-items: center; text-align: center; }
+  .final .logo { width: 560px; height: auto; margin-top: -6px; }
+  .final h1 { font-size: 50px; color: var(--papel); margin-top: 20px; }
+  .cta {
+    display: inline-block; margin-top: 26px; background: var(--amarelo); color: var(--azul);
+    font-family: var(--titulo); font-size: 34px; text-transform: uppercase; padding: 16px 34px; border-radius: 12px;
+  }
+  .final .siga { margin-top: 22px; font-size: 24px; color: var(--azul-texto); }
+  .final .rodape { width: 100%; text-align: left; }
+
+  .demo {
+    position: absolute; top: 44%; left: -15%; width: 130%; transform: rotate(-22deg);
+    text-align: center; font-family: var(--titulo); font-size: 74px; letter-spacing: .08em;
+    color: rgba(228, 67, 60, .17); pointer-events: none; z-index: 9;
+  }
+</style>
+</head>
+<body>
+{% from "_cta_teste.html" import cta_teste %}
+{% set total_slides = slides|length %}
+
+{# ---------- ícones de voto: ✓ SIM · ✕ NÃO · — ABSTENÇÃO/FALTOU ---------- #}
+{% macro icone(voto, t=32) -%}
+<svg class="ico" width="{{ t }}" height="{{ t }}" viewBox="0 0 40 40" aria-hidden="true">
+  {%- if voto == "Sim" %}
+  <circle cx="20" cy="20" r="20" fill="#1FA97A"/><path d="M11 20.5l6 6 12-13" fill="none" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+  {%- elif voto == "Não" %}
+  <circle cx="20" cy="20" r="20" fill="#E4433C"/><path d="M13 13l14 14M27 13L13 27" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>
+  {%- else %}
+  <circle cx="20" cy="20" r="20" fill="#8A94A0"/><path d="M12 20h16" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>
+  {%- endif %}
+</svg>
+{%- endmacro %}
+
+{% macro topo() -%}
+  <div class="topo">
+    <div class="marca">Como Vota <b>Deputado?</b></div>
+    <div class="ref">{{ proposicao }} · {{ data_curta }}</div>
+  </div>
+{%- endmacro %}
+
+{% macro rodape(n, com_barra=True) -%}
+  <div class="rodape">
+    {% if com_barra %}
+    <div class="resultado-linha">
+      {{ icone("Sim", 28) }}<span>{{ placar.Sim }}</span>
+      <div class="barra">
+        <div style="width: {{ pct_sim }}%; background: var(--verde)"></div>
+        <div style="width: {{ pct_nao }}%; background: var(--vermelho)"></div>
+        <div style="width: {{ pct_outros }}%; background: var(--cinza)"></div>
+      </div>
+      <span>{{ placar["Não"] }}</span>{{ icone("Não", 28) }}
+    </div>
+    {% endif %}
+    <div class="fonte">
+      <div>Fonte oficial: {{ casa_nome_completo }} · Dados Abertos</div>
+      <div class="mono">{{ n }}/{{ total_slides }}</div>
+    </div>
+  </div>
+  {% if demo %}<div class="demo">EXEMPLO FICTÍCIO</div>{% endif %}
+{%- endmacro %}
+
+{% for s in slides %}
+{% set n = loop.index %}
+
+{% if s == "capa" %}
+<section class="slide escuro capa" id="slide-{{ n }}">
+  <div class="topo">
+    <div class="marca">Como Vota <b>Deputado?</b></div>
+    <div class="ref">{{ casa_nome }}</div>
+  </div>
+  <div class="ref">{{ proposicao }} · {{ data_br }}</div>
+  {% if capa_estilo == "pergunta" %}
+  <h1 class="pergunta">Como votaram os {{ quem_plural }}?</h1>
+  <p class="tema-capa">{{ titulo }}</p>
+  {% elif capa_estilo == "numero" %}
+  <div class="placar-capa">{{ icone("Sim", 66) }}{{ placar.Sim }}<span>×</span>{{ placar["Não"] }}{{ icone("Não", 66) }}</div>
+  <h1 style="font-size: {{ tamanho_titulo - 8 }}px">{{ titulo }}</h1>
+  {% elif capa_estilo == "estados" %}
+  <h1 class="pergunta">Como votou cada estado?</h1>
+  <p class="tema-capa">{{ titulo }}</p>
+  {% elif capa_estilo == "apertado" and quorum_num %}
+  <h1 class="apertado">Teve <em>{{ placar.Sim }}</em>. Precisava de {{ quorum_num }}.</h1>
+  <p class="tema-capa">{{ titulo }}</p>
+  <div class="placar-mini">{{ icone("Sim", 36) }}{{ placar.Sim }} × {{ placar["Não"] }}{{ icone("Não", 36) }}</div>
+  {% elif capa_estilo == "apertado" %}
+  <h1 class="apertado">Decidido por <em>{{ diferenca_txt }}</em></h1>
+  <p class="tema-capa">{{ titulo }}</p>
+  <div class="placar-mini">{{ icone("Sim", 36) }}{{ placar.Sim }} × {{ placar["Não"] }}{{ icone("Não", 36) }}</div>
+  {% else %}
+  <h1 style="font-size: {{ tamanho_titulo }}px">{{ titulo }}</h1>
+  <p class="resumo">{{ resumo }}</p>
+  {% endif %}
+  <div class="carimbo {{ resultado|lower }}">{{ resultado }}</div>
+  <div class="faixa">
+    <span>{{ faixa_capa }}</span>
+    <span class="mono">{{ total_slides - 1 }} slides</span>
+  </div>
+  {% if demo %}<div class="demo">EXEMPLO FICTÍCIO</div>{% endif %}
+</section>
+
+{% elif s == "placar" %}
+<section class="slide escuro" id="slide-{{ n }}">
+  {{ topo() }}
+  <h2>Placar</h2>
+  <div class="placar">
+    <div class="lado">
+      <div class="rotulo">{{ icone("Sim", 44) }} Sim</div>
+      <div class="num">{{ placar.Sim }}</div>
+    </div>
+    <div class="x">×</div>
+    <div class="lado">
+      <div class="rotulo">{{ icone("Não", 44) }} Não</div>
+      <div class="num">{{ placar["Não"] }}</div>
+    </div>
+    <div class="carimbo">Oficial</div>
+  </div>
+  <div class="barra-grande">
+    <div style="width: {{ pct_sim }}%; background: var(--verde)"></div>
+    <div style="width: {{ pct_nao }}%; background: var(--vermelho)"></div>
+    <div style="width: {{ pct_outros }}%; background: var(--cinza)"></div>
+  </div>
+  <div class="outros">
+    <span>{{ icone("Abstenção", 26) }} Abstenção {{ placar["Abstenção"] }}</span>
+    {% if placar["Obstrução"] %}<span>{{ icone("Obstrução", 26) }} Obstrução {{ placar["Obstrução"] }}</span>{% endif %}
+    {% if placar.Outro %}<span>{{ icone("Outro", 26) }} Outros {{ placar.Outro }}</span>{% endif %}
+  </div>
+  {% if descricao %}<p class="votado">O que foi votado: {{ descricao_curta }}</p>{% endif %}
+  {% if quorum_num %}
+  <div class="quorum">Para aprovar: <b>{{ quorum_num }} votos SIM</b> ({{ quorum_txt }})
+    · {% if quorum_faltaram %}faltaram <b>{{ quorum_faltaram }}</b>{% else %}alcançado{% endif %}</div>
+  {% endif %}
+  {% if orientacao_governo %}<div class="governo">Orientação do governo: <b>{{ orientacao_governo }}</b></div>{% endif %}
+  {{ rodape(n, com_barra=False) }}
+</section>
+
+{% elif s == "partidos" %}
+<section class="slide" id="slide-{{ n }}">
+  {{ topo() }}
+  <h2>Como votou cada partido</h2>
+  <div class="legenda">
+    <span>{{ icone("Sim", 22) }} Sim</span>
+    <span>{{ icone("Não", 22) }} Não</span>
+    <span>{{ icone("Outro", 22) }} Abstenção / outros</span>
+  </div>
+  <div class="partidos">
+    {% for p in partidos %}
+    <div class="lp">
+      <div class="nome">{{ p.partido }}{% if p.orientacao %}<small>orientou: {{ p.orientacao }}</small>{% endif %}</div>
+      <div class="b" style="width: {{ 28 + 72 * p.total / maior_bancada }}%">
+        <div style="width: {{ 100 * p.sim / p.total }}%; background: var(--verde)"></div>
+        <div style="width: {{ 100 * p.nao / p.total }}%; background: var(--vermelho)"></div>
+        <div style="width: {{ 100 * p.outros / p.total }}%; background: var(--cinza)"></div>
+      </div>
+      <div class="q">{{ p.sim }} × {{ p.nao }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {{ rodape(n) }}
+</section>
+
+{% elif s == "dissidentes" %}
+<section class="slide" id="slide-{{ n }}">
+  {{ topo() }}
+  <h2>Votaram contra o próprio partido</h2>
+  <div class="cedula">
+    {% for d in dissidentes %}
+    <div class="linha-cedula">
+      <span class="n">{{ d.nome }}</span>
+      <span class="pu">{{ d.partido }}-{{ d.uf }}</span>
+      <span class="pontos"></span>
+      {{ icone(d.voto, 34) }}
+    </div>
+    {% endfor %}
+  </div>
+  {% if dissidentes_restantes %}<p class="mais">+ <b>{{ dissidentes_restantes }}</b> parlamentares também votaram contra a orientação do partido. Lista completa na fonte oficial.</p>{% endif %}
+  {{ rodape(n) }}
+</section>
+
+{% elif s == "mapa" %}
+<section class="slide" id="slide-{{ n }}">
+  {{ topo() }}
+  <h2 style="margin-bottom: 24px">Como votou cada estado</h2>
+  <div class="mapa">
+    <div class="grade-uf">
+      {% for t in estados.tiles %}
+      <div style="grid-row: {{ t.lin }}; grid-column: {{ t.col }}; background: {{ t.cor }}; color: {{ t.tinta }}">
+        <b>{{ t.uf }}</b><span>{{ t.texto }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="mapa-lado">
+      <div>Votos <b>SIM × NÃO</b> da bancada de cada estado. Cada quadrado é uma unidade da federação.</div>
+      <div><div class="escala"></div><div class="escala-rot"><span>só NÃO</span><span>dividido</span><span>só SIM</span></div></div>
+      <div class="contagem"><b>{{ estados.maioria.sim }}</b>estados com maioria SIM</div>
+      <div class="contagem"><b>{{ estados.maioria.nao }}</b>estados com maioria NÃO</div>
+      {% if estados.maioria.empate %}<div class="contagem"><b>{{ estados.maioria.empate }}</b>estados com empate</div>{% endif %}
+    </div>
+  </div>
+  {{ rodape(n) }}
+</section>
+
+{% elif s == "cta_teste" %}
+{{ cta_teste(n, total_slides, site_dominio, demo) }}
+
+{% elif s == "final" %}
+<section class="slide escuro final" id="slide-{{ n }}">
+  {{ logo_svg|safe }}
+  <h1>Acompanhe como vota o seu {{ quem }}</h1>
+  <div class="cta">Siga {{ handle }}</div>
+  <p class="siga">Novas votações aparecem aqui todos os dias.</p>
+  {{ rodape(n, com_barra=False) }}
+</section>
+{% endif %}
+
+{% endfor %}
+</body>
+</html>

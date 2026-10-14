@@ -1,0 +1,10 @@
+id: fria-salve
+aplica_a: fria
+nome: Salve para consultar
+gancho: convite para salvar
+capa_kicker: Salve para consultar depois
+faixa_capa: Salve e arraste →
+cta_teste: meio
+legenda_gancho: "💾 Salve para consultar depois: {titulo}"
+origem: Estrutura de "conteúdo de referência", que costuma gerar salvamentos. Só a estrutura.
+ativo: true

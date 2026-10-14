@@ -1,0 +1,9 @@
+id: fria-classico
+aplica_a: fria
+nome: Explicador clássico
+gancho: título do tema
+faixa_capa: Arraste para entender →
+cta_teste: antes_final
+legenda_gancho: "📌 {titulo}"
+origem: Formato original do perfil.
+ativo: true

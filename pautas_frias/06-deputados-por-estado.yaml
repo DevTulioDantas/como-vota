@@ -1,0 +1,20 @@
+titulo: Por que SP tem 70 deputados e Roraima tem 8?
+resumo: A Câmara representa o povo, então cada estado tem um número de deputados proporcional à população, com piso e teto.
+fonte: Constituição Federal, arts. 44 e 45
+slides:
+  - tipo: numero
+    numero: "513"
+    rotulo: deputados federais
+    texto: O número de deputados de cada estado e do Distrito Federal é definido de forma proporcional à população.
+  - tipo: texto
+    titulo: Piso e teto
+    texto: "A Constituição fixa limites para essa proporção:"
+    itens:
+      - Nenhum estado tem menos de 8 deputados
+      - Nenhum estado tem mais de 70
+  - tipo: texto
+    titulo: Mandato de 4 anos
+    texto: Deputados são eleitos pelo sistema proporcional. As vagas são divididas conforme a votação de cada partido ou federação, e depois preenchidas pelos candidatos mais votados de cada um.
+  - tipo: texto
+    titulo: Quem representa o seu estado?
+    texto: Acompanhe a série Bancada do Estado aqui no perfil. Cada post mostra os deputados de uma unidade da federação.

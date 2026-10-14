@@ -1,0 +1,81 @@
+name: Gerar posts do dia
+
+on:
+  schedule:
+    # todo dia, 8h47 em Brasília (11h47 UTC). As sessões costumam ir até a noite,
+    # então de manhã os votos de ontem já estão na API.
+    - cron: "47 11 * * *"
+  workflow_dispatch:
+    inputs:
+      inicio:
+        description: "Data inicial (AAAA-MM-DD), opcional"
+        required: false
+      fim:
+        description: "Data final (AAAA-MM-DD), opcional"
+        required: false
+
+permissions:
+  contents: write
+  actions: write   # para disparar o deploy do site
+
+concurrency:
+  group: como-vota-estado   # nunca roda junto com o verificador
+  cancel-in-progress: false
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependências
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Restaurar imagens do branch midia
+        run: bash scripts/midia.sh restaurar
+
+      - name: Gerar rascunhos e enviar para aprovação
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MAX_POSTS: ${{ vars.MAX_POSTS }}
+          JANELA_DIAS: ${{ vars.JANELA_DIAS }}
+          AVISAR_SEM_VOTACAO: ${{ vars.AVISAR_SEM_VOTACAO }}
+          DIAS_SEM_POST_PARA_FRIA: ${{ vars.DIAS_SEM_POST_PARA_FRIA }}
+          IG_HANDLE: ${{ vars.IG_HANDLE }}
+          SITE_TESTE_URL: ${{ vars.SITE_TESTE_URL }}
+          CTA_TESTE: ${{ vars.CTA_TESTE }}
+          TIKTOK_EXPORT: ${{ vars.TIKTOK_EXPORT }}
+          REPOST_APOS_DIAS: ${{ vars.REPOST_APOS_DIAS }}
+        run: |
+          ARGS=""
+          [ -n "${{ inputs.inicio }}" ] && ARGS="$ARGS --inicio ${{ inputs.inicio }}"
+          [ -n "${{ inputs.fim }}" ] && ARGS="$ARGS --fim ${{ inputs.fim }}"
+          python main.py gerar $ARGS
+
+      - name: Publicar imagens no branch midia (sem histórico)
+        run: bash scripts/midia.sh publicar
+
+      - name: Salvar rascunhos e estado
+        run: |
+          git config user.name "como-vota-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Rascunhos do dia"
+          git pull -q --rebase --autostash origin "$GITHUB_REF_NAME"
+          git push
+
+      - name: Atualizar o site (hospeda as imagens para o TikTok)
+        if: vars.TIKTOK_MODO == 'rascunho' || vars.TIKTOK_MODO == 'direto'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run site.yml --ref ${{ github.ref_name }}

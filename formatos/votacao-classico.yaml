@@ -1,0 +1,10 @@
+id: votacao-classico
+aplica_a: votacao
+nome: Título na capa
+gancho: afirmação direta do que foi votado
+capa: classico
+faixa_capa: Veja o voto deles →
+sequencia: [capa, placar, partidos, dissidentes, cta_teste, final]
+legenda_gancho: "🗳️ {titulo}"
+origem: Formato original do perfil (Guia de Marca v1.0).
+ativo: true

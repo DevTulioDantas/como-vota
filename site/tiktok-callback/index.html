@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Login do TikTok · Como Vota Deputado?</title>
+<style>
+  :root { --azul: #0E2233; --amarelo: #FFC93C; --papel: #F6F3EC; --texto: #C9D4DE; --vermelho: #E4433C; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--azul); color: var(--papel); font: 17px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 40px 18px; }
+  h1 { font: 400 30px/1.1 "Arial Black", Impact, sans-serif; text-transform: uppercase; margin: 0 0 16px; }
+  p { color: var(--texto); }
+  code { display: block; background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.18); border-radius: 10px;
+         padding: 14px; font: 600 15px/1.4 ui-monospace, Menlo, monospace; color: var(--amarelo); word-break: break-all; }
+  button { margin-top: 12px; background: var(--amarelo); color: var(--azul); border: 0; border-radius: 10px; padding: 12px 20px;
+           font: 700 16px system-ui, sans-serif; cursor: pointer; }
+  .erro { color: var(--vermelho); font-weight: 700; }
+  small { color: var(--texto); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Login do TikTok</h1>
+  <div id="ok" hidden>
+    <p>Autorização recebida. Copie o código abaixo e rode no seu computador, em até 5 minutos:</p>
+    <code id="cmd"></code>
+    <button id="copiar" type="button">Copiar comando</button>
+    <p id="status" role="status"></p>
+    <p><small>Estado da requisição: <span id="estado"></span>. Confira se é o mesmo que o comando mostrou.</small></p>
+  </div>
+  <div id="falha" hidden>
+    <p class="erro">O TikTok não autorizou o acesso.</p>
+    <p id="motivo"></p>
+  </div>
+  <p id="vazio" hidden>Esta página recebe o retorno do login do TikTok. Para começar, rode <strong>python main.py tiktok-login</strong>.</p>
+</main>
+<script>
+  const q = new URLSearchParams(location.search);
+  const codigo = q.get("code"), erro = q.get("error");
+  if (codigo) {
+    const comando = `python main.py tiktok-login --codigo "${codigo}"`;
+    document.getElementById("cmd").textContent = comando;
+    document.getElementById("estado").textContent = q.get("state") || "(vazio)";
+    document.getElementById("ok").hidden = false;
+    document.getElementById("copiar").onclick = async () => {
+      const st = document.getElementById("status");
+      try { await navigator.clipboard.writeText(comando); st.textContent = "Copiado."; }
+      catch (e) { st.textContent = "Não deu para copiar automaticamente. Selecione o texto e copie."; }
+    };
+  } else if (erro) {
+    document.getElementById("motivo").textContent = `${erro}: ${q.get("error_description") || ""}`;
+    document.getElementById("falha").hidden = false;
+  } else {
+    document.getElementById("vazio").hidden = false;
+  }
+</script>
+</body>
+</html>

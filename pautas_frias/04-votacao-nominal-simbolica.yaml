@@ -1,0 +1,19 @@
+titulo: Por que algumas votações não mostram quem votou?
+resumo: Nem toda votação no Congresso registra o voto de cada parlamentar. Entenda a diferença entre votação simbólica, nominal e secreta.
+fonte: Constituição Federal, art. 52; Regimentos Internos da Câmara e do Senado
+slides:
+  - tipo: texto
+    titulo: Votação simbólica
+    texto: O presidente da sessão pede que quem é a favor permaneça como está e proclama o resultado observando o plenário. Não há registro do voto de cada parlamentar.
+  - tipo: texto
+    titulo: Votação nominal
+    texto: Cada parlamentar registra o voto no painel eletrônico, e o resultado sai nome por nome. É esse tipo de votação que aparece aqui no perfil.
+  - tipo: texto
+    titulo: Pedido de verificação
+    texto: Depois de uma votação simbólica, os parlamentares podem pedir verificação, seguindo as regras do regimento. Se aceita, a votação é refeita de forma nominal.
+  - tipo: texto
+    titulo: E a votação secreta?
+    texto: Algumas votações são secretas por regra constitucional, como a aprovação de autoridades pelo Senado (ministros de tribunais superiores e embaixadores, por exemplo). Nelas só o resultado é divulgado.
+  - tipo: texto
+    titulo: Por isso
+    texto: Só publicamos votações nominais. É a única forma de mostrar, com dados oficiais, como cada parlamentar votou.

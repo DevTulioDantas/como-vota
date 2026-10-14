@@ -1,0 +1,10 @@
+id: votacao-placar-na-capa
+aplica_a: votacao
+nome: Placar na capa
+gancho: número grande no primeiro slide
+capa: numero
+faixa_capa: Veja quem votou →
+sequencia: [capa, partidos, placar, cta_teste, dissidentes, final]
+legenda_gancho: "{sim} × {nao} {na_casa}: {titulo}"
+origem: Estrutura comum em posts de dados (o número primeiro, a explicação depois). Só a estrutura.
+ativo: true

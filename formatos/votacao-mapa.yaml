@@ -1,0 +1,10 @@
+id: votacao-mapa
+aplica_a: votacao
+nome: Mapa por estado
+gancho: identificação local ("e o meu estado?")
+capa: estados
+faixa_capa: Ache o seu estado →
+sequencia: [capa, mapa, placar, partidos, cta_teste, dissidentes, final]
+legenda_gancho: "Como votou a bancada do seu estado? {titulo}"
+origem: Estrutura de mapa/recorte local, comum em posts de dados eleitorais. Só a estrutura.
+ativo: true

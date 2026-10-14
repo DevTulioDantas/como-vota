@@ -1,0 +1,20 @@
+titulo: Você pode propor uma lei?
+resumo: Pode. A Constituição permite que os próprios cidadãos apresentem um projeto de lei à Câmara dos Deputados.
+fonte: Constituição Federal, art. 61, § 2º
+slides:
+  - tipo: texto
+    titulo: Iniciativa popular
+    texto: Um projeto de lei pode ser apresentado diretamente pelos cidadãos à Câmara dos Deputados, desde que reúna assinaturas suficientes de eleitores.
+  - tipo: numero
+    numero: "1%"
+    rotulo: do eleitorado nacional
+    texto: O projeto precisa ser assinado por, no mínimo, 1% dos eleitores do país.
+  - tipo: texto
+    titulo: Bem distribuído
+    texto: "Além do total, as assinaturas precisam estar espalhadas pelo país:"
+    itens:
+      - Em pelo menos 5 estados
+      - Com no mínimo 0,3% dos eleitores de cada um desses estados
+  - tipo: texto
+    titulo: Depois de apresentado
+    texto: O projeto de iniciativa popular segue a mesma tramitação dos outros. Passa por comissões, pelo Plenário da Câmara e pelo Senado, e depois vai à sanção ou ao veto.

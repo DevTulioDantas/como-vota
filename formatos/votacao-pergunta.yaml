@@ -1,0 +1,11 @@
+id: votacao-pergunta
+aplica_a: votacao
+nome: Pergunta na capa
+gancho: pergunta direta ao leitor
+capa: pergunta
+faixa_capa: Arraste e veja →
+# o teste entra no meio, logo depois do placar: quem chegou até ali está engajado
+sequencia: [capa, placar, cta_teste, partidos, dissidentes, final]
+legenda_gancho: "Como votaram os {quem_plural}? {titulo}"
+origem: Estrutura comum em perfis de dados e notícias, com o gancho em forma de pergunta. Só a estrutura.
+ativo: true
