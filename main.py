@@ -705,7 +705,17 @@ def main(argv=None) -> None:
     d.set_defaults(func=cmd_demo)
 
     args = p.parse_args(argv)
-    args.func(args)
+    # No GitHub Actions, secret não cadastrado chega como texto vazio: trata como ausente
+    for chave in [k for k, v in os.environ.items() if not v.strip()]:
+        del os.environ[chave]
+    try:
+        args.func(args)
+    except KeyError as e:
+        if e.args and isinstance(e.args[0], str) and e.args[0].isupper():
+            log.error("Falta configurar %s (secret ou variável do repositório no GitHub, ou no .env). "
+                      "Rode `python main.py diagnostico` para ver tudo o que falta.", e.args[0])
+            sys.exit(1)
+        raise
 
 
 if __name__ == "__main__":
