@@ -111,6 +111,12 @@
   .governo { margin-top: 22px; font-size: 26px; display: flex; gap: 12px; align-items: center; }
   .governo b { font-family: var(--mono); color: var(--amarelo); }
 
+  /* ---------- o que está em votação ---------- */
+  .ent-tipo { font-size: 24px; line-height: 1.45; color: #4A5562; padding-left: 20px; border-left: 6px solid var(--amarelo); margin: -8px 0 30px; }
+  .ent-tipo b { font-family: var(--mono); color: var(--tinta); }
+  .ent-texto { font-size: 33px; line-height: 1.4; font-weight: 500; }
+  .ent-etapa { margin-top: 34px; font-size: 24px; line-height: 1.45; padding: 18px 22px; background: var(--papel-linha); border-radius: 10px; }
+
   /* ---------- partidos ---------- */
   .legenda { display: flex; gap: 28px; font-size: 21px; font-weight: 600; margin: -14px 0 22px; color: #4A5562; }
   .legenda span { display: flex; align-items: center; gap: 8px; }
@@ -233,6 +239,18 @@
     <span class="mono">{{ total_slides - 1 }} slides</span>
   </div>
   {% if demo %}<div class="demo">EXEMPLO FICTÍCIO</div>{% endif %}
+</section>
+
+{% elif s == "entenda" %}
+<section class="slide entenda" id="slide-{{ n }}">
+  {{ topo() }}
+  <h2>O que está em votação</h2>
+  {% if tipo_txt %}<div class="ent-tipo"><b>{{ proposicao }}</b> · {{ tipo_txt }}</div>{% endif %}
+  <p class="ent-texto">{{ entenda_texto }}</p>
+  {% if etapa_txt %}
+  <div class="ent-etapa">{{ etapa_txt }}{% if so_etapa %} <b>O resultado vale para esta parte, não necessariamente para o projeto inteiro.</b>{% endif %}</div>
+  {% endif %}
+  {{ rodape(n) }}
 </section>
 
 {% elif s == "placar" %}

@@ -28,6 +28,7 @@ bot/selector.py             pontua e escolhe as votações relevantes
 bot/summarizer.py           título, resumo (IA opcional) e legenda; apelido vira o título
 apelidos.yaml               apelidos de projetos cadastrados pelo dono (vale mais que o do Senado)
 bot/qualidade.py            alertas de consistência antes da aprovação
+bot/entenda.py              slide "O que está em votação": tipo de projeto e etapa (substitutivo, destaque...)
 bot/formatos.py + formatos/ biblioteca de formatos (YAML), rodízio, peso por desempenho
 bot/render/renderer.py      HTML (Jinja) → JPEG via Playwright; mapa em grade (GRADE_UF)
 bot/render/templates/       carrossel, explicador, voto_semana, fixados, _cta_teste, logo.svg

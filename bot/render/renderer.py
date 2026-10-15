@@ -15,7 +15,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from playwright.sync_api import sync_playwright
 
-from bot import cta
+from bot import cta, entenda
 from bot.models import NAO, SIM, Votacao
 
 PASTA = Path(__file__).parent
@@ -136,9 +136,17 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
     estados = _estados(v)
     slides = [s for s in ((formato or {}).get("sequencia") or SEQUENCIA_PADRAO)
               if (s != "dissidentes" or dissidentes) and (s != "cta_teste" or site_dominio)]
+    # capa que não mostra a ementa ganha logo depois o slide "O que está em votação"
+    capa_estilo = (formato or {}).get("capa", "classico")
+    if capa_estilo != "classico" and "entenda" not in slides:
+        slides.insert(1, "entenda")
     if len(slides) > MAX_SLIDES:
         slides = slides[: MAX_SLIDES - 1] + ["final"]
     quorum = v.quorum()
+    etapa, so_etapa = entenda.explicar_etapa(v)
+    resumo = textos["resumo"]
+    # sem IA o resumo é a ementa cortada: aqui cabe a ementa inteira
+    texto_entenda = v.ementa if v.ementa and resumo.rstrip("…").strip() in v.ementa else resumo
     dif = abs(p[SIM] - (quorum[0] if quorum else p[NAO]))
 
     d = date.fromisoformat(v.data[:10])
@@ -157,7 +165,11 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
         "casa_nome_completo": casa_completa,
         "quem": quem,
         "quem_plural": quem + "s",
-        "capa_estilo": (formato or {}).get("capa", "classico"),
+        "capa_estilo": capa_estilo,
+        "tipo_txt": entenda.explicar_tipo(v),
+        "entenda_texto": _curto(texto_entenda, 380),
+        "etapa_txt": etapa,
+        "so_etapa": so_etapa,
         "faixa_capa": (formato or {}).get("faixa_capa") or "Veja o voto deles →",
         "diferenca_txt": f"{dif} voto" if dif == 1 else f"{dif} votos",
         "quorum_num": quorum[0] if quorum else None,

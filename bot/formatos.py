@@ -36,7 +36,7 @@ log = logging.getLogger(__name__)
 PASTA = Path(__file__).resolve().parent.parent / "formatos"
 TIPOS = {"votacao", "fria"}  # fria = explicadores e Bancada do Estado
 CAPAS = {"classico", "pergunta", "numero", "apertado", "estados"}
-SLIDES_VOTACAO = {"capa", "placar", "partidos", "dissidentes", "mapa", "cta_teste", "final"}
+SLIDES_VOTACAO = {"capa", "entenda", "placar", "partidos", "dissidentes", "mapa", "cta_teste", "final"}
 POSICOES_CTA = {"meio", "antes_final", "nao"}
 MIN_AMOSTRA = 3
 

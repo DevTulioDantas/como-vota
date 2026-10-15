@@ -460,6 +460,27 @@ def test_partidos_separa_abstencao_e_nao_votou():
     assert (pl["sim"], pl["abstencao"], pl["nao_votou"], pl["outros"]) == (12, 2, 3, 5)
 
 
+def test_slide_entenda():
+    """Capa sem ementa ganha o slide "O que está em votação", com tipo e etapa explicados."""
+    from bot import entenda
+    from bot.models import Votacao
+    from bot.render import renderer
+    v = Votacao(id="x", casa="camara", data="2026-10-14", proposicao="PLP 281/2019", tipo_proposicao="PLP",
+                ementa="Dispõe sobre os regimes de resolução das instituições autorizadas a funcionar pelo Banco Central.",
+                descricao="Rejeitada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 281, de 2019.",
+                aprovada=False, url_fonte="u")
+    etapa, so_etapa = entenda.explicar_etapa(v)
+    assert "substitutivo" in etapa and so_etapa
+    v.descricao = "Aprovado o texto-base do Substitutivo."
+    assert "texto-base" in entenda.explicar_etapa(v)[0] and not entenda.explicar_etapa(v)[1]
+    assert entenda.explicar_tipo(v).startswith("Projeto de Lei Complementar")
+    textos = {"titulo": "t", "resumo": v.ementa[:40] + "…", "resultado": "REJEITADA"}
+    ctx = renderer.contexto(v, textos, "@x", formato={"capa": "apertado", "sequencia": ["capa", "placar", "final"]})
+    assert ctx["slides"][:2] == ["capa", "entenda"] and ctx["entenda_texto"] == v.ementa
+    ctx = renderer.contexto(v, textos, "@x", formato={"capa": "classico", "sequencia": ["capa", "placar", "final"]})
+    assert "entenda" not in ctx["slides"], "a capa clássica já mostra a ementa"
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -479,4 +500,5 @@ if __name__ == "__main__":
     test_titulo_sem_ia()
     test_apelido()
     test_partidos_separa_abstencao_e_nao_votou()
+    test_slide_entenda()
     print("ok")
