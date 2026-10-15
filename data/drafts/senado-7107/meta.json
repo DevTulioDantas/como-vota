@@ -1,17 +1,19 @@
 {
   "id": "senado-7107",
   "status": "enviado",
-  "criado_em": "2026-10-15T16:38:26+00:00",
+  "criado_em": "2026-10-15T16:50:18+00:00",
   "formato": "votacao-classico",
   "alertas": [
-    "o título usa o apelido “Fim da escala 6x1” (registrado pelo Senado): confira se o nome é neutro"
+    "o título usa o apelido “Fim da escala 6x1” (registrado pelo Senado): confira se o nome é neutro",
+    "a explicação foi escrita por um agente (explicacoes.yaml): confira se está correta e neutra"
   ],
   "textos": {
     "titulo": "Fim da escala 6x1",
-    "resumo": "Altera o art. 7º da Constituição Federal para reduzir a duração máxima semanal do trabalho e prever 2 (dois) dias de repouso semanal remunerado, sem qualquer redução salarial; e dá outras providências.",
+    "resumo": "Muda a Constituição para diminuir o número máximo de horas de trabalho por semana e garantir 2 dias de descanso remunerado por semana, sem corte de salário.",
+    "fonte_texto": "explicacoes.yaml",
     "resultado": "APROVADA",
     "carimbo": "APROVADA",
-    "legenda": "🗳️ Fim da escala 6x1\n\nAltera o art. 7º da Constituição Federal para reduzir a duração máxima semanal do trabalho e prever 2 (dois) dias de repouso semanal remunerado, sem qualquer redução salarial; e dá outras providências.\n\n📍 Senado Federal · 14/10/2026\n📄 PEC 221/2019 (Proposta de Emenda à Constituição) · conhecida como “Fim da escala 6x1”\n📊 Resultado: Aprovada · SIM 75 × 1 NÃO · Abstenção 0\n📏 Para aprovar, precisava de 49 votos SIM (3 em cada 5 dos 81 senadores). Conseguiu.\n\nNesta votação, os senadores fizeram a segunda e última votação da PEC no Senado.\nTexto oficial da votação: Votação nominal da Proposta de Emenda à Constituição nº 221, de 2019, em segundo turno.\n\nO voto de cada senador está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www25.senado.leg.br/web/atividade/materias/-/materia/174386\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
+    "legenda": "🗳️ Fim da escala 6x1\n\nMuda a Constituição para diminuir o número máximo de horas de trabalho por semana e garantir 2 dias de descanso remunerado por semana, sem corte de salário.\n\n📍 Senado Federal · 14/10/2026\n📄 PEC 221/2019 (Proposta de Emenda à Constituição) · conhecida como “Fim da escala 6x1”\n📊 Resultado: Aprovada · SIM 75 × 1 NÃO · Abstenção 0\n📏 Para aprovar, precisava de 49 votos SIM (3 em cada 5 dos 81 senadores). Conseguiu.\n\nNesta votação, os senadores fizeram a segunda e última votação da PEC no Senado.\nTexto oficial da votação: Votação nominal da Proposta de Emenda à Constituição nº 221, de 2019, em segundo turno.\n\nO voto de cada senador está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www25.senado.leg.br/web/atividade/materias/-/materia/174386\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
   },
   "votacao": {
     "id": "senado-7107",
@@ -683,7 +685,7 @@
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-10-15T16:38:28+00:00"
+      "em": "2026-10-15T16:50:20+00:00"
     }
   ],
   "demo": false
