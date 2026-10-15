@@ -25,7 +25,8 @@ bot/models.py               Votacao, Voto, normalização, placar, quorum() de P
 bot/collectors/camara.py    API Dados Abertos da Câmara (coletar, coletar_por_id)
 bot/collectors/senado.py    API Dados Abertos do Senado (totais_oficiais incluídos)
 bot/selector.py             pontua e escolhe as votações relevantes
-bot/summarizer.py           título, resumo (IA opcional) e legenda
+bot/summarizer.py           título, resumo (IA opcional) e legenda; apelido vira o título
+apelidos.yaml               apelidos de projetos cadastrados pelo dono (vale mais que o do Senado)
 bot/qualidade.py            alertas de consistência antes da aprovação
 bot/formatos.py + formatos/ biblioteca de formatos (YAML), rodízio, peso por desempenho
 bot/render/renderer.py      HTML (Jinja) → JPEG via Playwright; mapa em grade (GRADE_UF)
@@ -118,6 +119,7 @@ Rode `python main.py diagnostico` e o workflow *Diagnóstico* antes de tudo, e m
 - **Repost só de explicadores** que estejam entre os 30% melhores, com pelo menos 4 medidos e pelo menos 60 dias desde a última vez. Votações envelhecem e não voltam.
 - **Quórum:** PEC 308/49 e PLP 257/41, mostrado no placar. Destaques e requerimentos ficam de fora.
 - **Mapa por estado em grade** (`GRADE_UF`), não geográfico: estados pequenos ficam visíveis. É um formato do rodízio, não fixo (decisão do dono).
+- **Apelido do projeto como título** ("Fim da escala 6x1"): vem do campo `apelido` da API do Senado (`/processo`), também para projetos da Câmara a partir de 2019, porque a numeração é única. O `apelidos.yaml` permite cadastrar ou trocar um apelido. Todo post com apelido gera um alerta para conferir a neutralidade: apelido criado por um dos lados ("PEC da Blindagem") não entra.
 - **Dois símbolos, de propósito:** o avatar (`assets/avatar.png`) é o Congresso estilizado com ✓ e ✕, e a cédula do `logo.svg` continua dentro dos posts. Não unificar (decisão do dono).
 - **"Link na bio"** foi tirado dos posts até o site existir. Hoje ele só aparece no slide do teste, que só liga com `SITE_TESTE_URL`.
 - **Teste do site:** o cálculo roda no navegador, sem rastreadores. O contador opcional guarda só totais anônimos (LGPD). Antes de lançar, vale revisão jurídica (LGPD e lei eleitoral). Evite publicar estatísticas do teste em período de campanha.

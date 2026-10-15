@@ -13,8 +13,10 @@ import logging
 import os
 import re
 from datetime import date
+from pathlib import Path
 
 import requests
+import yaml
 
 from bot.models import ABSTENCAO, NAO, OBSTRUCAO, SIM, Votacao
 
@@ -137,8 +139,29 @@ def _data_br(iso: str) -> str:
         return iso
 
 
+ARQUIVO_APELIDOS = Path(__file__).resolve().parent.parent / "apelidos.yaml"
+
+
+def aplicar_apelido_manual(v: Votacao) -> None:
+    """apelidos.yaml ("PEC 221/2019": "Fim da escala 6x1") vale mais que o registro oficial:
+    é a curadoria do dono, para quando a imprensa batizou o projeto antes do Senado."""
+    try:
+        tabela = yaml.safe_load(ARQUIVO_APELIDOS.read_text(encoding="utf-8")) or {}
+    except FileNotFoundError:
+        return
+    except yaml.YAMLError as e:
+        log.warning("apelidos.yaml inválido (%s); ignorado", e)
+        return
+    nome = str(tabela.get(v.proposicao) or "").strip()
+    if nome:
+        v.apelido, v.fonte_apelido = nome, "curadoria"
+
+
 def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
+    aplicar_apelido_manual(v)
     base = _ia(v) or _fallback(v)
+    if v.apelido:  # o nome conhecido do projeto é o melhor título; a ementa segue no resumo
+        base = {**base, "titulo": v.apelido}
     p = v.placar()
     resultado = {True: "APROVADA", False: "REJEITADA", None: "RESULTADO"}[v.aprovada]
 
@@ -148,7 +171,7 @@ def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
         base["resumo"],
         "",
         f"📍 {CASA_NOME[v.casa]} · {_data_br(v.data)}",
-        f"📄 {v.proposicao}",
+        f"📄 {v.proposicao}" + (f" · conhecida como “{v.apelido}”" if v.apelido else ""),
         # Guia de marca: voto nunca é representado por emoji (✅/❌) — só texto aqui.
         f"📊 Resultado: {resultado.capitalize()} · SIM {p[SIM]} × {p[NAO]} NÃO"
         + f" · Abstenção {p[ABSTENCAO]}"

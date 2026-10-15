@@ -55,6 +55,9 @@ def coletar(data_inicio: str, data_fim: str) -> list[Votacao]:
             secreta=secreta,
             totais_oficiais=_totais(r),
         ))
+        if not secreta:
+            saida[-1].apelido = apelido_oficial(codigo_materia=cod)
+            saida[-1].fonte_apelido = "Senado" if saida[-1].apelido else ""
     return saida
 
 
@@ -64,6 +67,29 @@ def _totais(r: dict) -> dict[str, int]:
                                          ("Abstenção", "totalVotosAbstencao"))
               if str(r.get(c, "")).strip().isdigit()}
     return totais or totais_do_texto((r.get("informeLegislativo") or {}).get("texto") or "")
+
+
+_apelidos: dict[str, str] = {}
+
+
+def apelido_oficial(codigo_materia=None, sigla: str = "", numero="", ano="") -> str:
+    """Apelido que o próprio Senado registra na matéria (ex.: "Fim da escala 6x1").
+    Desde 2019 a numeração é única nas duas Casas, então serve também para projetos da Câmara.
+    Falha aqui nunca derruba a coleta: devolve vazio."""
+    if codigo_materia:
+        chave, params = f"cod:{codigo_materia}", {"codigoMateria": codigo_materia}
+    elif sigla and numero and str(ano).isdigit() and int(ano) >= 2019:
+        chave, params = f"{sigla} {numero}/{ano}", {"sigla": sigla, "numero": numero, "ano": ano}
+    else:
+        return ""
+    if chave not in _apelidos:
+        try:
+            corpo = _get(f"{BASE}/processo", params, tentativas=2)
+            _apelidos[chave] = next(((p.get("apelido") or "").strip() for p in corpo or [] if p.get("apelido")), "")
+        except Exception as e:
+            log.warning("Sem apelido para %s (%s)", chave, e)
+            _apelidos[chave] = ""
+    return _apelidos[chave]
 
 
 def coletar_por_id(vid: str, data: str) -> Votacao | None:

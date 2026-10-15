@@ -1,0 +1,14 @@
+# Nomes pelos quais os projetos são conhecidos, usados como título dos posts.
+#
+# O bot já usa sozinho o apelido que o Senado registra na matéria (ex.: a
+# PEC 221/2019 vem da API como "Fim da escala 6x1"). Este arquivo serve para
+# quando a imprensa batizou o projeto antes, ou para trocar um nome oficial.
+# O que estiver aqui vale mais que o registro do Senado.
+#
+# Regra de neutralidade: só nomes descritivos e usados por todos os lados.
+# Nada de apelido criado por apoiadores ou opositores ("PEC da Blindagem",
+# "PL da Devastação" etc.). Na dúvida, deixe sem: o bot usa a ementa oficial.
+#
+# Formato: "SIGLA NÚMERO/ANO": "Apelido"   (igual ao que aparece na capa)
+#
+# "PEC 221/2019": "Fim da escala 6x1"

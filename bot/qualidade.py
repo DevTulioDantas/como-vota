@@ -8,7 +8,8 @@ from __future__ import annotations
 
 from collections import Counter
 
-from bot.models import NAO, SIM, Votacao
+from bot.formatos import PROIBIDOS
+from bot.models import NAO, SIM, Votacao, _sem_acento
 
 TOLERANCIA_TOTAIS = 1   # diferença aceitável entre a contagem e o total oficial
 
@@ -50,6 +51,11 @@ def checar(v: Votacao) -> list[str]:
         alertas.append(f"{len(v.votos)} votos registrados, mais que os {limite} parlamentares da Casa")
 
     # 4. textos
+    if v.apelido:
+        origem = "registrado pelo Senado" if v.fonte_apelido == "Senado" else "do apelidos.yaml"
+        alertas.append(f"o título usa o apelido “{v.apelido}” ({origem}): confira se o nome é neutro")
+        if any(p in _sem_acento(v.apelido) for p in PROIBIDOS):
+            alertas.append("o apelido tem palavra da lista de termos opinativos: troque no apelidos.yaml")
     if not v.ementa:
         alertas.append("sem ementa oficial: o título veio da descrição da votação")
     if not v.url_fonte:

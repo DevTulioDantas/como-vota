@@ -39,6 +39,7 @@ def _fake_camara(url, params=None, tentativas=4):
 
 def test_camara_e_seletor(monkeypatch=None):
     camara._get = _fake_camara
+    senado._get = lambda *a, **k: [{"apelido": ""}]  # busca do apelido no Senado, sem internet
     vs = camara.coletar("2026-10-01", "2026-10-08")
     assert len(vs) == 2, "votação simbólica deve ser descartada"
     v = vs[0]
@@ -416,6 +417,37 @@ def test_titulo_sem_ia():
     assert titulo_da_ementa("Institui a Lei Falar é Crescer.") == "Institui a Lei Falar é Crescer"
 
 
+def test_apelido():
+    """Apelido oficial do Senado vira o título; apelidos.yaml manda mais; o alerta pede conferência."""
+    from bot import qualidade, summarizer
+    from bot.models import Votacao
+    pedidos = []
+
+    def fake(url, params=None, tentativas=4):
+        pedidos.append(params)
+        return [{"apelido": "Fim da escala 6x1"}] if url.endswith("/processo") else []
+    senado._get = fake
+    senado._apelidos.clear()
+    assert senado.apelido_oficial(sigla="PEC", numero=221, ano=2019) == "Fim da escala 6x1"
+    assert senado.apelido_oficial(sigla="PEC", numero=221, ano=2019) == "Fim da escala 6x1" and len(pedidos) == 1
+    assert senado.apelido_oficial(sigla="PL", numero=1, ano=2015) == "", "antes de 2019 a numeração não é única"
+
+    v = Votacao(id="senado-1", casa="senado", data="2026-10-14", proposicao="PEC 221/2019", tipo_proposicao="PEC",
+                ementa="Altera o art. 7º da Constituição Federal para reduzir a duração máxima semanal do trabalho.",
+                descricao="", aprovada=True, url_fonte="u", apelido="Fim da escala 6x1", fonte_apelido="Senado")
+    summarizer.ARQUIVO_APELIDOS = Path("/nao/existe.yaml")
+    textos = summarizer.gerar_textos(v)
+    assert textos["titulo"] == "Fim da escala 6x1" and "conhecida como “Fim da escala 6x1”" in textos["legenda"]
+    assert any("apelido" in a for a in qualidade.checar(v))
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        arq = Path(d) / "apelidos.yaml"
+        arq.write_text('"PEC 221/2019": "Escala 6x1"', encoding="utf-8")
+        summarizer.ARQUIVO_APELIDOS = arq
+        assert summarizer.gerar_textos(v)["titulo"] == "Escala 6x1" and v.fonte_apelido == "curadoria"
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -433,4 +465,5 @@ if __name__ == "__main__":
     test_orientacao_federacao_e_bloco()
     test_totais_do_texto()
     test_titulo_sem_ia()
+    test_apelido()
     print("ok")

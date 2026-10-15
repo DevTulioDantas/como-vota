@@ -90,6 +90,9 @@ class Votacao:
     secreta: bool = False
     # totais que a própria API informa (o Senado manda), para conferir a contagem voto a voto
     totais_oficiais: dict[str, int] = field(default_factory=dict)
+    # nome pelo qual o projeto é conhecido ("Fim da escala 6x1") e de onde ele veio
+    apelido: str = ""
+    fonte_apelido: str = ""
 
     # ---------- números ----------
     def placar(self) -> dict[str, int]:

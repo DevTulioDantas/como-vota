@@ -121,6 +121,8 @@ def _montar(vid: str, item: dict | None) -> Votacao | None:
 
     tipo = prop.get("siglaTipo", "")
     nome_prop = f"{tipo} {prop.get('numero', '')}/{prop.get('ano', '')}".strip() if tipo else ""
+    from bot.collectors.senado import apelido_oficial  # import aqui: o senado importa _get deste módulo
+    apelido = apelido_oficial(sigla=tipo, numero=prop.get("numero", ""), ano=prop.get("ano", ""))
     aprov = item.get("aprovacao")
     descricao = (item.get("descricao") or detalhe.get("descricao") or "").strip()
     return Votacao(
@@ -140,4 +142,6 @@ def _montar(vid: str, item: dict | None) -> Votacao | None:
         orientacoes=orientacoes,
         orientacao_governo=governo,
         totais_oficiais=totais_do_texto(descricao),
+        apelido=apelido,
+        fonte_apelido="Senado" if apelido else "",
     )
