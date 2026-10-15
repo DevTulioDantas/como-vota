@@ -84,7 +84,7 @@ def titulo_da_ementa(ementa: str, limite: int = 70) -> str:
     if len(t) <= limite:
         return t
     # termina antes de um segundo verbo ("reduzir X e prever Y"), nunca no meio de uma lista
-    cortes = [c.start() for c in re.finditer(r" e (?=\w+(?:ar|er|ir|or)\b)", t[:limite]) if c.start() >= 25]
+    cortes = [c.start() for c in re.finditer(r" e (?=\w+(?:ar|er|ir)\b)", t[:limite]) if c.start() >= 25]
     if cortes:
         return t[:cortes[-1]]
     palavras = t[:limite - 1].rsplit(" ", 1)[0].rstrip(",").split(" ")
