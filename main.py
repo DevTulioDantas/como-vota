@@ -141,7 +141,7 @@ def criar_rascunho(v: Votacao, estado: dict, demo: bool = False, enviar: bool = 
     imgs = renderizar(v, textos, storage.pasta(v.id), HANDLE, demo=demo, formato=fmt)
     _exportar_tiktok(v.id, textos["legenda"])
     from bot import qualidade
-    alertas = qualidade.checar(v)
+    alertas = qualidade.checar(v) + qualidade.checar_textos(textos)
     storage.salvar_meta(v.id, {
         "id": v.id, "status": "gerado", "criado_em": storage.agora(), "formato": fmt["id"] if fmt else None,
         "alertas": alertas,
@@ -162,11 +162,50 @@ def criar_rascunho(v: Votacao, estado: dict, demo: bool = False, enviar: bool = 
     return v.id
 
 
+def _rascunhos_abertos() -> list[dict]:
+    """Rascunhos de votação ainda não aprovados (gerados ou à espera no Telegram)."""
+    saida = []
+    for rid, status in storage.carregar_estado().get("rascunhos", {}).items():
+        if status in ("gerado", "enviado") and rid.startswith(("camara-", "senado-")):
+            try:
+                saida.append(storage.carregar_meta(rid))
+            except FileNotFoundError:
+                continue
+    return saida
+
+
+def _explicacao_nova(meta: dict) -> bool:
+    from bot.summarizer import explicacao_escrita
+    nova = explicacao_escrita(Votacao.from_dict(meta["votacao"]))
+    return bool(nova) and nova["resumo"] != meta.get("textos", {}).get("resumo")
+
+
+def cmd_pendentes(args) -> None:
+    """O que o agente precisa explicar: rascunhos abertos sem texto no explicacoes.yaml."""
+    from bot.summarizer import explicacoes
+    feitas = explicacoes()
+    pendentes = [m for m in _rascunhos_abertos() if m["votacao"]["proposicao"] not in feitas]
+    if not pendentes:
+        print("Nenhuma votação pendente de explicação.")
+    for m in pendentes:
+        v = m["votacao"]
+        print(f"## {v['proposicao']}  ({m['id']}, {v['casa']}, {v['data']})")
+        print(f"Ementa oficial: {v['ementa']}")
+        print(f"O que foi votado: {v['descricao']}")
+        print(f"Fonte: {v['url_fonte']}\n")
+
+
 def cmd_refazer(args) -> None:
     """Gera de novo rascunhos ainda não aprovados, com o código e os dados atuais,
-    no mesmo formato, e manda a versão nova para o Telegram."""
+    no mesmo formato, e manda a versão nova para o Telegram.
+    Com --explicados, refaz os que ganharam ou mudaram texto no explicacoes.yaml."""
     estado = storage.carregar_estado()
-    for rid in args.ids:
+    ids = list(args.ids)
+    if args.explicados:
+        ids += [r["id"] for r in _rascunhos_abertos() if _explicacao_nova(r)]
+        if not ids:
+            log.info("Nenhum rascunho aberto com explicação nova no explicacoes.yaml")
+    for rid in dict.fromkeys(ids):
         try:
             meta = storage.carregar_meta(rid)
         except FileNotFoundError:
@@ -719,9 +758,14 @@ def main(argv=None) -> None:
     se.set_defaults(func=cmd_semana)
 
     rf = sub.add_parser("refazer", help="gera de novo rascunhos não aprovados (mesmo formato)")
-    rf.add_argument("ids", nargs="+", help="ids dos rascunhos (ex.: senado-7107 camara-2236186-60)")
+    rf.add_argument("ids", nargs="*", help="ids dos rascunhos (ex.: senado-7107 camara-2236186-60)")
+    rf.add_argument("--explicados", action="store_true",
+                    help="também refaz os que ganharam texto novo no explicacoes.yaml")
     rf.add_argument("--sem-telegram", action="store_true")
     rf.set_defaults(func=cmd_refazer)
+
+    sub.add_parser("pendentes", help="votações em rascunho que ainda não têm texto no explicacoes.yaml"
+                   ).set_defaults(func=cmd_pendentes)
 
     pub = sub.add_parser("publicar")
     pub.add_argument("id")

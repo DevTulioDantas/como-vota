@@ -28,6 +28,7 @@ bot/collectors/senado.py    API Dados Abertos do Senado (totais_oficiais incluí
 bot/selector.py             pontua e escolhe as votações relevantes
 bot/summarizer.py           título, resumo (IA opcional: SDK anthropic, IA_MODELO, padrão claude-opus-5-5) e legenda; apelido vira o título
 apelidos.yaml               apelidos de projetos cadastrados pelo dono (vale mais que o do Senado)
+explicacoes.yaml            título e resumo em linguagem simples escritos por um agente ou pelo dono (vence IA e ementa)
 bot/qualidade.py            alertas de consistência antes da aprovação
 bot/entenda.py              slide "O que está em votação": tipo de projeto e etapa (substitutivo, destaque...)
 bot/formatos.py + formatos/ biblioteca de formatos (YAML), rodízio, peso por desempenho
@@ -75,7 +76,8 @@ tests/test_pipeline.py      testes offline (APIs simuladas)
 ```
 python main.py demo [--modelo carrossel|semana|fria] [--formato <id>] [--bancada]   # visual, sem internet
 python main.py gerar [--sem-telegram] [--inicio AAAA-MM-DD --fim AAAA-MM-DD]
-python main.py refazer <id> [<id>...] [--sem-telegram]   # refaz rascunhos não aprovados (workflow Gerar: campo "refazer")
+python main.py pendentes                   # votações em rascunho sem texto no explicacoes.yaml (o que o agente deve escrever)
+python main.py refazer [<id>...] [--explicados] [--sem-telegram]   # refaz rascunhos não aprovados (workflow Gerar: campo "refazer")
 python main.py verificar | semana | fria [--arquivo|--uf] | repost | metricas
 python main.py formatos | relatorio | diagnostico [--telegram] | token-instagram
 python main.py quiz [--demo] | fixados | tiktok-login [--codigo] | midia-site | midia-branch
@@ -124,6 +126,7 @@ Rode `python main.py diagnostico` e o workflow *Diagnóstico* antes de tudo, e m
 - **Mapa por estado em grade** (`GRADE_UF`), não geográfico: estados pequenos ficam visíveis. É um formato do rodízio, não fixo (decisão do dono).
 - **Apelido do projeto como título** ("Fim da escala 6x1"): vem do campo `apelido` da API do Senado (`/processo`), também para projetos da Câmara a partir de 2019, porque a numeração é única. O `apelidos.yaml` permite cadastrar ou trocar um apelido. Todo post com apelido gera um alerta para conferir a neutralidade: apelido criado por um dos lados ("PEC da Blindagem") não entra.
 - **Marca por Casa:** o perfil se chama "Como Vota Deputado?", mas os posts de votação do Senado se assinam "Como Vota Senador?" (topo dos slides, slide do teste e logo do final). Explicadores, fixados e hashtag #ComoVotaDeputado não mudam (decisão do dono).
+- **Explicação por agente, sem chave de API (por enquanto):** um agente (sessão do Claude Code ou rotina agendada) roda `python main.py pendentes`, escreve título e resumo no `explicacoes.yaml` seguindo as regras do topo do arquivo e faz push. O push nesse arquivo dispara o *Gerar posts do dia*, que roda `refazer --explicados` e manda a versão nova no Telegram, com alerta de revisão. Ordem de prioridade do texto: `explicacoes.yaml` > IA pela API (`ANTHROPIC_API_KEY`, modelo padrão `claude-opus-5-5`) > ementa oficial.
 - **Dois símbolos, de propósito:** o avatar (`assets/avatar.png`) é o Congresso estilizado com ✓ e ✕, e a cédula do `logo.svg` continua dentro dos posts. Não unificar (decisão do dono).
 - **"Link na bio"** foi tirado dos posts até o site existir. Hoje ele só aparece no slide do teste, que só liga com `SITE_TESTE_URL`.
 - **Teste do site:** o cálculo roda no navegador, sem rastreadores. O contador opcional guarda só totais anônimos (LGPD). Antes de lançar, vale revisão jurídica (LGPD e lei eleitoral). Evite publicar estatísticas do teste em período de campanha.

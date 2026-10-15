@@ -61,3 +61,15 @@ def checar(v: Votacao) -> list[str]:
     if not v.url_fonte:
         alertas.append("sem link da fonte oficial na legenda")
     return alertas
+
+
+def checar_textos(textos: dict) -> list[str]:
+    """Texto que não veio da ementa oficial (agente ou IA) sempre passa por você antes de publicar."""
+    alertas: list[str] = []
+    if textos.get("fonte_texto") == "explicacoes.yaml":
+        alertas.append("a explicação foi escrita por um agente (explicacoes.yaml): confira se está correta e neutra")
+    escrito = _sem_acento(f"{textos.get('titulo', '')} {textos.get('resumo', '')}")
+    achado = next((p for p in PROIBIDOS if p in escrito), None)
+    if achado:
+        alertas.append(f"a explicação tem termo opinativo (\"{achado}\"): reescreva antes de aprovar")
+    return alertas

@@ -1,0 +1,32 @@
+# Explicações em linguagem simples das votações, escritas por um agente ou pelo dono.
+#
+# O bot usa o texto daqui no título da capa, no slide "O que está em votação" e
+# na legenda, no lugar da ementa oficial (que continua na legenda e no link da
+# fonte). Ao salvar este arquivo no GitHub, o bot refaz sozinho os rascunhos
+# afetados e manda a versão nova no Telegram. Todo post com texto daqui chega
+# com o alerta "confira se está correta e neutra".
+#
+# Para saber o que falta explicar:  python main.py pendentes
+#
+# Regras (as mesmas do perfil):
+# - Escreva para quem nunca acompanhou o Congresso: frases curtas, palavras do
+#   dia a dia, termos técnicos explicados ("regime de resolução" = regras para
+#   quando um banco quebra).
+# - Só o que a ementa oficial diz, mais o significado comum dos termos. Nada de
+#   números, prazos, efeitos ou consequências que a ementa não traga.
+# - Sem opinião, ironia, adjetivo de valor ou previsão ("histórico", "polêmico",
+#   "vai prejudicar", "importante"). Descreva, não avalie.
+# - Não diga se foi aprovada ou rejeitada: o post já mostra isso.
+# - titulo: até 60 caracteres, como manchete, verbo no presente quando der.
+#   Se o projeto tiver apelido (apelidos.yaml ou Senado), o apelido vira o título.
+# - resumo: 1 ou 2 frases, até 220 caracteres.
+#
+# Formato: a chave é a proposição exatamente como aparece no post.
+
+"PLP 281/2019":
+  titulo: Define regras para bancos e seguradoras em crise
+  resumo: Define as regras para quando um banco, uma seguradora ou uma corretora de investimentos entra em crise ou quebra. Vale para empresas fiscalizadas pelo Banco Central, pela Susep e pela CVM.
+
+"PEC 221/2019":
+  titulo: Reduz a jornada semanal e prevê 2 dias de descanso
+  resumo: Muda a Constituição para diminuir o número máximo de horas de trabalho por semana e garantir 2 dias de descanso remunerado por semana, sem corte de salário.

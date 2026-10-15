@@ -5,6 +5,10 @@ on:
     # todo dia, 8h47 em Brasília (11h47 UTC). As sessões costumam ir até a noite,
     # então de manhã os votos de ontem já estão na API.
     - cron: "47 11 * * *"
+  # o agente (ou você) escreveu explicações novas: refaz os rascunhos afetados
+  push:
+    branches: [main]
+    paths: [explicacoes.yaml]
   workflow_dispatch:
     inputs:
       inicio:
@@ -62,6 +66,10 @@ jobs:
           REPOST_APOS_DIAS: ${{ vars.REPOST_APOS_DIAS }}
           REFAZER: ${{ inputs.refazer }}
         run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            python main.py refazer --explicados
+            exit 0
+          fi
           if [ -n "$REFAZER" ]; then
             python main.py refazer $REFAZER
             exit 0

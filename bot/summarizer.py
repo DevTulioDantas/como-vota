@@ -186,9 +186,32 @@ def aplicar_apelido_manual(v: Votacao) -> None:
 _NOME_TIPO = {sigla: texto.split(":")[0] for sigla, texto in entenda.TIPOS.items()}
 
 
+ARQUIVO_EXPLICACOES = Path(__file__).resolve().parent.parent / "explicacoes.yaml"
+
+
+def explicacoes() -> dict:
+    """explicacoes.yaml: título e resumo em linguagem simples escritos por um agente ou pelo dono."""
+    try:
+        return yaml.safe_load(ARQUIVO_EXPLICACOES.read_text(encoding="utf-8")) or {}
+    except FileNotFoundError:
+        return {}
+    except yaml.YAMLError as e:
+        log.warning("explicacoes.yaml inválido (%s); ignorado", e)
+        return {}
+
+
+def explicacao_escrita(v: Votacao) -> dict | None:
+    item = explicacoes().get(v.proposicao) or {}
+    titulo, resumo = str(item.get("titulo") or "").strip(), str(item.get("resumo") or "").strip()
+    if titulo and resumo:
+        return {"titulo": titulo[:80], "resumo": resumo[:260], "fonte_texto": "explicacoes.yaml"}
+    return None
+
+
 def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
     aplicar_apelido_manual(v)
-    base = _ia(v) or _fallback(v)
+    # ordem: texto escrito (agente ou dono) > IA pela API > ementa oficial
+    base = explicacao_escrita(v) or _ia(v) or _fallback(v)
     if v.apelido:  # o nome conhecido do projeto é o melhor título; a ementa segue no resumo
         base = {**base, "titulo": v.apelido}
     p = v.placar()

@@ -10,6 +10,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from bot import selector  # noqa: E402
 from bot.collectors import camara, senado  # noqa: E402
 from bot.models import NAO, SIM  # noqa: E402
+from bot import summarizer as _summarizer  # noqa: E402
+
+# os testes não leem os textos reais do dono/agente
+_summarizer.ARQUIVO_EXPLICACOES = Path("/nao/existe/explicacoes.yaml")
+_summarizer.ARQUIVO_APELIDOS = Path("/nao/existe/apelidos.yaml")
 
 
 def _fake_camara(url, params=None, tentativas=4):
@@ -533,6 +538,34 @@ def test_resumo_ia():
     assert summarizer._ia(v) is None, "sem chave, nem tenta"
 
 
+def test_explicacoes_do_agente():
+    """Texto do explicacoes.yaml vence a IA e a ementa, e sempre gera alerta para revisão."""
+    import tempfile
+
+    from bot import qualidade, summarizer
+    from bot.models import Votacao
+    v = Votacao(id="camara-1", casa="camara", data="2026-10-14", proposicao="PLP 281/2019", tipo_proposicao="PLP",
+                ementa="Dispõe sobre os regimes de resolução das instituições autorizadas a funcionar pelo Banco Central.",
+                descricao="", aprovada=False, url_fonte="u")
+    antigo = summarizer.ARQUIVO_EXPLICACOES
+    with tempfile.TemporaryDirectory() as d:
+        arq = Path(d) / "explicacoes.yaml"
+        arq.write_text('"PLP 281/2019":\n  titulo: Define regras para bancos em crise\n'
+                       '  resumo: Define o que acontece quando um banco quebra.\n', encoding="utf-8")
+        summarizer.ARQUIVO_EXPLICACOES = arq
+        try:
+            textos = summarizer.gerar_textos(v)
+            assert textos["titulo"] == "Define regras para bancos em crise"
+            assert textos["resumo"] == "Define o que acontece quando um banco quebra."
+            assert textos["fonte_texto"] == "explicacoes.yaml"
+            assert any("agente" in a for a in qualidade.checar_textos(textos))
+            assert any("opinativo" in a for a in qualidade.checar_textos({"titulo": "Votação polêmica", "resumo": ""}))
+            v.proposicao = "PL 1/2026"
+            assert summarizer.explicacao_escrita(v) is None, "sem texto escrito, segue para IA/ementa"
+        finally:
+            summarizer.ARQUIVO_EXPLICACOES = antigo
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -554,4 +587,5 @@ if __name__ == "__main__":
     test_partidos_separa_abstencao_e_nao_votou()
     test_slide_entenda()
     test_resumo_ia()
+    test_explicacoes_do_agente()
     print("ok")
