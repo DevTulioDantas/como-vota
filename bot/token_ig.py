@@ -21,7 +21,7 @@ from pathlib import Path
 
 import requests
 
-from bot import publisher
+from bot import publisher, segredos
 
 log = logging.getLogger(__name__)
 
@@ -49,6 +49,7 @@ def renovar() -> datetime:
     if r.status_code >= 400 or "access_token" not in corpo:
         raise publisher.ErroPublicacao(f"Renovação do token do Instagram falhou: {corpo.get('error', corpo)}")
     novo = corpo["access_token"]
+    segredos.mascarar(novo)
     if novo != os.environ["IG_ACCESS_TOKEN"]:
         os.environ["IG_ACCESS_TOKEN"] = novo
         saida = os.getenv("IG_ACCESS_TOKEN_SAIDA")

@@ -58,11 +58,14 @@ jobs:
           TIKTOK_EXPORT: ${{ vars.TIKTOK_EXPORT }}
           REPOST_APOS_DIAS: ${{ vars.REPOST_APOS_DIAS }}
           CASAS_SEMANA: ${{ inputs.casas || vars.CASAS_SEMANA }}
+          # campos do formulário entram como variáveis, nunca colados no script (evita injeção de comandos)
+          PARLAMENTAR: ${{ inputs.parlamentar }}
+          FORCAR: ${{ inputs.forcar }}
         run: |
-          ARGS=""
-          [ -n "${{ inputs.parlamentar }}" ] && ARGS="$ARGS --parlamentar \"${{ inputs.parlamentar }}\""
-          [ "${{ inputs.forcar }}" = "true" ] && ARGS="$ARGS --forcar"
-          eval python main.py semana $ARGS
+          ARGS=()
+          [ -n "$PARLAMENTAR" ] && ARGS+=(--parlamentar "$PARLAMENTAR")
+          [ "$FORCAR" = "true" ] && ARGS+=(--forcar)
+          python main.py semana "${ARGS[@]}"
 
       - name: Publicar imagens no branch midia (sem histórico)
         run: bash scripts/midia.sh publicar

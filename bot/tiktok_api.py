@@ -33,6 +33,8 @@ from pathlib import Path
 
 import requests
 
+from bot import segredos
+
 log = logging.getLogger(__name__)
 
 API = "https://open.tiktokapis.com/v2"
@@ -94,6 +96,7 @@ def _resposta(r) -> dict:
 
 def _salvar_refresh(novo: str) -> None:
     """Guarda o refresh token novo (o TikTok pode trocá-lo a cada renovação)."""
+    segredos.mascarar(novo)
     os.environ["TIKTOK_REFRESH_TOKEN"] = novo
     saida = os.getenv("TIKTOK_REFRESH_TOKEN_SAIDA")
     if saida:

@@ -64,20 +64,25 @@ jobs:
           CTA_TESTE: ${{ vars.CTA_TESTE }}
           TIKTOK_EXPORT: ${{ vars.TIKTOK_EXPORT }}
           REPOST_APOS_DIAS: ${{ vars.REPOST_APOS_DIAS }}
+          # campos do formulário entram como variáveis, nunca colados no script (evita injeção de comandos)
           REFAZER: ${{ inputs.refazer }}
+          INICIO: ${{ inputs.inicio }}
+          FIM: ${{ inputs.fim }}
+          EVENTO: ${{ github.event_name }}
         run: |
-          if [ "${{ github.event_name }}" = "push" ]; then
+          if [ "$EVENTO" = "push" ]; then
             python main.py refazer --explicados
             exit 0
           fi
           if [ -n "$REFAZER" ]; then
-            python main.py refazer $REFAZER
+            read -ra IDS <<< "$REFAZER"
+            python main.py refazer "${IDS[@]}"
             exit 0
           fi
-          ARGS=""
-          [ -n "${{ inputs.inicio }}" ] && ARGS="$ARGS --inicio ${{ inputs.inicio }}"
-          [ -n "${{ inputs.fim }}" ] && ARGS="$ARGS --fim ${{ inputs.fim }}"
-          python main.py gerar $ARGS
+          ARGS=()
+          [ -n "$INICIO" ] && ARGS+=(--inicio "$INICIO")
+          [ -n "$FIM" ] && ARGS+=(--fim "$FIM")
+          python main.py gerar "${ARGS[@]}"
 
       - name: Publicar imagens no branch midia (sem histórico)
         run: bash scripts/midia.sh publicar
