@@ -118,6 +118,7 @@ Rode `python main.py diagnostico` e o workflow *Diagnóstico* antes de tudo, e m
 - **Repost só de explicadores** que estejam entre os 30% melhores, com pelo menos 4 medidos e pelo menos 60 dias desde a última vez. Votações envelhecem e não voltam.
 - **Quórum:** PEC 308/49 e PLP 257/41, mostrado no placar. Destaques e requerimentos ficam de fora.
 - **Mapa por estado em grade** (`GRADE_UF`), não geográfico: estados pequenos ficam visíveis. É um formato do rodízio, não fixo (decisão do dono).
+- **Dois símbolos, de propósito:** o avatar (`assets/avatar.png`) é o Congresso estilizado com ✓ e ✕, e a cédula do `logo.svg` continua dentro dos posts. Não unificar (decisão do dono).
 - **"Link na bio"** foi tirado dos posts até o site existir. Hoje ele só aparece no slide do teste, que só liga com `SITE_TESTE_URL`.
 - **Teste do site:** o cálculo roda no navegador, sem rastreadores. O contador opcional guarda só totais anônimos (LGPD). Antes de lançar, vale revisão jurídica (LGPD e lei eleitoral). Evite publicar estatísticas do teste em período de campanha.
 - **Várias contas:** só com identidade própria e transparente (ex.: um perfil por estado). Nada de rede de perfis que fingem ser independentes, pelo risco de "comportamento inautêntico coordenado".
