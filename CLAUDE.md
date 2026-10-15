@@ -75,6 +75,7 @@ tests/test_pipeline.py      testes offline (APIs simuladas)
 ```
 python main.py demo [--modelo carrossel|semana|fria] [--formato <id>] [--bancada]   # visual, sem internet
 python main.py gerar [--sem-telegram] [--inicio AAAA-MM-DD --fim AAAA-MM-DD]
+python main.py refazer <id> [<id>...] [--sem-telegram]   # refaz rascunhos não aprovados (workflow Gerar: campo "refazer")
 python main.py verificar | semana | fria [--arquivo|--uf] | repost | metricas
 python main.py formatos | relatorio | diagnostico [--telegram] | token-instagram
 python main.py quiz [--demo] | fixados | tiktok-login [--codigo] | midia-site | midia-branch

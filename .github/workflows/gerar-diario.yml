@@ -13,6 +13,9 @@ on:
       fim:
         description: "Data final (AAAA-MM-DD), opcional"
         required: false
+      refazer:
+        description: "Refazer rascunhos não aprovados (ids separados por espaço), opcional"
+        required: false
 
 permissions:
   contents: write
@@ -56,7 +59,12 @@ jobs:
           CTA_TESTE: ${{ vars.CTA_TESTE }}
           TIKTOK_EXPORT: ${{ vars.TIKTOK_EXPORT }}
           REPOST_APOS_DIAS: ${{ vars.REPOST_APOS_DIAS }}
+          REFAZER: ${{ inputs.refazer }}
         run: |
+          if [ -n "$REFAZER" ]; then
+            python main.py refazer $REFAZER
+            exit 0
+          fi
           ARGS=""
           [ -n "${{ inputs.inicio }}" ] && ARGS="$ARGS --inicio ${{ inputs.inicio }}"
           [ -n "${{ inputs.fim }}" ] && ARGS="$ARGS --fim ${{ inputs.fim }}"

@@ -133,7 +133,7 @@ def _enviar_tiktok(rid: str) -> None:
 
 
 def criar_rascunho(v: Votacao, estado: dict, demo: bool = False, enviar: bool = True,
-                   formato_id: str | None = None) -> str:
+                   formato_id: str | None = None, aviso_extra: str = "", registrar_formato: bool = True) -> str:
     textos = gerar_textos(v, HANDLE)
     fmt = formatos.escolher("votacao", estado, info=formatos.info_votacao(v), semente=v.id, forcar=formato_id)
     textos["legenda"] = cta.adicionar_na_legenda(
@@ -148,17 +148,43 @@ def criar_rascunho(v: Votacao, estado: dict, demo: bool = False, enviar: bool = 
         "textos": textos, "votacao": v.to_dict(), "historico": [], "demo": demo,
     })
     estado["rascunhos"][v.id] = "gerado"
-    if not demo:
+    if not demo and registrar_formato:
         formatos.registrar_uso(estado, fmt)
     log.info("Rascunho %s (%s): %d imagens em %s", v.id, fmt["id"] if fmt else "sem formato", len(imgs), storage.pasta(v.id))
 
     for a in alertas:
         log.warning("%s: %s", v.id, a)
     if enviar and _telegram_ativo():
-        aviso = ("⚠️ Confira antes de aprovar:\n" + "\n".join(f"• {a}" for a in alertas) + "\n\n") if alertas else ""
+        aviso = aviso_extra + (("⚠️ Confira antes de aprovar:\n" + "\n".join(f"• {a}" for a in alertas) + "\n\n")
+                               if alertas else "")
         approval.enviar_para_aprovacao(v.id, imgs, aviso + textos["legenda"])
         storage.atualizar_status(estado, v.id, "enviado")
     return v.id
+
+
+def cmd_refazer(args) -> None:
+    """Gera de novo rascunhos ainda não aprovados, com o código e os dados atuais,
+    no mesmo formato, e manda a versão nova para o Telegram."""
+    estado = storage.carregar_estado()
+    for rid in args.ids:
+        try:
+            meta = storage.carregar_meta(rid)
+        except FileNotFoundError:
+            log.error("Rascunho %s não existe", rid)
+            continue
+        if meta.get("status") in ("publicado", "aprovado", "agendado"):
+            log.warning("%s está %s: não refaço o que já foi aprovado", rid, meta["status"])
+            continue
+        antiga = Votacao.from_dict(meta["votacao"])
+        try:  # dados frescos: pega correções da API e campos novos (apelido, totais oficiais)
+            v = camara.coletar_por_id(rid) if antiga.casa == "camara" else senado.coletar_por_id(rid, antiga.data)
+        except Exception as e:
+            log.warning("Não consegui coletar %s de novo (%s); uso os dados salvos", rid, e)
+            v = None
+        criar_rascunho(v or antiga, estado, enviar=not args.sem_telegram, formato_id=meta.get("formato"),
+                       registrar_formato=False,
+                       aviso_extra="🔁 Versão refeita deste post. Ignore a mensagem anterior.\n\n")
+    storage.salvar_estado(estado)
 
 
 def cmd_gerar(args) -> None:
@@ -691,6 +717,11 @@ def main(argv=None) -> None:
     se.add_argument("--forcar", action="store_true", help="gera de novo mesmo se a semana já tiver post")
     se.add_argument("--sem-telegram", action="store_true")
     se.set_defaults(func=cmd_semana)
+
+    rf = sub.add_parser("refazer", help="gera de novo rascunhos não aprovados (mesmo formato)")
+    rf.add_argument("ids", nargs="+", help="ids dos rascunhos (ex.: senado-7107 camara-2236186-60)")
+    rf.add_argument("--sem-telegram", action="store_true")
+    rf.set_defaults(func=cmd_refazer)
 
     pub = sub.add_parser("publicar")
     pub.add_argument("id")
