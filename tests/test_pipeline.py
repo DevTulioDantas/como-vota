@@ -141,10 +141,10 @@ def test_formatos():
     vezes = sum(formatos.escolher("votacao", {}, formatos.info_votacao(folgada), semente=str(i),
                                   formatos=biblioteca, notas=notas)["id"] == "votacao-pergunta" for i in range(200))
     assert vezes > 120
-    # sequência: dissidentes some no Senado, cta some sem site
+    # sequência: capa sem ementa ganha o "entenda"; cta some sem site
     ctx = contexto(folgada, {"titulo": "T", "resumo": "R", "resultado": "APROVADA"}, "@x",
                    formato=biblioteca["votacao-pergunta"])
-    assert ctx["slides"] == ["capa", "placar", "partidos", "dissidentes", "final"]
+    assert ctx["slides"] == ["capa", "entenda", "placar", "partidos", "dissidentes", "final"]
     # gancho da legenda
     leg = formatos.aplicar_gancho("🗳️ velho\nresto", biblioteca["votacao-apertado"],
                                   formatos.variaveis_votacao(apertada, {"titulo": "Título X", "resultado": "REJEITADA"}))
