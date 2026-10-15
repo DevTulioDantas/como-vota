@@ -9,36 +9,35 @@ from __future__ import annotations
 from bot.models import Votacao, _sem_acento
 
 TIPOS = {
-    "PEC": "Proposta de Emenda à Constituição: muda o texto da Constituição. "
-           "É votada em dois turnos na Câmara e no Senado.",
-    "PLP": "Projeto de Lei Complementar: regulamenta temas que a Constituição manda tratar "
-           "por lei complementar. Precisa da maioria absoluta da Casa.",
-    "PL": "Projeto de Lei: cria ou muda uma lei comum.",
-    "MPV": "Medida Provisória: norma editada pelo presidente da República. Já vale por até "
-           "120 dias, mas só continua valendo se o Congresso aprovar.",
-    "PLV": "Projeto de Lei de Conversão: é a Medida Provisória com as mudanças feitas "
-           "pelo Congresso.",
-    "PDL": "Projeto de Decreto Legislativo: trata de assuntos que só o Congresso decide, "
-           "como aprovar acordos internacionais ou sustar atos do governo.",
-    "PRC": "Projeto de Resolução da Câmara: muda regras internas da Câmara.",
-    "PRS": "Projeto de Resolução do Senado: trata de temas que só o Senado decide, "
-           "como regras internas e limites de dívida de estados e municípios.",
+    "PEC": "Proposta de Emenda à Constituição: muda a Constituição, a lei mais importante do país. "
+           "Precisa do SIM de 3 em cada 5 deputados e senadores, em duas votações na Câmara e duas no Senado.",
+    "PLP": "Projeto de Lei Complementar: uma lei sobre temas que a Constituição pede que sejam decididos "
+           "com mais apoio. Precisa do SIM de mais da metade de todos os deputados ou senadores.",
+    "PL": "Projeto de Lei: cria uma lei nova ou muda uma lei que já existe.",
+    "MPV": "Medida Provisória: regra criada pelo presidente da República. Ela já vale assim que sai, "
+           "por até 120 dias. Para continuar valendo, deputados e senadores precisam aprovar.",
+    "PLV": "Projeto de Lei de Conversão: é a Medida Provisória com as mudanças feitas por deputados e senadores.",
+    "PDL": "Projeto de Decreto Legislativo: decisão que só o Congresso pode tomar, como aprovar acordos "
+           "com outros países ou cancelar uma decisão do governo.",
+    "PRC": "Projeto de Resolução da Câmara: muda as regras de funcionamento da própria Câmara.",
+    "PRS": "Projeto de Resolução do Senado: decisão que só o Senado toma, como regras internas e limites "
+           "para as dívidas de estados e cidades.",
 }
 
 # (trecho procurado na descrição oficial, explicação, o resultado vale só para esta etapa?)
 # A ordem importa: "Aprovado o texto-base do Substitutivo" é texto-base.
+# {relator}: "o deputado" / "o senador" encarregado de analisar o projeto; {na_casa}: "na Câmara" / "no Senado"
 _ETAPAS = (
-    ("texto-base", "decidiram o texto principal (texto-base). Trechos ainda podem ser votados à parte, nos destaques.", False),
-    ("texto base", "decidiram o texto principal (texto-base). Trechos ainda podem ser votados à parte, nos destaques.", False),
-    ("subemenda substitutiva", "decidiram sobre o substitutivo: a versão do texto proposta pelo relator.", True),
-    ("substitutivo", "decidiram sobre o substitutivo: a versão do texto proposta pelo relator.", True),
-    ("destaque", "decidiram um destaque: um trecho votado separadamente do texto principal.", True),
-    ("emenda aglutinativa", "decidiram uma emenda aglutinativa: uma versão que junta propostas de mudança no texto.", True),
-    ("redacao final", "votaram a redação final: a versão definitiva do texto, com as mudanças já decididas.", False),
-    ("primeiro turno", "votaram em primeiro turno. A PEC ainda precisa passar por um segundo turno nesta Casa.", False),
-    ("segundo turno", "votaram em segundo turno, a última votação da PEC nesta Casa.", False),
+    ("texto-base", "votaram o texto principal do projeto. Depois, partes dele ainda podem ser votadas separadamente.", False),
+    ("texto base", "votaram o texto principal do projeto. Depois, partes dele ainda podem ser votadas separadamente.", False),
+    ("subemenda substitutiva", "votaram uma nova versão do texto, escrita pelo relator ({relator} encarregado de analisar o projeto).", True),
+    ("substitutivo", "votaram uma nova versão do texto, escrita pelo relator ({relator} encarregado de analisar o projeto).", True),
+    ("destaque", "votaram um trecho do projeto separado do resto. Isso se chama destaque.", True),
+    ("emenda aglutinativa", "votaram uma proposta de mudança que junta várias sugestões para o texto.", True),
+    ("redacao final", "votaram a versão final do texto, já com todas as mudanças decididas.", False),
+    ("primeiro turno", "fizeram a primeira votação da PEC. Ela ainda precisa ser votada mais uma vez {na_casa}.", False),
+    ("segundo turno", "fizeram a segunda e última votação da PEC {na_casa}.", False),
 )
-
 
 # o que o carimbo da capa diz quando o resultado vale só para uma parte do projeto
 _CARIMBOS = (
@@ -69,7 +68,8 @@ def explicar_etapa(v: Votacao) -> tuple[str, bool]:
     """(frase sobre o que foi decidido, se o resultado vale só para essa parte do projeto)."""
     desc = _sem_acento(v.descricao)
     quem = "os deputados" if v.casa == "camara" else "os senadores"
+    relator = "o deputado" if v.casa == "camara" else "o senador"
     for trecho, explicacao, so_etapa in _ETAPAS:
         if trecho in desc:
-            return f"Nesta votação, {quem} {explicacao}", so_etapa
+            return f"Nesta votação, {quem} {explicacao.format(relator=relator, na_casa="na Câmara" if v.casa == "camara" else "no Senado")}", so_etapa
     return "", False

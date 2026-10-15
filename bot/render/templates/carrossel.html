@@ -250,7 +250,7 @@
   {% if tipo_txt %}<div class="ent-tipo"><b>{{ proposicao }}</b> · {{ tipo_txt }}</div>{% endif %}
   <p class="ent-texto">{{ entenda_texto }}</p>
   {% if etapa_txt %}
-  <div class="ent-etapa">{{ etapa_txt }}{% if so_etapa %} <b>O resultado vale para esta parte, não necessariamente para o projeto inteiro.</b>{% endif %}</div>
+  <div class="ent-etapa">{{ etapa_txt }}{% if so_etapa %} <b>Esse resultado é só sobre essa parte. O projeto pode continuar sendo votado.</b>{% endif %}</div>
   {% endif %}
   {{ rodape(n) }}
 </section>
@@ -279,14 +279,15 @@
   <div class="outros">
     <span>{{ icone("Abstenção", 26) }} Abstenção {{ placar["Abstenção"] }}</span>
     {% if placar["Obstrução"] %}<span>{{ icone("Obstrução", 26) }} Obstrução {{ placar["Obstrução"] }}</span>{% endif %}
-    {% if placar.Outro %}<span>{{ icone("Outro", 26) }} Outros {{ placar.Outro }}</span>{% endif %}
+    {% if placar.Outro %}<span>{{ icone("Outro", 26) }} Não votou {{ placar.Outro }}</span>{% endif %}
   </div>
-  {% if descricao %}<p class="votado">O que foi votado: {{ descricao_curta }}</p>{% endif %}
+  {% if etapa_txt %}<p class="votado">{{ etapa_txt }}</p>
+  {% elif descricao %}<p class="votado">O que foi votado: {{ descricao_curta }}</p>{% endif %}
   {% if quorum_num %}
-  <div class="quorum">Para aprovar: <b>{{ quorum_num }} votos SIM</b> ({{ quorum_txt }})
-    · {% if quorum_faltaram %}faltaram <b>{{ quorum_faltaram }}</b>{% else %}alcançado{% endif %}</div>
+  <div class="quorum">Para aprovar, precisava de <b>{{ quorum_num }} votos SIM</b> ({{ quorum_txt }}).
+    {% if quorum_faltaram %}Faltaram <b>{{ quorum_faltaram }}</b>.{% else %}Conseguiu.{% endif %}</div>
   {% endif %}
-  {% if orientacao_governo %}<div class="governo">Orientação do governo: <b>{{ orientacao_governo }}</b></div>{% endif %}
+  {% if orientacao_governo %}<div class="governo">O governo pediu voto <b>{{ orientacao_governo }}</b></div>{% endif %}
   {{ rodape(n, com_barra=False) }}
 </section>
 
@@ -303,7 +304,7 @@
   <div class="partidos">
     {% for p in partidos %}
     <div class="lp">
-      <div class="nome"{% if p.partido|length > 11 %} style="font-size: 19px"{% elif p.partido|length > 8 %} style="font-size: 22px"{% endif %}>{{ p.partido }}{% if p.orientacao %}<small>orientou: {{ p.orientacao }}</small>{% endif %}</div>
+      <div class="nome"{% if p.partido|length > 11 %} style="font-size: 19px"{% elif p.partido|length > 8 %} style="font-size: 22px"{% endif %}>{{ p.partido }}{% if p.orientacao %}<small>pediu: {{ p.orientacao }}</small>{% endif %}</div>
       <div class="b" style="width: {{ 28 + 72 * p.total / maior_bancada }}%">
         <div style="width: {{ 100 * p.sim / p.total }}%; background: var(--verde)"></div>
         <div style="width: {{ 100 * p.nao / p.total }}%; background: var(--vermelho)"></div>
@@ -324,7 +325,7 @@
 {% elif s == "dissidentes" %}
 <section class="slide" id="slide-{{ n }}">
   {{ topo() }}
-  <h2>Votaram contra o próprio partido</h2>
+  <h2>Votaram diferente do partido</h2>
   <div class="cedula">
     {% for d in dissidentes %}
     <div class="linha-cedula">
@@ -335,7 +336,7 @@
     </div>
     {% endfor %}
   </div>
-  {% if dissidentes_restantes %}<p class="mais">+ <b>{{ dissidentes_restantes }}</b> parlamentares também votaram contra a orientação do partido. Lista completa na fonte oficial.</p>{% endif %}
+  {% if dissidentes_restantes %}<p class="mais">+ <b>{{ dissidentes_restantes }}</b> {{ quem_plural }} também votaram diferente do que o partido pediu. A lista completa está na fonte oficial.</p>{% endif %}
   {{ rodape(n) }}
 </section>
 
@@ -352,7 +353,7 @@
       {% endfor %}
     </div>
     <div class="mapa-lado">
-      <div>Votos <b>SIM × NÃO</b> da bancada de cada estado. Cada quadrado é uma unidade da federação.</div>
+      <div>Cada quadrado é um estado. Os números mostram quantos {{ quem_plural }} de lá votaram <b>SIM × NÃO</b>.</div>
       <div><div class="escala"></div><div class="escala-rot"><span>só NÃO</span><span>dividido</span><span>só SIM</span></div></div>
       <div class="contagem"><b>{{ estados.maioria.sim }}</b>estados com maioria SIM</div>
       <div class="contagem"><b>{{ estados.maioria.nao }}</b>estados com maioria NÃO</div>

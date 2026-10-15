@@ -21,10 +21,10 @@ OUTRO = "Outro"
 # Votações que exigem quórum qualificado (Constituição, arts. 60 e 69):
 # (casa, tipo) -> (votos SIM necessários, explicação)
 QUORUM = {
-    ("camara", "PEC"): (308, "3/5 dos deputados"),
-    ("senado", "PEC"): (49, "3/5 dos senadores"),
-    ("camara", "PLP"): (257, "maioria absoluta dos deputados"),
-    ("senado", "PLP"): (41, "maioria absoluta dos senadores"),
+    ("camara", "PEC"): (308, "3 em cada 5 dos 513 deputados"),
+    ("senado", "PEC"): (49, "3 em cada 5 dos 81 senadores"),
+    ("camara", "PLP"): (257, "mais da metade dos 513 deputados"),
+    ("senado", "PLP"): (41, "mais da metade dos 81 senadores"),
 }
 # Votações procedimentais dentro de uma PEC/PLP seguem outra regra: sem quórum no post.
 _FORA_DO_QUORUM = ("destaque", "requerimento", "adiamento", "retirada", "encerramento", "preferencia")

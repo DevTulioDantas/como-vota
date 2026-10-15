@@ -360,7 +360,7 @@ def test_quorum_qualidade_mapa():
     votos = ([Voto(f"S{i}", "PAA", "SP", "Sim", id=f"s{i}") for i in range(300)]
              + [Voto(f"N{i}", "PBB", "AC", "Não", id=f"n{i}") for i in range(10)])
     pec = dataclasses.replace(base, tipo_proposicao="PEC", descricao="PEC em primeiro turno", votos=votos, aprovada=False)
-    assert pec.quorum() == (308, "3/5 dos deputados")
+    assert pec.quorum() == (308, "3 em cada 5 dos 513 deputados")
     assert dataclasses.replace(pec, descricao="Rejeitado o destaque 3").quorum() is None
     assert dataclasses.replace(pec, casa="senado").quorum()[0] == 49
     assert dataclasses.replace(pec, tipo_proposicao="PL").quorum() is None
@@ -470,9 +470,9 @@ def test_slide_entenda():
                 descricao="Rejeitada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 281, de 2019.",
                 aprovada=False, url_fonte="u")
     etapa, so_etapa = entenda.explicar_etapa(v)
-    assert "substitutivo" in etapa and so_etapa
+    assert "nova versão do texto, escrita pelo relator" in etapa and so_etapa
     v.descricao = "Aprovado o texto-base do Substitutivo."
-    assert "texto-base" in entenda.explicar_etapa(v)[0] and not entenda.explicar_etapa(v)[1]
+    assert "texto principal" in entenda.explicar_etapa(v)[0] and not entenda.explicar_etapa(v)[1]
     assert entenda.explicar_tipo(v).startswith("Projeto de Lei Complementar")
     textos = {"titulo": "t", "resumo": v.ementa[:40] + "…", "resultado": "REJEITADA"}
     ctx = renderer.contexto(v, textos, "@x", formato={"capa": "apertado", "sequencia": ["capa", "placar", "final"]})

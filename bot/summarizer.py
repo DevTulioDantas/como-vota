@@ -158,6 +158,10 @@ def aplicar_apelido_manual(v: Votacao) -> None:
         v.apelido, v.fonte_apelido = nome, "curadoria"
 
 
+# nome por extenso do tipo, na legenda: "PLP 281/2019 (Projeto de Lei Complementar)"
+_NOME_TIPO = {sigla: texto.split(":")[0] for sigla, texto in entenda.TIPOS.items()}
+
+
 def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
     aplicar_apelido_manual(v)
     base = _ia(v) or _fallback(v)
@@ -173,19 +177,21 @@ def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
         base["resumo"],
         "",
         f"📍 {CASA_NOME[v.casa]} · {_data_br(v.data)}",
-        f"📄 {v.proposicao}" + (f" · conhecida como “{v.apelido}”" if v.apelido else ""),
+        f"📄 {v.proposicao}" + (f" ({_NOME_TIPO[v.tipo_proposicao]})" if v.tipo_proposicao in _NOME_TIPO else "")
+        + (f" · conhecida como “{v.apelido}”" if v.apelido else ""),
         # Guia de marca: voto nunca é representado por emoji (✅/❌) — só texto aqui.
         f"📊 Resultado: {carimbo.capitalize()} · SIM {p[SIM]} × {p[NAO]} NÃO"
         + f" · Abstenção {p[ABSTENCAO]}"
         + (f" · Obstrução {p[OBSTRUCAO]}" if p[OBSTRUCAO] else ""),
     ]
     if q := v.quorum():
-        situacao = "alcançado" if p[SIM] >= q[0] else f"faltaram {q[0] - p[SIM]}"
-        linhas.append(f"📏 Para aprovar: {q[0]} votos SIM ({q[1]}) · {situacao}")
+        situacao = "Conseguiu." if p[SIM] >= q[0] else f"Faltaram {q[0] - p[SIM]}."
+        linhas.append(f"📏 Para aprovar, precisava de {q[0]} votos SIM ({q[1]}). {situacao}")
     if v.orientacao_governo:
-        linhas.append(f"⚖️ Orientação do governo: {v.orientacao_governo}")
+        linhas.append(f"⚖️ O governo pediu voto {v.orientacao_governo.upper()}")
     if v.descricao:
-        linhas += ["", f"O que foi votado: {v.descricao}"]
+        etapa = entenda.explicar_etapa(v)[0]
+        linhas += [""] + ([etapa] if etapa else []) + [f"Texto oficial da votação: {v.descricao}"]
     quem = "deputado" if v.casa == "camara" else "senador"
     linhas += [
         "",

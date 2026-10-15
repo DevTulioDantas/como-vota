@@ -26,7 +26,7 @@ from bot.models import ABSTENCAO, NAO, OBSTRUCAO, SIM, Votacao, Voto
 MAX_PAUTAS = 4
 
 ROTULO = {SIM: "SIM", NAO: "NÃO", ABSTENCAO: "ABSTENÇÃO", OBSTRUCAO: "OBSTRUÇÃO"}
-AUSENTE = "NÃO VOTOU"  # sem registro de voto: pode ser falta, licença ou missão oficial
+AUSENTE = "NÃO VOTOU"  # sem registro de voto: pode ser licença, missão oficial ou ausência
 
 
 def _norm(s: str) -> str:
@@ -176,7 +176,7 @@ def legenda(dados: dict) -> str:
         linhas.append(f"• {it['proposicao']} — {it['tema']}: {it['rotulo']}")
     linhas += [
         "",
-        "\"Não votou\" significa que não há registro de voto: pode ser falta, licença ou missão oficial.",
+        "\"Não votou\" quer dizer que não há registro de voto. Pode ser licença, viagem oficial ou ausência.",
         "Parlamentar escolhido por rodízio automático entre os que participaram das votações da semana.",
         "",
         "Salve para conferir depois. 📌",
