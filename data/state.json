@@ -1,5 +1,14 @@
 {
   "telegram_offset": 714117229,
-  "rascunhos": {},
-  "instagram": {}
+  "rascunhos": {
+    "senado-7107": "enviado",
+    "camara-2236186-60": "enviado"
+  },
+  "instagram": {},
+  "formatos": {
+    "uso": {
+      "votacao-classico": 1,
+      "votacao-apertado": 1
+    }
+  }
 }
