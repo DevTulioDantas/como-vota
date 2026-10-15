@@ -35,7 +35,7 @@ jobs:
 
       - name: Gerar quiz.json a partir da curadoria
         run: |
-          pip install requests python-dotenv Jinja2 PyYAML playwright
+          pip install requests python-dotenv Jinja2 PyYAML playwright Pillow
           # Sem perguntas na curadoria, mantém o quiz.json que estiver no repositório
           python main.py quiz || echo "Curadoria vazia: usando o quiz.json existente"
 
