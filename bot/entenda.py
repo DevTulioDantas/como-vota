@@ -69,7 +69,8 @@ def explicar_etapa(v: Votacao) -> tuple[str, bool]:
     desc = _sem_acento(v.descricao)
     quem = "os deputados" if v.casa == "camara" else "os senadores"
     relator = "o deputado" if v.casa == "camara" else "o senador"
+    na_casa = "na Câmara" if v.casa == "camara" else "no Senado"
     for trecho, explicacao, so_etapa in _ETAPAS:
         if trecho in desc:
-            return f"Nesta votação, {quem} {explicacao.format(relator=relator, na_casa="na Câmara" if v.casa == "camara" else "no Senado")}", so_etapa
+            return f"Nesta votação, {quem} {explicacao.format(relator=relator, na_casa=na_casa)}", so_etapa
     return "", False
