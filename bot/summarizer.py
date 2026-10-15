@@ -18,6 +18,7 @@ from pathlib import Path
 import requests
 import yaml
 
+from bot import entenda
 from bot.models import ABSTENCAO, NAO, OBSTRUCAO, SIM, Votacao
 
 log = logging.getLogger(__name__)
@@ -164,6 +165,7 @@ def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
         base = {**base, "titulo": v.apelido}
     p = v.placar()
     resultado = {True: "APROVADA", False: "REJEITADA", None: "RESULTADO"}[v.aprovada]
+    carimbo = entenda.carimbo(v) or resultado
 
     linhas = [
         f"🗳️ {base['titulo']}",
@@ -173,7 +175,7 @@ def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
         f"📍 {CASA_NOME[v.casa]} · {_data_br(v.data)}",
         f"📄 {v.proposicao}" + (f" · conhecida como “{v.apelido}”" if v.apelido else ""),
         # Guia de marca: voto nunca é representado por emoji (✅/❌) — só texto aqui.
-        f"📊 Resultado: {resultado.capitalize()} · SIM {p[SIM]} × {p[NAO]} NÃO"
+        f"📊 Resultado: {carimbo.capitalize()} · SIM {p[SIM]} × {p[NAO]} NÃO"
         + f" · Abstenção {p[ABSTENCAO]}"
         + (f" · Obstrução {p[OBSTRUCAO]}" if p[OBSTRUCAO] else ""),
     ]
@@ -192,4 +194,4 @@ def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
         "",
         "#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência",
     ]
-    return {**base, "resultado": resultado, "legenda": "\n".join(linhas)[:2200]}
+    return {**base, "resultado": resultado, "carimbo": carimbo, "legenda": "\n".join(linhas)[:2200]}

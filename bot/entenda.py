@@ -40,6 +40,27 @@ _ETAPAS = (
 )
 
 
+# o que o carimbo da capa diz quando o resultado vale só para uma parte do projeto
+_CARIMBOS = (
+    ("subemenda substitutiva", "Substitutivo", "o"),
+    ("substitutivo", "Substitutivo", "o"),
+    ("destaque", "Destaque", "o"),
+    ("emenda aglutinativa", "Emenda", "a"),
+)
+
+
+def carimbo(v: Votacao) -> str:
+    """"SUBSTITUTIVO REJEITADO" em vez de "REJEITADA", que daria a entender que o projeto inteiro caiu.
+    Vazio quando a votação decide o projeto (ou o texto-base) e o carimbo normal serve."""
+    if v.aprovada is None or not explicar_etapa(v)[1]:
+        return ""
+    desc = _sem_acento(v.descricao)
+    for trecho, nome, genero in _CARIMBOS:
+        if trecho in desc:
+            return f"{nome} {'aprovad' if v.aprovada else 'rejeitad'}{genero}".upper()
+    return ""
+
+
 def explicar_tipo(v: Votacao) -> str:
     return TIPOS.get(v.tipo_proposicao, "")
 

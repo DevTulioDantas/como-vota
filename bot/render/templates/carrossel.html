@@ -65,6 +65,7 @@
     border: 7px solid currentColor; border-radius: 12px; padding: 8px 26px 6px; transform: rotate(-6deg);
   }
   .capa .carimbo { right: 70px; bottom: 170px; font-size: 52px; }
+  .capa .carimbo.duplo { font-size: 40px; line-height: 1.08; text-align: center; padding: 12px 26px 8px; }
   .capa h1.pergunta { font-size: 86px; color: var(--papel); }
   .capa .tema-capa { font-size: 40px; line-height: 1.25; font-weight: 700; color: var(--papel); margin-top: 28px; max-width: 900px; }
   .capa .placar-capa { display: flex; align-items: center; gap: 20px; font-family: var(--mono); font-weight: 700; font-size: 150px;
@@ -233,7 +234,8 @@
   <h1 style="font-size: {{ tamanho_titulo }}px">{{ titulo }}</h1>
   <p class="resumo">{{ resumo }}</p>
   {% endif %}
-  <div class="carimbo {{ resultado|lower }}">{{ resultado }}</div>
+  {% set palavras = carimbo.split(" ") %}
+  <div class="carimbo {{ resultado|lower }}{% if palavras|length > 1 %} duplo{% endif %}">{{ palavras|join("<br>")|safe }}</div>
   <div class="faixa">
     <span>{{ faixa_capa }}</span>
     <span class="mono">{{ total_slides - 1 }} slides</span>

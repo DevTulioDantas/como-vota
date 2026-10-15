@@ -479,6 +479,13 @@ def test_slide_entenda():
     assert ctx["slides"][:2] == ["capa", "entenda"] and ctx["entenda_texto"] == v.ementa
     ctx = renderer.contexto(v, textos, "@x", formato={"capa": "classico", "sequencia": ["capa", "placar", "final"]})
     assert "entenda" not in ctx["slides"], "a capa clássica já mostra a ementa"
+    # carimbo: o substitutivo caiu, não o projeto
+    v.descricao = "Rejeitada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 281, de 2019."
+    assert entenda.carimbo(v) == "SUBSTITUTIVO REJEITADO"
+    v.descricao, v.aprovada = "Aprovada a Emenda Aglutinativa nº 1.", True
+    assert entenda.carimbo(v) == "EMENDA APROVADA"
+    v.descricao = "Aprovado o texto-base do Substitutivo."
+    assert entenda.carimbo(v) == "", "texto-base usa o carimbo normal"
 
 
 if __name__ == "__main__":

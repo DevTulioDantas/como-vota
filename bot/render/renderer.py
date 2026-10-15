@@ -160,6 +160,7 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
         "tamanho_titulo": 66 if len(textos["titulo"]) <= 45 else 58 if len(textos["titulo"]) <= 65 else 50,
         "resumo": _curto(textos["resumo"], 230),
         "resultado": textos["resultado"],
+        "carimbo": textos.get("carimbo") or textos["resultado"],
         "proposicao": v.proposicao,
         "casa_nome": casa_completa,
         "casa_nome_completo": casa_completa,
