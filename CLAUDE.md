@@ -7,6 +7,7 @@ Bot que publica no Instagram (e prepara para o TikTok) como deputados e senadore
 ## Regras de produto (não quebrar)
 
 1. **Neutralidade.** O perfil nunca opina sobre o mérito de um voto, de um partido ou de um político. Os textos usam a ementa oficial, sem adjetivos de valor. Os ganchos dos formatos passam pela lista `PROIBIDOS` em `bot/formatos.py`, e o prompt da IA em `bot/summarizer.py` proíbe opinião.
+1b. **Linguagem simples e inclusiva.** O público é geral: frases curtas, palavras do dia a dia e números concretos ("mais da metade dos 513 deputados", não "maioria absoluta"). Termo técnico só quando for inevitável, e explicado na hora ("relator: o deputado encarregado de analisar o projeto"). A ementa oficial aparece sempre, mas nunca sozinha: o slide "O que está em votação" explica o tipo de projeto e a etapa.
 2. **Só dados oficiais e verificáveis.** Toda legenda tem o link da fonte. Só entram votações **nominais**: as simbólicas e secretas não têm voto individual e são descartadas.
 3. **Nada é publicado sem aprovação humana** no Telegram.
 4. **Identidade visual:** o Guia de Marca v1.0 está aplicado nos templates.

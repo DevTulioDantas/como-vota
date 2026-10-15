@@ -1,5 +1,5 @@
 titulo: Como ler os posts do Como Vota
-resumo: O que significa cada voto, o que é orientação de partido e de onde vêm os dados.
+resumo: O que significa cada voto, o que os partidos pedem antes de votar e de onde vêm os dados.
 fonte: Dados Abertos da Câmara dos Deputados e do Senado Federal
 slides:
   - tipo: votos
@@ -7,25 +7,25 @@ slides:
     itens:
       - voto: Sim
         rotulo: SIM
-        texto: A favor da questão em votação. Em destaques e requerimentos, vale só para aquela questão específica.
+        texto: A favor do que estava em votação. Às vezes, a votação é só sobre uma parte do projeto.
       - voto: Não
         rotulo: NÃO
-        texto: Contra a questão em votação.
+        texto: Contra o que estava em votação.
       - voto: Abstenção
         rotulo: ABSTENÇÃO
-        texto: Registrou presença, mas não votou a favor nem contra.
+        texto: Estava presente e registrou que não votaria a favor nem contra.
       - voto: Obstrução
         rotulo: OBSTRUÇÃO
-        texto: Na Câmara, forma de não contar para o quórum e tentar impedir ou adiar a votação.
+        texto: Na Câmara, é um jeito de não ser contado como presente, para tentar atrasar ou impedir a votação.
       - voto: Ausente
         rotulo: NÃO VOTOU
-        texto: Sem registro de voto. Pode ser falta, licença, missão oficial ou presidência da sessão.
+        texto: Não há registro de voto. Pode ser licença, viagem oficial, ausência ou porque estava presidindo a sessão.
   - tipo: texto
-    titulo: Orientação de bancada
-    texto: Antes de cada votação, os líderes dos partidos e do governo orientam como suas bancadas devem votar. Nos posts, mostramos quem votou diferente da orientação do próprio partido.
+    titulo: O que o partido pediu
+    texto: Antes de cada votação, os líderes dos partidos e do governo dizem como querem que os seus votem. Isso se chama orientação. Nos posts, mostramos quem votou diferente do que o próprio partido pediu.
   - tipo: texto
     titulo: De onde vêm os dados
-    texto: Todos os números vêm dos sistemas de Dados Abertos da Câmara e do Senado. O link da fonte oficial está na legenda de cada post.
+    texto: Todos os números vêm dos sites oficiais de dados da Câmara e do Senado, os Dados Abertos. O link da fonte está na legenda de cada post.
   - tipo: texto
     titulo: Sem opinião
     texto: Não dizemos se um voto foi certo ou errado. Mostramos quem votou o quê, e a avaliação é sua.

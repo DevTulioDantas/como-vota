@@ -1,21 +1,21 @@
 titulo: O Congresso pode derrubar um veto?
-resumo: Pode. O presidente da República veta, mas a palavra final sobre o veto é do Congresso Nacional.
+resumo: Pode. O presidente da República pode barrar uma lei, e isso se chama veto. Mas a palavra final é do Congresso.
 fonte: Constituição Federal, art. 66
 slides:
   - tipo: numero
     numero: "15"
     rotulo: dias úteis para decidir
-    texto: Depois que o Congresso aprova um projeto de lei, o presidente tem 15 dias úteis para sancionar ou vetar, no todo ou em parte. Se ficar em silêncio, a sanção é automática.
+    texto: Depois que o Congresso aprova um projeto de lei, o presidente tem 15 dias úteis para aprovar (sancionar) ou barrar (vetar), no todo ou em parte. Se não fizer nada, o projeto é aprovado automaticamente.
   - tipo: texto
-    titulo: Veto parcial
-    texto: O veto parcial só pode atingir o texto inteiro de um artigo, parágrafo, inciso ou alínea. Não dá para vetar uma palavra solta.
+    titulo: Veto de uma parte
+    texto: O veto de uma parte precisa cortar um trecho inteiro da lei, como um artigo ou um parágrafo. Não dá para vetar só uma palavra.
   - tipo: numero
     numero: "257 + 41"
     rotulo: votos para derrubar
-    texto: O veto é analisado em sessão conjunta. Para derrubá-lo, é preciso a maioria absoluta dos deputados (257) e dos senadores (41).
+    texto: Deputados e senadores analisam o veto juntos, numa sessão do Congresso. Para derrubar, é preciso o voto de mais da metade dos deputados (257) e dos senadores (41).
   - tipo: texto
     titulo: Prazo
-    texto: O Congresso tem 30 dias, contados do recebimento, para analisar o veto. Passado esse prazo, o veto tranca a pauta da sessão conjunta.
+    texto: O Congresso tem 30 dias para analisar o veto. Se passar disso, o veto passa na frente das outras votações nas sessões do Congresso.
   - tipo: texto
     titulo: Veto derrubado, e aí?
-    texto: A parte vetada volta para o texto da lei e é enviada para promulgação.
+    texto: O trecho vetado volta para a lei e passa a valer depois de oficializado e publicado.

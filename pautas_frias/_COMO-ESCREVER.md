@@ -39,6 +39,7 @@ slides:                                     # de 1 a 8 slides (capa e final são
 Se o texto tiver dois-pontos (`:`), coloque-o entre aspas.
 
 ## Regras editoriais
+- **Linguagem simples:** escreva para quem nunca acompanhou o Congresso. Frases curtas, palavras do dia a dia e números concretos ("3 em cada 5 deputados", não "3/5"; "mais da metade", não "maioria absoluta"). Se precisar de um termo técnico (veto, relator, plenário), explique na mesma frase.
 - **Só fatos verificáveis**, sempre com a fonte. Prefira a Constituição, os regimentos e as leis, que mudam pouco.
 - **Nada que envelheça rápido:** evite nomes de quem ocupa cargos, números de votações recentes e "este ano".
 - **Sem opinião** sobre o mérito de leis, partidos ou políticos.

@@ -4,19 +4,19 @@ fonte: Constituição Federal, arts. 58, 61, 64, 65 e 66
 slides:
   - tipo: texto
     titulo: Quem pode apresentar
-    texto: Deputados, senadores, comissões, o presidente da República, o STF, os tribunais superiores, o procurador-geral da República e os cidadãos, por iniciativa popular.
+    texto: Deputados, senadores, as comissões do Congresso, o presidente da República, o STF e outros tribunais superiores, o procurador-geral da República e os próprios cidadãos (iniciativa popular).
   - tipo: passos
     titulo: Passo a passo
     passos:
-      - "Apresentação: o projeto é protocolado em uma das Casas"
-      - "Comissões: o texto é analisado e pode ser alterado"
-      - "Plenário: deputados ou senadores votam a proposta"
-      - "Casa revisora: a outra Casa aprova, altera ou rejeita"
-      - "Se houver mudança, o texto volta para a Casa de origem"
-      - "Sanção ou veto do presidente da República"
+      - "Apresentação: o projeto chega à Câmara ou ao Senado"
+      - "Comissões: grupos menores analisam e podem mudar o texto"
+      - "Plenário: todos os deputados ou senadores votam"
+      - "A outra Casa (Câmara ou Senado) aprova, muda ou rejeita"
+      - "Se o texto mudar, ele volta para onde começou"
+      - "O presidente da República aprova ou veta"
   - tipo: texto
     titulo: Por onde começa
-    texto: Projetos do presidente da República, do STF, dos tribunais superiores e de iniciativa popular começam pela Câmara dos Deputados.
+    texto: Projetos do presidente da República, do STF, dos tribunais superiores e dos cidadãos começam pela Câmara dos Deputados.
   - tipo: texto
     titulo: Atalho nas comissões
-    texto: Em alguns casos, as comissões podem aprovar um projeto sem que ele passe pelo Plenário. Por isso, nem todo projeto aprovado aparece em uma votação de Plenário.
+    texto: Em alguns casos, as comissões podem aprovar um projeto sem que todos os deputados ou senadores votem. Por isso, nem todo projeto aprovado aparece numa votação aqui no perfil.

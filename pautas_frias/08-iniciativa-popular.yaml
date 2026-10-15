@@ -4,17 +4,17 @@ fonte: Constituição Federal, art. 61, § 2º
 slides:
   - tipo: texto
     titulo: Iniciativa popular
-    texto: Um projeto de lei pode ser apresentado diretamente pelos cidadãos à Câmara dos Deputados, desde que reúna assinaturas suficientes de eleitores.
+    texto: Os próprios cidadãos podem apresentar um projeto de lei à Câmara dos Deputados, se reunirem assinaturas suficientes de eleitores. Isso se chama iniciativa popular.
   - tipo: numero
     numero: "1%"
-    rotulo: do eleitorado nacional
-    texto: O projeto precisa ser assinado por, no mínimo, 1% dos eleitores do país.
+    rotulo: dos eleitores do país
+    texto: O projeto precisa ter a assinatura de pelo menos 1% dos eleitores do Brasil.
   - tipo: texto
-    titulo: Bem distribuído
-    texto: "Além do total, as assinaturas precisam estar espalhadas pelo país:"
+    titulo: De vários estados
+    texto: "Além do total, as assinaturas precisam vir de várias partes do país:"
     itens:
-      - Em pelo menos 5 estados
+      - De pelo menos 5 estados
       - Com no mínimo 0,3% dos eleitores de cada um desses estados
   - tipo: texto
     titulo: Depois de apresentado
-    texto: O projeto de iniciativa popular segue a mesma tramitação dos outros. Passa por comissões, pelo Plenário da Câmara e pelo Senado, e depois vai à sanção ou ao veto.
+    texto: O projeto segue o mesmo caminho dos outros. Passa pelas comissões (grupos de deputados que analisam cada tema), pela votação de todos os deputados e pelo Senado. No fim, o presidente aprova ou veta.

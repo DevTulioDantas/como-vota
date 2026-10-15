@@ -1,21 +1,21 @@
 titulo: PL, PLP, PEC ou MP? Entenda a diferença
-resumo: Cada tipo de proposta exige um número diferente de votos para ser aprovado. A sigla diz muito sobre a dificuldade da votação.
+resumo: Cada tipo de proposta precisa de um número diferente de votos para passar. A sigla mostra se a votação é mais fácil ou mais difícil.
 fonte: Constituição Federal, arts. 47, 60, 62 e 69
 slides:
   - tipo: texto
     titulo: PL · Projeto de Lei
-    texto: Cria ou muda leis ordinárias, a maioria das leis do país. Aprovação por maioria simples dos votos, desde que a maioria absoluta dos parlamentares esteja presente.
+    texto: Cria ou muda as leis comuns, que são a maioria das leis do país. Passa se tiver mais votos SIM do que NÃO, desde que mais da metade dos deputados ou senadores esteja presente.
   - tipo: numero
     numero: "257"
-    rotulo: votos na Câmara para um PLP
-    texto: O Projeto de Lei Complementar trata de temas que a Constituição exige por lei complementar. Precisa da maioria absoluta, 257 deputados e 41 senadores.
+    rotulo: votos SIM na Câmara para um PLP
+    texto: O Projeto de Lei Complementar trata de temas que a Constituição pede que sejam decididos com mais apoio. Precisa do SIM de mais da metade de todos os deputados (257) e dos senadores (41).
   - tipo: numero
     numero: "308"
-    rotulo: votos na Câmara para uma PEC
-    texto: A Proposta de Emenda à Constituição precisa de 3/5 em dois turnos nas duas Casas, 308 deputados e 49 senadores.
+    rotulo: votos SIM na Câmara para uma PEC
+    texto: A Proposta de Emenda à Constituição precisa do SIM de 3 em cada 5 deputados (308) e senadores (49). E é votada duas vezes em cada um.
   - tipo: texto
     titulo: MP · Medida Provisória
-    texto: É editada pelo presidente da República e vale como lei desde a publicação. Depois precisa ser aprovada pela Câmara e pelo Senado para continuar valendo.
+    texto: É criada pelo presidente da República e já vale como lei assim que é publicada. Depois, precisa ser aprovada pela Câmara e pelo Senado para continuar valendo.
   - tipo: texto
     titulo: Por que isso importa
-    texto: Quando você vê um placar no perfil, a sigla ajuda a entender se a votação era fácil ou difícil de aprovar.
+    texto: Quando você vê um placar aqui no perfil, a sigla ajuda a entender se era fácil ou difícil aprovar.
