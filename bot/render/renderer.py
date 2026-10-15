@@ -210,12 +210,12 @@ def renderizar(v: Votacao, textos: dict, pasta_saida: Path, handle: str, demo: b
     return destinos
 
 
-def renderizar_avatar(destino: Path, mono: bool = True) -> Path:
-    """Foto de perfil 1080x1080: versão monocromática do símbolo (guia, seção 2)."""
-    html = f"""<!doctype html><html><head><meta charset="utf-8"><style>{fontes_css()}
-    *{{margin:0}} #a{{width:{TAMANHO}px;height:{TAMANHO}px;background:#0E2233;display:flex;
-    align-items:center;justify-content:center}} #a svg{{width:880px;height:auto;margin-top:150px}}</style></head>
-    <body><div id="a">{logo_svg(mono=mono, sem_nome=True)}</div></body></html>"""
+def renderizar_avatar(destino: Path, tamanho: int = TAMANHO) -> Path:
+    """Foto de perfil quadrada: Congresso com ✓ e ✕ (templates/avatar.svg). As redes recortam em círculo."""
+    svg = (Path(__file__).parent / "templates" / "avatar.svg").read_text(encoding="utf-8")
+    html = f"""<!doctype html><html><head><meta charset="utf-8"><style>
+    *{{margin:0}} #a{{width:{tamanho}px;height:{tamanho}px}} #a svg{{width:100%;height:100%;display:block}}</style></head>
+    <body><div id="a">{svg}</div></body></html>"""
     destino.parent.mkdir(parents=True, exist_ok=True)
     _capturar(html, ["#a"], [destino])
     return destino

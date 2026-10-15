@@ -216,7 +216,7 @@ O carrossel segue o **Guia de Marca "Como Vota, Deputado?" v1.0**:
 - **Tipografia:** Archivo Black em caixa alta nos títulos, Inter no corpo e IBM Plex Mono em números e proposições. As fontes ficam embutidas em `bot/render/fonts/` (licença OFL), então o resultado é igual em qualquer máquina.
 - **Ícones de voto ✓ ✕ —** desenhados em SVG, nunca emoji, também na legenda.
 - **Elementos recorrentes:** carimbo OFICIAL no placar, linha de cédula pontilhada na lista de nomes e barra de resultado SIM × NÃO no rodapé.
-- **Avatar:** `assets/avatar.png`, a versão monocromática do símbolo, para a foto de perfil.
+- **Avatar:** `assets/avatar.png` (desenho em `bot/render/templates/avatar.svg`): o Congresso com ✓ e ✕, para a foto de perfil.
 
 Para mudar o visual, edite `bot/render/templates/carrossel.html` (slides) e `logo.svg` (logo).
 
