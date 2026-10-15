@@ -1,6 +1,6 @@
 {#- Slide de chamada para o teste "Quem vota como você?" — usado nos carrosséis
     de votação e nos explicadores. Só é renderizado quando o site está no ar. -#}
-{% macro cta_teste(n, total, dominio, demo=False) -%}
+{% macro cta_teste(n, total, dominio, demo=False, cargo="Deputado") -%}
 <style>
   .ctat { background: #0E2233; color: #F6F3EC; }
   .ctat .k { font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 26px; letter-spacing: .1em;
@@ -22,7 +22,7 @@
   .ctat .faixa-cta .cont { font-family: "IBM Plex Mono", monospace; font-size: 22px; opacity: .7; }
 </style>
 <section class="slide escuro ctat" id="slide-{{ n }}">
-  <div class="topo"><div class="marca">Como Vota <b>Deputado?</b></div></div>
+  <div class="topo"><div class="marca">Como Vota <b>{{ cargo }}?</b></div></div>
   <div class="k">Teste no nosso site</div>
   <h2>Quem vota <em>como você?</em></h2>
   <p class="t">Responda votações reais e descubra quais deputados e senadores votaram mais parecido com você.</p>

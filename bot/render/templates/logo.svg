@@ -30,6 +30,6 @@
   </g>
   {%- if not logo_sem_nome %}
   <text x="540" y="700" text-anchor="middle" font-family="Archivo Black" font-size="96" fill="{{ c_papel }}">COMO VOTA</text>
-  <text x="540" y="800" text-anchor="middle" font-family="Archivo Black" font-size="96" fill="{{ c_amarelo }}">DEPUTADO?</text>
+  <text x="540" y="800" text-anchor="middle" font-family="Archivo Black" font-size="96" fill="{{ c_amarelo }}">{{ (cargo or "Deputado")|upper }}?</text>
   {%- endif %}
 </svg>

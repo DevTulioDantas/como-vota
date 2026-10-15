@@ -479,6 +479,11 @@ def test_slide_entenda():
     assert ctx["slides"][:2] == ["capa", "entenda"] and ctx["entenda_texto"] == v.ementa
     ctx = renderer.contexto(v, textos, "@x", formato={"capa": "classico", "sequencia": ["capa", "placar", "final"]})
     assert "entenda" not in ctx["slides"], "a capa clássica já mostra a ementa"
+    assert ctx["marca_cargo"] == "Deputado" and "DEPUTADO?" in ctx["logo_svg"]
+    v.casa = "senado"
+    ctx = renderer.contexto(v, textos, "@x", formato={"capa": "classico", "sequencia": ["capa", "placar", "final"]})
+    assert ctx["marca_cargo"] == "Senador" and "SENADOR?" in ctx["logo_svg"], "post do Senado se assina Como Vota Senador?"
+    v.casa = "camara"
     # carimbo: o substitutivo caiu, não o projeto
     v.descricao = "Rejeitada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 281, de 2019."
     assert entenda.carimbo(v) == "SUBSTITUTIVO REJEITADO"

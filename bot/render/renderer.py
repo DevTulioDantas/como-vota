@@ -105,8 +105,13 @@ def fontes_css() -> str:
     return "\n".join(regras)
 
 
-def logo_svg(mono: bool = False, sem_nome: bool = False) -> str:
-    return _env.get_template("logo.svg").render(logo_mono=mono, logo_sem_nome=sem_nome)
+def logo_svg(mono: bool = False, sem_nome: bool = False, cargo: str = "Deputado") -> str:
+    return _env.get_template("logo.svg").render(logo_mono=mono, logo_sem_nome=sem_nome, cargo=cargo)
+
+
+def marca_cargo(casa: str) -> str:
+    """O nome do perfil é "Como Vota Deputado?", mas post do Senado se assina "Como Vota Senador?"."""
+    return "Senador" if casa == "senado" else "Deputado"
 
 
 def _partidos(v: Votacao) -> list[dict]:
@@ -153,7 +158,8 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
     casa_curta, casa_completa, quem = CASA[v.casa]
     return {
         "fontes_css": fontes_css(),
-        "logo_svg": logo_svg(),
+        "logo_svg": logo_svg(cargo=marca_cargo(v.casa)),
+        "marca_cargo": marca_cargo(v.casa),
         "slides": slides,
         "titulo": textos["titulo"],
         # títulos longos encolhem para caber em até ~4 linhas na capa

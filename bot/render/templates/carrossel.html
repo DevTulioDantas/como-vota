@@ -177,7 +177,7 @@
 
 {% macro topo() -%}
   <div class="topo">
-    <div class="marca">Como Vota <b>Deputado?</b></div>
+    <div class="marca">Como Vota <b>{{ marca_cargo }}?</b></div>
     <div class="ref">{{ proposicao }} · {{ data_curta }}</div>
   </div>
 {%- endmacro %}
@@ -209,7 +209,7 @@
 {% if s == "capa" %}
 <section class="slide escuro capa" id="slide-{{ n }}">
   <div class="topo">
-    <div class="marca">Como Vota <b>Deputado?</b></div>
+    <div class="marca">Como Vota <b>{{ marca_cargo }}?</b></div>
     <div class="ref">{{ casa_nome }}</div>
   </div>
   <div class="ref">{{ proposicao }} · {{ data_br }}</div>
@@ -364,7 +364,7 @@
 </section>
 
 {% elif s == "cta_teste" %}
-{{ cta_teste(n, total_slides, site_dominio, demo) }}
+{{ cta_teste(n, total_slides, site_dominio, demo, marca_cargo) }}
 
 {% elif s == "final" %}
 <section class="slide escuro final" id="slide-{{ n }}">

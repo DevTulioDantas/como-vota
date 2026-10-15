@@ -123,6 +123,7 @@ Rode `python main.py diagnostico` e o workflow *Diagnóstico* antes de tudo, e m
 - **Quórum:** PEC 308/49 e PLP 257/41, mostrado no placar. Destaques e requerimentos ficam de fora.
 - **Mapa por estado em grade** (`GRADE_UF`), não geográfico: estados pequenos ficam visíveis. É um formato do rodízio, não fixo (decisão do dono).
 - **Apelido do projeto como título** ("Fim da escala 6x1"): vem do campo `apelido` da API do Senado (`/processo`), também para projetos da Câmara a partir de 2019, porque a numeração é única. O `apelidos.yaml` permite cadastrar ou trocar um apelido. Todo post com apelido gera um alerta para conferir a neutralidade: apelido criado por um dos lados ("PEC da Blindagem") não entra.
+- **Marca por Casa:** o perfil se chama "Como Vota Deputado?", mas os posts de votação do Senado se assinam "Como Vota Senador?" (topo dos slides, slide do teste e logo do final). Explicadores, fixados e hashtag #ComoVotaDeputado não mudam (decisão do dono).
 - **Dois símbolos, de propósito:** o avatar (`assets/avatar.png`) é o Congresso estilizado com ✓ e ✕, e a cédula do `logo.svg` continua dentro dos posts. Não unificar (decisão do dono).
 - **"Link na bio"** foi tirado dos posts até o site existir. Hoje ele só aparece no slide do teste, que só liga com `SITE_TESTE_URL`.
 - **Teste do site:** o cálculo roda no navegador, sem rastreadores. O contador opcional guarda só totais anônimos (LGPD). Antes de lançar, vale revisão jurídica (LGPD e lei eleitoral). Evite publicar estatísticas do teste em período de campanha.
