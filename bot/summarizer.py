@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 from datetime import date
 
 import requests
@@ -33,9 +34,68 @@ Responda APENAS com JSON válido neste formato:
 CASA_NOME = {"camara": "Câmara dos Deputados", "senado": "Senado Federal"}
 
 
+# "Altera o art. 7º da Constituição Federal para reduzir..." -> o que interessa vem depois do "para"
+_PREAMBULO = re.compile(
+    r"^(?:altera|acrescenta|modifica|inclui|insere|revoga|d[aá] nova reda[cç][aã]o)\b.{0,160}?\bpara\s+(.+)$",
+    re.I | re.S,
+)
+_OUTRAS_PROVIDENCIAS = re.compile(r"[;,]?\s*e d[aá] outras provid[eê]ncias\.?\s*$", re.I)
+# nomes de leis citadas entre aspas ("Estabelece normas para as eleições") não são o objetivo
+_CITACAO = re.compile(r"[“\"][^”\"]*[”\"]")
+_VERBOS_IRREGULARES = {
+    "dispor": "dispõe", "prever": "prevê", "proibir": "proíbe", "manter": "mantém", "ter": "tem",
+    "obter": "obtém", "propor": "propõe", "impor": "impõe", "compor": "compõe", "ver": "vê",
+}
+
+
+# palavras que não podem ficar no fim de um título cortado
+_SOLTAS = {"a", "o", "as", "os", "à", "às", "ao", "aos", "de", "do", "da", "dos", "das", "e", "em", "no", "na",
+           "nos", "nas", "para", "por", "pelo", "pela", "com", "que", "um", "uma", "sobre", "ou"}
+
+
+def _presente(verbo: str) -> str:
+    """Infinitivo -> 3ª pessoa do presente, para o título ler como manchete: reduzir -> reduz."""
+    v = verbo.lower()
+    if v in _VERBOS_IRREGULARES:
+        p = _VERBOS_IRREGULARES[v]
+    elif v.endswith("uir"):
+        p = v[:-1]  # instituir -> institui
+    elif v.endswith("uzir"):
+        p = v[:-2]  # reduzir -> reduz
+    elif v.endswith(("ar", "er", "ir")):
+        p = v[:-2] + ("a" if v.endswith("ar") else "e")
+    else:
+        return verbo
+    return p[:1].upper() + p[1:] if verbo[:1].isupper() else p
+
+
+def titulo_da_ementa(ementa: str, limite: int = 70) -> str:
+    """Título sem IA: tira o preâmbulo jurídico e corta numa pausa natural da frase."""
+    t = _OUTRAS_PROVIDENCIAS.sub("", " ".join(ementa.split())).rstrip(" .;,")
+    m = _PREAMBULO.match(" ".join(_CITACAO.sub("", t).split()))
+    if m:
+        palavras = m.group(1).split(" ")
+        palavras[0] = _presente(palavras[0])
+        if len(palavras) > 2 and palavras[1] == "e":  # "simplificar e conferir" -> "simplifica e confere"
+            palavras[2] = _presente(palavras[2])
+        t = " ".join(palavras)
+    t = t.split(";")[0].strip()
+    t = t[:1].upper() + t[1:]
+    if len(t) <= limite:
+        return t
+    # termina antes de um segundo verbo ("reduzir X e prever Y"), nunca no meio de uma lista
+    cortes = [c.start() for c in re.finditer(r" e (?=\w+(?:ar|er|ir|or)\b)", t[:limite]) if c.start() >= 25]
+    if cortes:
+        return t[:cortes[-1]]
+    palavras = t[:limite - 1].rsplit(" ", 1)[0].rstrip(",").split(" ")
+    while len(palavras) > 4 and palavras[-1].lower().rstrip(",") in _SOLTAS:
+        palavras.pop()  # "... gestão de" -> "... gestão"
+    return " ".join(palavras).rstrip(",") + "…"
+
+
 def _fallback(v: Votacao) -> dict:
     ementa = v.ementa or v.descricao
-    titulo = ementa if len(ementa) <= 70 else ementa[:67].rsplit(" ", 1)[0] + "…"
+    titulo = titulo_da_ementa(ementa)
     resumo = ementa if len(ementa) <= 220 else ementa[:217].rsplit(" ", 1)[0] + "…"
     return {"titulo": titulo, "resumo": resumo}
 

@@ -399,6 +399,23 @@ def test_totais_do_texto():
     assert totais_do_texto("Aprovado o Requerimento de Urgência.") == {}
 
 
+def test_titulo_sem_ia():
+    """Sem IA, o título pula o preâmbulo jurídico e não termina em palavra solta."""
+    from bot.summarizer import titulo_da_ementa
+    assert titulo_da_ementa(
+        "Altera o art. 7º da Constituição Federal para reduzir a duração máxima semanal do trabalho e prever "
+        "2 (dois) dias de repouso semanal remunerado, sem qualquer redução salarial; e dá outras providências."
+    ) == "Reduz a duração máxima semanal do trabalho"
+    assert titulo_da_ementa(
+        "Altera a Lei nº 9.504, de 30 de setembro de 1997, que “Estabelece normas para as eleições”, "
+        "para proibir o uso de bandeiras ao longo das vias públicas."
+    ).startswith("Proíbe o uso de bandeiras")
+    t = titulo_da_ementa("Institui diretrizes nacionais para a prevenção e a gestão de riscos de desastres "
+                         "naturais nos municípios brasileiros de pequeno porte.")
+    assert len(t) <= 70 and t.endswith("…") and not t.endswith(" de…")
+    assert titulo_da_ementa("Institui a Lei Falar é Crescer.") == "Institui a Lei Falar é Crescer"
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -415,4 +432,5 @@ if __name__ == "__main__":
     test_quorum_qualidade_mapa()
     test_orientacao_federacao_e_bloco()
     test_totais_do_texto()
+    test_titulo_sem_ia()
     print("ok")
