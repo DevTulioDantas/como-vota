@@ -11,7 +11,8 @@
     --amarelo: #FFC93C;   /* Amarelo-Voto: destaque / CTA */
     --verde: #1FA97A;     /* Verde-Aprova: SIM */
     --vermelho: #E4433C;  /* Vermelho-Rejeita: NÃO */
-    --cinza: #8A94A0;     /* Cinza-Urna: abstenção / faltou */
+    --cinza: #8A94A0;     /* Cinza-Urna: abstenção */
+    --cinza-claro: #C6CCD3; /* não votou (licença, missão...): nunca "faltou" */
     --tinta: #101820;
     --papel: #F6F3EC;     /* Off-White */
     --papel-linha: #E2DCCF;
@@ -114,12 +115,14 @@
   .legenda { display: flex; gap: 28px; font-size: 21px; font-weight: 600; margin: -14px 0 22px; color: #4A5562; }
   .legenda span { display: flex; align-items: center; gap: 8px; }
   .partidos { display: flex; flex-direction: column; gap: 9px; }
-  .lp { display: grid; grid-template-columns: 176px 1fr 132px; align-items: center; gap: 20px; height: 47px; }
+  .lp { display: grid; grid-template-columns: 176px 1fr 240px; align-items: center; gap: 20px; height: 47px; }
   .lp .nome { font-weight: 700; font-size: 25px; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .lp .nome small { display: block; font-family: var(--mono); font-weight: 400; font-size: 15px; color: var(--cinza); }
   .lp .b { display: flex; height: 26px; border-radius: 5px; overflow: hidden; background: var(--papel-linha); }
   .lp .b div { height: 100%; }
-  .lp .q { font-family: var(--mono); font-weight: 700; font-size: 23px; text-align: right; }
+  .lp .q { font-family: var(--mono); font-weight: 700; font-size: 23px; text-align: right; line-height: 1.05; white-space: nowrap; }
+  .lp .q small { display: block; font-weight: 600; font-size: 17px; color: #4A5562; margin-top: 2px; }
+  .legenda .nv { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: var(--cinza-claro); }
 
   /* ---------- cédula (dissidentes) ---------- */
   .cedula { display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; }
@@ -274,18 +277,24 @@
   <div class="legenda">
     <span>{{ icone("Sim", 22) }} Sim</span>
     <span>{{ icone("Não", 22) }} Não</span>
-    <span>{{ icone("Outro", 22) }} Abstenção / outros</span>
+    <span>{{ icone("Outro", 22) }} Abstenção</span>
+    <span><i class="nv"></i> Não votou</span>
   </div>
   <div class="partidos">
     {% for p in partidos %}
     <div class="lp">
-      <div class="nome">{{ p.partido }}{% if p.orientacao %}<small>orientou: {{ p.orientacao }}</small>{% endif %}</div>
+      <div class="nome"{% if p.partido|length > 11 %} style="font-size: 19px"{% elif p.partido|length > 8 %} style="font-size: 22px"{% endif %}>{{ p.partido }}{% if p.orientacao %}<small>orientou: {{ p.orientacao }}</small>{% endif %}</div>
       <div class="b" style="width: {{ 28 + 72 * p.total / maior_bancada }}%">
         <div style="width: {{ 100 * p.sim / p.total }}%; background: var(--verde)"></div>
         <div style="width: {{ 100 * p.nao / p.total }}%; background: var(--vermelho)"></div>
-        <div style="width: {{ 100 * p.outros / p.total }}%; background: var(--cinza)"></div>
+        <div style="width: {{ 100 * p.abstencao / p.total }}%; background: var(--cinza)"></div>
+        <div style="width: {{ 100 * p.nao_votou / p.total }}%; background: var(--cinza-claro)"></div>
       </div>
-      <div class="q">{{ p.sim }} × {{ p.nao }}</div>
+      <div class="q">{{ p.sim }} × {{ p.nao }}
+        {%- set extras = [] -%}
+        {%- if p.abstencao %}{% set _ = extras.append(p.abstencao ~ " abst.") %}{% endif -%}
+        {%- if p.nao_votou %}{% set _ = extras.append(p.nao_votou ~ (" não votou" if p.nao_votou == 1 else " não votaram")) %}{% endif -%}
+        {%- if extras %}<small>{{ extras|join(" · ") }}</small>{% endif %}</div>
     </div>
     {% endfor %}
   </div>

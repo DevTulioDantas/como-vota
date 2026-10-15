@@ -448,6 +448,18 @@ def test_apelido():
         assert summarizer.gerar_textos(v)["titulo"] == "Escala 6x1" and v.fonte_apelido == "curadoria"
 
 
+def test_partidos_separa_abstencao_e_nao_votou():
+    """No gráfico por partido, abstenção é voto registrado e "não votou" (licença, missão) é outra coisa."""
+    from bot.models import Votacao, Voto
+    votos = [Voto(nome=f"S{i}", partido="PL", uf="SP", voto=SIM) for i in range(12)]
+    votos += [Voto(nome="A", partido="PL", uf="SP", voto="Abstenção"), Voto(nome="O", partido="PL", uf="RJ", voto="Obstrução")]
+    votos += [Voto(nome=f"L{i}", partido="PL", uf="MG", voto="Outro", voto_original="Licença saúde") for i in range(3)]
+    v = Votacao(id="x", casa="senado", data="", proposicao="", tipo_proposicao="", ementa="", descricao="",
+                aprovada=True, url_fonte="", votos=votos)
+    pl = v.por_partido()[0]
+    assert (pl["sim"], pl["abstencao"], pl["nao_votou"], pl["outros"]) == (12, 2, 3, 5)
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -466,4 +478,5 @@ if __name__ == "__main__":
     test_totais_do_texto()
     test_titulo_sem_ia()
     test_apelido()
+    test_partidos_separa_abstencao_e_nao_votou()
     print("ok")

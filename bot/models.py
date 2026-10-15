@@ -113,6 +113,9 @@ class Votacao:
                 "sim": c.get(SIM, 0),
                 "nao": c.get(NAO, 0),
                 "outros": total - c.get(SIM, 0) - c.get(NAO, 0),
+                # o cinza separado: abstenção/obstrução é voto registrado; "não votou" pode ser licença ou missão
+                "abstencao": c.get(ABSTENCAO, 0) + c.get(OBSTRUCAO, 0),
+                "nao_votou": c.get(OUTRO, 0),
                 "orientacao": self.orientacao_do_partido(partido),
             })
         linhas.sort(key=lambda l: (-l["total"], l["partido"]))

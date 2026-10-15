@@ -115,7 +115,7 @@ def _partidos(v: Votacao) -> list[dict]:
         return linhas
     topo, resto = linhas[: MAX_PARTIDOS - 1], linhas[MAX_PARTIDOS - 1:]
     agregado = {"partido": f"Outros ({len(resto)})", "orientacao": None}
-    for k in ("total", "sim", "nao", "outros"):
+    for k in ("total", "sim", "nao", "outros", "abstencao", "nao_votou"):
         agregado[k] = sum(l[k] for l in resto)
     return topo + [agregado]
 
