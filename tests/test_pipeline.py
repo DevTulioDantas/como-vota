@@ -493,6 +493,46 @@ def test_slide_entenda():
     assert entenda.carimbo(v) == "", "texto-base usa o carimbo normal"
 
 
+def test_resumo_ia():
+    """A IA reescreve a ementa; recusa, erro ou falta de chave caem na ementa, sem derrubar nada."""
+    import json as _json
+    import os as _os
+    from types import SimpleNamespace as NS
+
+    from bot import summarizer
+    from bot.models import Votacao
+    pedidos = []
+
+    class _Cliente:
+        def __init__(self, resposta):
+            criar = lambda **k: (pedidos.append(k), resposta)[1]  # noqa: E731
+            self.messages = NS(create=criar)
+            self.beta = NS(messages=NS(create=criar))
+
+    def responde(stop_reason, dados=None):
+        texto = [NS(type="text", text=_json.dumps(dados))] if dados else []
+        return lambda **k: _Cliente(NS(stop_reason=stop_reason, content=texto))
+
+    v = Votacao(id="x", casa="camara", data="2026-10-14", proposicao="PLP 281/2019", tipo_proposicao="PLP",
+                ementa="Dispõe sobre os regimes de resolução das instituições autorizadas a funcionar pelo Banco Central.",
+                descricao="Rejeitada a Subemenda Substitutiva.", aprovada=False, url_fonte="u")
+    original = summarizer.anthropic.Anthropic
+    _os.environ["ANTHROPIC_API_KEY"] = "teste"
+    try:
+        summarizer.anthropic.Anthropic = responde("end_turn", {"titulo": "Define regras para quando um banco quebra",
+                                                                "resumo": "Cria regras para lidar com bancos em crise."})
+        assert summarizer._ia(v)["titulo"] == "Define regras para quando um banco quebra"
+        assert pedidos[-1]["output_config"]["format"]["type"] == "json_schema"
+        assert pedidos[-1].get("fallbacks") == "default", "Opus 5.5 usa o fallback do servidor"
+        summarizer.anthropic.Anthropic = responde("refusal")
+        assert summarizer._ia(v) is None
+        assert summarizer.gerar_textos(v)["resumo"].startswith("Dispõe sobre"), "sem IA, volta para a ementa"
+    finally:
+        summarizer.anthropic.Anthropic = original
+        del _os.environ["ANTHROPIC_API_KEY"]
+    assert summarizer._ia(v) is None, "sem chave, nem tenta"
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -513,4 +553,5 @@ if __name__ == "__main__":
     test_apelido()
     test_partidos_separa_abstencao_e_nao_votou()
     test_slide_entenda()
+    test_resumo_ia()
     print("ok")

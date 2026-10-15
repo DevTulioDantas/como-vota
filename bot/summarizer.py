@@ -1,8 +1,8 @@
 """Gera o título curto, o resumo dos slides e a legenda do post.
 
-Com ANTHROPIC_API_KEY configurada, usa a IA para reescrever a ementa oficial
-em linguagem simples. Sem a chave, usa a própria ementa (funciona igual,
-só fica menos fluido).
+Com ANTHROPIC_API_KEY configurada, a IA (SDK oficial da Anthropic, modelo em
+IA_MODELO) reescreve a ementa oficial em linguagem simples para leigos. Sem a
+chave, ou se a IA falhar, usa a própria ementa: o post sai do mesmo jeito.
 
 Regra de ouro: só fatos. Nada de adjetivo, opinião ou previsão de efeito.
 """
@@ -15,7 +15,7 @@ import re
 from datetime import date
 from pathlib import Path
 
-import requests
+import anthropic
 import yaml
 
 from bot import entenda
@@ -23,16 +23,39 @@ from bot.models import ABSTENCAO, NAO, OBSTRUCAO, SIM, Votacao
 
 log = logging.getLogger(__name__)
 
-MODELO = os.getenv("IA_MODELO", "claude-haiku-5-5")
+MODELO = os.getenv("IA_MODELO") or "claude-opus-5-5"
 
-INSTRUCOES = """Você escreve para um perfil apartidário que informa como parlamentares votaram.
-Regras obrigatórias:
-- Use somente as informações fornecidas (ementa oficial e descrição da votação). Não invente efeitos, números ou contexto.
-- Linguagem simples, frases curtas, português do Brasil.
-- Proibido: adjetivos valorativos, ironia, opinião, previsões ("vai prejudicar", "histórico", "polêmico", "polêmica").
-- Se a ementa não deixar claro o que muda, diga apenas o que ela diz.
-Responda APENAS com JSON válido neste formato:
-{"titulo": "até 70 caracteres, diz o que foi votado", "resumo": "1 a 2 frases, até 220 caracteres, explicando o que a proposta faz"}"""
+INSTRUCOES = """Você escreve para um perfil apartidário no Instagram que mostra como deputados e senadores votaram.
+O público é geral: muita gente nunca acompanhou o Congresso e não conhece os termos jurídicos.
+
+A partir da ementa oficial e da descrição da votação, escreva um título e um resumo em linguagem simples.
+
+Regras:
+- Diga o que a proposta faz com palavras do dia a dia. Quando a ementa usar um termo técnico ou jurídico, \
+explique o que ele quer dizer (por exemplo: "regime de resolução" são as regras para quando um banco ou \
+outra instituição financeira quebra).
+- Use só o que a ementa diz e o significado comum dos termos. Não invente números, prazos, efeitos, \
+contexto, nomes nem consequências.
+- Nada de opinião, ironia, adjetivos de valor ou previsão ("histórico", "polêmico", "vai prejudicar", \
+"importante"). Descreva, não avalie.
+- Não diga se a proposta foi aprovada ou rejeitada: o post já mostra isso.
+- Frases curtas, voz ativa, português do Brasil.
+
+titulo: até 60 caracteres, como manchete, com o verbo no presente quando der (ex.: "Reduz a jornada \
+semanal de trabalho").
+resumo: 1 ou 2 frases, até 220 caracteres, explicando para uma pessoa leiga o que a proposta faz."""
+
+_FORMATO = {
+    "type": "json_schema",
+    "schema": {
+        "type": "object",
+        "properties": {"titulo": {"type": "string"}, "resumo": {"type": "string"}},
+        "required": ["titulo", "resumo"],
+        "additionalProperties": False,
+    },
+}
+# modelos que aceitam o fallback automático do servidor quando um filtro de segurança recusa o pedido
+_COM_FALLBACK = {"claude-opus-5-5", "claude-opus-5", "claude-fable-5-1", "claude-sonnet-5-5"}
 
 CASA_NOME = {"camara": "Câmara dos Deputados", "senado": "Senado Federal"}
 
@@ -104,28 +127,29 @@ def _fallback(v: Votacao) -> dict:
 
 
 def _ia(v: Votacao) -> dict | None:
-    chave = os.getenv("ANTHROPIC_API_KEY")
-    if not chave:
+    if not os.getenv("ANTHROPIC_API_KEY"):
         return None
+    pedido = {
+        "model": MODELO,
+        "max_tokens": 4000,
+        "system": INSTRUCOES,
+        # texto curto e tarefa simples: esforço baixo basta e sai mais barato
+        "output_config": {"effort": "low", "format": _FORMATO},
+        "messages": [{"role": "user", "content": (
+            f"Proposição: {v.proposicao}\nEmenta oficial: {v.ementa}\nO que foi votado: {v.descricao}"
+        )}],
+    }
     try:
-        r = requests.post(
-            "https://api.anthropic.com/v1/messages",
-            headers={"x-api-key": chave, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-            json={
-                "model": MODELO,
-                "max_tokens": 400,
-                "system": INSTRUCOES,
-                "messages": [{"role": "user", "content": (
-                    f"Proposição: {v.proposicao}\nEmenta oficial: {v.ementa}\n"
-                    f"O que foi votado: {v.descricao}"
-                )}],
-            },
-            timeout=60,
-        )
-        r.raise_for_status()
-        texto = "".join(b.get("text", "") for b in r.json().get("content", []))
-        texto = texto[texto.find("{"): texto.rfind("}") + 1]
-        dados = json.loads(texto)
+        cliente = anthropic.Anthropic(timeout=60.0)
+        if MODELO in _COM_FALLBACK:  # se um filtro de segurança recusar, outro modelo responde
+            resposta = cliente.beta.messages.create(
+                **pedido, betas=["server-side-fallback-2026-07-01"], fallbacks="default")
+        else:
+            resposta = cliente.messages.create(**pedido)
+        if resposta.stop_reason != "end_turn":
+            log.warning("IA parou com %s em %s; usando ementa", resposta.stop_reason, v.id)
+            return None
+        dados = json.loads(next(b.text for b in resposta.content if b.type == "text"))
         if dados.get("titulo") and dados.get("resumo"):
             return {"titulo": dados["titulo"][:80], "resumo": dados["resumo"][:260]}
     except Exception as e:  # nunca derrubar o pipeline por causa do texto

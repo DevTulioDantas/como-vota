@@ -50,6 +50,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          IA_MODELO: ${{ vars.IA_MODELO }}
           MAX_POSTS: ${{ vars.MAX_POSTS }}
           JANELA_DIAS: ${{ vars.JANELA_DIAS }}
           AVISAR_SEM_VOTACAO: ${{ vars.AVISAR_SEM_VOTACAO }}

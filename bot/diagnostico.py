@@ -85,12 +85,19 @@ def _ia() -> list[tuple]:
     chave = os.getenv("ANTHROPIC_API_KEY")
     if not chave:
         return [(AVISO, "IA (resumos)", "sem ANTHROPIC_API_KEY: as legendas usam a ementa oficial, sem reescrita")]
-    try:
-        r = _get("https://api.anthropic.com/v1/models", headers={"x-api-key": chave, "anthropic-version": "2023-06-01"})
-        if r.status_code == 200:
-            return [(OK, "IA (resumos)", f"chave válida · modelo {os.getenv('IA_MODELO') or 'padrão'}")]
-        return [(ERRO, "IA (resumos)", f"chave recusada (HTTP {r.status_code})")]
-    except requests.RequestException as e:
+    import anthropic
+
+    from bot.summarizer import MODELO
+    try:  # confere a chave e se o modelo configurado existe para ela
+        anthropic.Anthropic(timeout=20.0, max_retries=1).models.retrieve(MODELO)
+        return [(OK, "IA (resumos)", f"chave válida · modelo {MODELO}")]
+    except anthropic.AuthenticationError:
+        return [(ERRO, "IA (resumos)", "chave recusada: confira o secret ANTHROPIC_API_KEY")]
+    except anthropic.NotFoundError:
+        return [(ERRO, "IA (resumos)", f"modelo {MODELO} não encontrado: confira a variable IA_MODELO")]
+    except anthropic.APIStatusError as e:
+        return [(ERRO, "IA (resumos)", f"erro da API (HTTP {e.status_code})")]
+    except anthropic.APIConnectionError as e:
         return [(AVISO, "IA (resumos)", f"sem conexão: {e.__class__.__name__}")]
 
 

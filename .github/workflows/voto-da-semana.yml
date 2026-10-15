@@ -51,6 +51,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          IA_MODELO: ${{ vars.IA_MODELO }}
           IG_HANDLE: ${{ vars.IG_HANDLE }}
           SITE_TESTE_URL: ${{ vars.SITE_TESTE_URL }}
           CTA_TESTE: ${{ vars.CTA_TESTE }}

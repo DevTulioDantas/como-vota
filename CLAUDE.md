@@ -26,7 +26,7 @@ bot/models.py               Votacao, Voto, normalização, placar, quorum() de P
 bot/collectors/camara.py    API Dados Abertos da Câmara (coletar, coletar_por_id)
 bot/collectors/senado.py    API Dados Abertos do Senado (totais_oficiais incluídos)
 bot/selector.py             pontua e escolhe as votações relevantes
-bot/summarizer.py           título, resumo (IA opcional) e legenda; apelido vira o título
+bot/summarizer.py           título, resumo (IA opcional: SDK anthropic, IA_MODELO, padrão claude-opus-5-5) e legenda; apelido vira o título
 apelidos.yaml               apelidos de projetos cadastrados pelo dono (vale mais que o do Senado)
 bot/qualidade.py            alertas de consistência antes da aprovação
 bot/entenda.py              slide "O que está em votação": tipo de projeto e etapa (substitutivo, destaque...)
