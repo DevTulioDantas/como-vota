@@ -1,0 +1,691 @@
+{
+  "id": "senado-7108",
+  "status": "enviado",
+  "criado_em": "2026-10-16T13:38:00+00:00",
+  "formato": "votacao-mapa",
+  "alertas": [],
+  "textos": {
+    "titulo": "Atualiza o limite de receita bruta anual e o número de empregados…",
+    "resumo": "Altera a Lei Complementar nº 123, de 14 de dezembro de 2006, para atualizar o limite de receita bruta anual e o número de empregados do Microempreendedor Individual (MEI), conceder remissão de créditos de…",
+    "fonte_texto": "ementa",
+    "resultado": "APROVADA",
+    "carimbo": "APROVADA",
+    "legenda": "Como votou a bancada do seu estado? Atualiza o limite de receita bruta anual e o número de empregados…\n\nAltera a Lei Complementar nº 123, de 14 de dezembro de 2006, para atualizar o limite de receita bruta anual e o número de empregados do Microempreendedor Individual (MEI), conceder remissão de créditos de…\n\n📍 Senado Federal · 15/10/2026\n📄 PLP 186/2026 (Projeto de Lei Complementar)\n📊 Resultado: Aprovada · SIM 78 × 0 NÃO · Abstenção 0\n📏 Para aprovar, precisava de 41 votos SIM (mais da metade dos 81 senadores). Conseguiu.\n\nTexto oficial da votação: Votação nominal do Projeto de Lei Complementar nº 186, de 2026, nos termos do parecer.\n\nO voto de cada senador está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www25.senado.leg.br/web/atividade/materias/-/materia/175969\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
+  },
+  "votacao": {
+    "id": "senado-7108",
+    "casa": "senado",
+    "data": "2026-10-15",
+    "proposicao": "PLP 186/2026",
+    "tipo_proposicao": "PLP",
+    "ementa": "Altera a Lei Complementar nº 123, de 14 de dezembro de 2006, para atualizar o limite de receita bruta anual e o número de empregados do Microempreendedor Individual (MEI), conceder remissão de créditos de titularidade da União de sua responsabilidade e dispor sobre a aplicação da medida.",
+    "descricao": "Votação nominal do Projeto de Lei Complementar nº 186, de 2026, nos termos do parecer.",
+    "aprovada": true,
+    "url_fonte": "https://www25.senado.leg.br/web/atividade/materias/-/materia/175969",
+    "votos": [
+      {
+        "nome": "Alan Rick",
+        "partido": "REPUBLICANOS",
+        "uf": "AC",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5672"
+      },
+      {
+        "nome": "Alessandro Vieira",
+        "partido": "MDB",
+        "uf": "SE",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5982"
+      },
+      {
+        "nome": "Ana Paula Lobato",
+        "partido": "PSB",
+        "uf": "MA",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6358"
+      },
+      {
+        "nome": "Angelo Coronel",
+        "partido": "REPUBLICANOS",
+        "uf": "BA",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5967"
+      },
+      {
+        "nome": "Astronauta Marcos Pontes",
+        "partido": "PL",
+        "uf": "SP",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6009"
+      },
+      {
+        "nome": "Beto Faro",
+        "partido": "PT",
+        "uf": "PA",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "4639"
+      },
+      {
+        "nome": "Camilo Santana",
+        "partido": "PT",
+        "uf": "CE",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6336"
+      },
+      {
+        "nome": "Carlos Fávaro",
+        "partido": "PSD",
+        "uf": "MT",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6295"
+      },
+      {
+        "nome": "Carlos Portinho",
+        "partido": "PL",
+        "uf": "RJ",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5936"
+      },
+      {
+        "nome": "Carlos Viana",
+        "partido": "PSD",
+        "uf": "MG",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5990"
+      },
+      {
+        "nome": "Chico Rodrigues",
+        "partido": "PSB",
+        "uf": "RR",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "470"
+      },
+      {
+        "nome": "Cid Gomes",
+        "partido": "PSB",
+        "uf": "CE",
+        "voto": "Outro",
+        "voto_original": "Não Compareceu",
+        "id": "5973"
+      },
+      {
+        "nome": "Ciro Nogueira",
+        "partido": "PP",
+        "uf": "PI",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "739"
+      },
+      {
+        "nome": "Cleitinho",
+        "partido": "REPUBLICANOS",
+        "uf": "MG",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6337"
+      },
+      {
+        "nome": "Confúcio Moura",
+        "partido": "MDB",
+        "uf": "RO",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "475"
+      },
+      {
+        "nome": "Damares Alves",
+        "partido": "REPUBLICANOS",
+        "uf": "DF",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6335"
+      },
+      {
+        "nome": "Daniella Ribeiro",
+        "partido": "PP",
+        "uf": "PB",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5998"
+      },
+      {
+        "nome": "Davi Alcolumbre",
+        "partido": "UNIÃO",
+        "uf": "AP",
+        "voto": "Outro",
+        "voto_original": "Presidente (art. 51 RISF)",
+        "id": "3830"
+      },
+      {
+        "nome": "Dr. Hiran",
+        "partido": "PP",
+        "uf": "RR",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5793"
+      },
+      {
+        "nome": "Dra. Eudócia",
+        "partido": "PSDB",
+        "uf": "AL",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5906"
+      },
+      {
+        "nome": "Eduardo Braga",
+        "partido": "MDB",
+        "uf": "AM",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "4994"
+      },
+      {
+        "nome": "Eduardo Gomes",
+        "partido": "PL",
+        "uf": "TO",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "3777"
+      },
+      {
+        "nome": "Efraim Filho",
+        "partido": "PL",
+        "uf": "PB",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "4642"
+      },
+      {
+        "nome": "Eliziane Gama",
+        "partido": "PSD",
+        "uf": "MA",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5718"
+      },
+      {
+        "nome": "Esperidião Amin",
+        "partido": "PP",
+        "uf": "SC",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "22"
+      },
+      {
+        "nome": "Fabiano Contarato",
+        "partido": "PT",
+        "uf": "ES",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5953"
+      },
+      {
+        "nome": "Fernando Dueire",
+        "partido": "PSD",
+        "uf": "PE",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5917"
+      },
+      {
+        "nome": "Flávio Arns",
+        "partido": "PSB",
+        "uf": "PR",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "345"
+      },
+      {
+        "nome": "Flávio Bolsonaro",
+        "partido": "PL",
+        "uf": "RJ",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5894"
+      },
+      {
+        "nome": "Giordano",
+        "partido": "PODE",
+        "uf": "SP",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6008"
+      },
+      {
+        "nome": "Hamilton Mourão",
+        "partido": "REPUBLICANOS",
+        "uf": "RS",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6341"
+      },
+      {
+        "nome": "Humberto Costa",
+        "partido": "PT",
+        "uf": "PE",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5008"
+      },
+      {
+        "nome": "Irajá",
+        "partido": "PSD",
+        "uf": "TO",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5385"
+      },
+      {
+        "nome": "Ivete da Silveira",
+        "partido": "MDB",
+        "uf": "SC",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6010"
+      },
+      {
+        "nome": "Izalci Lucas",
+        "partido": "PL",
+        "uf": "DF",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "4770"
+      },
+      {
+        "nome": "Jader Barbalho",
+        "partido": "MDB",
+        "uf": "PA",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "35"
+      },
+      {
+        "nome": "Jaime Bagattoli",
+        "partido": "PL",
+        "uf": "RO",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6340"
+      },
+      {
+        "nome": "Jaques Wagner",
+        "partido": "PT",
+        "uf": "BA",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "581"
+      },
+      {
+        "nome": "Jayme Campos",
+        "partido": "UNIÃO",
+        "uf": "MT",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "4531"
+      },
+      {
+        "nome": "Jorge Kajuru",
+        "partido": "PSB",
+        "uf": "GO",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5895"
+      },
+      {
+        "nome": "Jorge Seif",
+        "partido": "PL",
+        "uf": "SC",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6342"
+      },
+      {
+        "nome": "Jussara Lima",
+        "partido": "PSD",
+        "uf": "PI",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6369"
+      },
+      {
+        "nome": "Laércio Oliveira",
+        "partido": "PP",
+        "uf": "SE",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "4811"
+      },
+      {
+        "nome": "Leany Lemos",
+        "partido": "PSB",
+        "uf": "DF",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5977"
+      },
+      {
+        "nome": "Lucas Barreto",
+        "partido": "PSD",
+        "uf": "AP",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5926"
+      },
+      {
+        "nome": "Luis Carlos Heinze",
+        "partido": "PP",
+        "uf": "RS",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "1186"
+      },
+      {
+        "nome": "Magno Malta",
+        "partido": "PL",
+        "uf": "ES",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "631"
+      },
+      {
+        "nome": "Mara Gabrilli",
+        "partido": "PSD",
+        "uf": "SP",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5376"
+      },
+      {
+        "nome": "Marcelo Castro",
+        "partido": "MDB",
+        "uf": "PI",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "742"
+      },
+      {
+        "nome": "Marcio Bittar",
+        "partido": "PL",
+        "uf": "AC",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "285"
+      },
+      {
+        "nome": "Marcos Rogério",
+        "partido": "PL",
+        "uf": "RO",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5422"
+      },
+      {
+        "nome": "Marcos do Val",
+        "partido": "AVANTE",
+        "uf": "ES",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5942"
+      },
+      {
+        "nome": "Nelsinho Trad",
+        "partido": "PSD",
+        "uf": "MS",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5985"
+      },
+      {
+        "nome": "Omar Aziz",
+        "partido": "PSD",
+        "uf": "AM",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5525"
+      },
+      {
+        "nome": "Oriovisto Guimarães",
+        "partido": "PSDB",
+        "uf": "PR",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5924"
+      },
+      {
+        "nome": "Otto Alencar",
+        "partido": "PSD",
+        "uf": "BA",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5523"
+      },
+      {
+        "nome": "Paulo Paim",
+        "partido": "PT",
+        "uf": "RS",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "825"
+      },
+      {
+        "nome": "Plínio Valério",
+        "partido": "PSDB",
+        "uf": "AM",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5502"
+      },
+      {
+        "nome": "Professora Dorinha Seabra",
+        "partido": "UNIÃO",
+        "uf": "TO",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5386"
+      },
+      {
+        "nome": "Randolfe Rodrigues",
+        "partido": "PT",
+        "uf": "AP",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5012"
+      },
+      {
+        "nome": "Renan Calheiros",
+        "partido": "MDB",
+        "uf": "AL",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "70"
+      },
+      {
+        "nome": "Renan Filho",
+        "partido": "MDB",
+        "uf": "AL",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5207"
+      },
+      {
+        "nome": "Renzo Braz",
+        "partido": "PP",
+        "uf": "MG",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5257"
+      },
+      {
+        "nome": "Roberta Acioly",
+        "partido": "REPUBLICANOS",
+        "uf": "RR",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6025"
+      },
+      {
+        "nome": "Rogerio Marinho",
+        "partido": "PL",
+        "uf": "RN",
+        "voto": "Outro",
+        "voto_original": "Não Compareceu",
+        "id": "4694"
+      },
+      {
+        "nome": "Rogério Carvalho",
+        "partido": "PT",
+        "uf": "SE",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5352"
+      },
+      {
+        "nome": "Romário",
+        "partido": "S/Partido",
+        "uf": "RJ",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5322"
+      },
+      {
+        "nome": "Sargento Reginauro",
+        "partido": "PSDB",
+        "uf": "CE",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5974"
+      },
+      {
+        "nome": "Sergio Moro",
+        "partido": "PL",
+        "uf": "PR",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6331"
+      },
+      {
+        "nome": "Soraya Thronicke",
+        "partido": "PSB",
+        "uf": "MS",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5988"
+      },
+      {
+        "nome": "Styvenson Valentim",
+        "partido": "PODE",
+        "uf": "RN",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5959"
+      },
+      {
+        "nome": "Sérgio Petecão",
+        "partido": "PSD",
+        "uf": "AC",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "4560"
+      },
+      {
+        "nome": "Teresa Leitão",
+        "partido": "PT",
+        "uf": "PE",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "6338"
+      },
+      {
+        "nome": "Tereza Cristina",
+        "partido": "PP",
+        "uf": "MS",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5736"
+      },
+      {
+        "nome": "Vanderlan Cardoso",
+        "partido": "PSD",
+        "uf": "GO",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5899"
+      },
+      {
+        "nome": "Veneziano Vital do Rêgo",
+        "partido": "MDB",
+        "uf": "PB",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5748"
+      },
+      {
+        "nome": "Wellington Fagundes",
+        "partido": "PL",
+        "uf": "MT",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "1173"
+      },
+      {
+        "nome": "Weverton",
+        "partido": "PDT",
+        "uf": "MA",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5411"
+      },
+      {
+        "nome": "Wilder Morais",
+        "partido": "PL",
+        "uf": "GO",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5070"
+      },
+      {
+        "nome": "Zenaide Maia",
+        "partido": "PSD",
+        "uf": "RN",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "5783"
+      },
+      {
+        "nome": "Zequinha Marinho",
+        "partido": "PODE",
+        "uf": "PA",
+        "voto": "Sim",
+        "voto_original": "Sim",
+        "id": "3806"
+      }
+    ],
+    "orientacoes": {},
+    "orientacao_governo": null,
+    "secreta": false,
+    "totais_oficiais": {
+      "Sim": 78
+    },
+    "apelido": "",
+    "fonte_apelido": ""
+  },
+  "historico": [
+    {
+      "status": "enviado",
+      "em": "2026-10-16T13:38:04+00:00"
+    }
+  ],
+  "demo": false
+}
