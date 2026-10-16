@@ -110,7 +110,13 @@ def _gemini() -> list[tuple]:
         if r.status_code == 200:
             return [(OK, "IA (resumos)", f"Gemini: chave válida · modelo {GEMINI_MODELO}")]
         if r.status_code == 404:
-            return [(ERRO, "IA (resumos)", f"Gemini: modelo {GEMINI_MODELO} não encontrado: confira a variable GEMINI_MODELO")]
+            lista = _get(f"{GEMINI_API}/models", params={"pageSize": 1000},
+                         headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]}).json().get("models", [])
+            nomes = [m["name"].removeprefix("models/") for m in lista
+                     if "generateContent" in m.get("supportedGenerationMethods", [])]
+            parecidos = [n for n in nomes if GEMINI_MODELO.split("-")[1] in n] or nomes
+            return [(ERRO, "IA (resumos)", f"Gemini: modelo {GEMINI_MODELO} não encontrado. Disponíveis: "
+                     f"{', '.join(parecidos[:8])}. Ajuste a variable GEMINI_MODELO")]
         return [(ERRO, "IA (resumos)", f"Gemini: chave recusada (HTTP {r.status_code}): confira o secret GEMINI_API_KEY")]
     except requests.RequestException as e:
         return [(AVISO, "IA (resumos)", f"Gemini sem conexão: {e.__class__.__name__}")]
