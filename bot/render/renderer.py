@@ -141,9 +141,9 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
     estados = _estados(v)
     slides = [s for s in ((formato or {}).get("sequencia") or SEQUENCIA_PADRAO)
               if (s != "dissidentes" or dissidentes) and (s != "cta_teste" or site_dominio)]
-    # capa que não mostra a ementa ganha logo depois o slide "O que está em votação"
+    # logo depois da capa, o slide "O que está em votação": o que o projeto faz, a etapa e o próximo passo
     capa_estilo = (formato or {}).get("capa", "classico")
-    if capa_estilo != "classico" and "entenda" not in slides:
+    if "entenda" not in slides:
         slides.insert(1, "entenda")
     if len(slides) > MAX_SLIDES:
         slides = slides[: MAX_SLIDES - 1] + ["final"]
@@ -177,6 +177,8 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
         "entenda_texto": _curto(texto_entenda, 380),
         "etapa_txt": etapa,
         "so_etapa": so_etapa,
+        "detalhes": textos.get("detalhes") or [],
+        "proximo_passo": entenda.proximo_passo(v),
         "faixa_capa": (formato or {}).get("faixa_capa") or "Veja o voto deles →",
         "diferenca_txt": f"{dif} voto" if dif == 1 else f"{dif} votos",
         "quorum_num": quorum[0] if quorum else None,

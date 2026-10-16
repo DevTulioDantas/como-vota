@@ -177,7 +177,9 @@ def _rascunhos_abertos() -> list[dict]:
 def _explicacao_nova(meta: dict) -> bool:
     from bot.summarizer import explicacao_escrita
     nova = explicacao_escrita(Votacao.from_dict(meta["votacao"]))
-    return bool(nova) and nova["resumo"] != meta.get("textos", {}).get("resumo")
+    atual = meta.get("textos", {})
+    # o título fica de fora: quando há apelido, o post usa o apelido, não o título do arquivo
+    return bool(nova) and any(nova.get(k) != atual.get(k) for k in ("resumo", "detalhes"))
 
 
 def cmd_pendentes(args) -> None:

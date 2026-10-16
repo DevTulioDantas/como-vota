@@ -93,6 +93,8 @@ class Votacao:
     # nome pelo qual o projeto é conhecido ("Fim da escala 6x1") e de onde ele veio
     apelido: str = ""
     fonte_apelido: str = ""
+    # frase oficial sobre o próximo passo, quando a Casa informa (Senado: "A matéria vai à sanção.")
+    andamento: str = ""
 
     # ---------- números ----------
     def placar(self) -> dict[str, int]:

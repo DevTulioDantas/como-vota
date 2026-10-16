@@ -60,14 +60,18 @@ pelo assunto, nunca pelo exagero.
 - Frases curtas, voz ativa, português do Brasil.
 
 titulo: até 60 caracteres. Ex.: "Teto do MEI: muda quanto dá para faturar", "Reduz a jornada semanal de trabalho".
-resumo: 1 ou 2 frases, até 220 caracteres."""
+resumo: 1 ou 2 frases, até 220 caracteres.
+detalhes: de 2 a 4 itens, cada um com até 100 caracteres, explicando em palavras simples cada parte do que a \
+ementa diz. Cubra TODAS as partes da ementa, sem omitir nenhuma (ex.: se ela também perdoa dívidas ou muda \
+prazos, isso precisa estar na lista)."""
 
 _FORMATO = {
     "type": "json_schema",
     "schema": {
         "type": "object",
-        "properties": {"titulo": {"type": "string"}, "resumo": {"type": "string"}},
-        "required": ["titulo", "resumo"],
+        "properties": {"titulo": {"type": "string"}, "resumo": {"type": "string"},
+                       "detalhes": {"type": "array", "items": {"type": "string"}}},
+        "required": ["titulo", "resumo", "detalhes"],
         "additionalProperties": False,
     },
 }
@@ -149,7 +153,8 @@ def _pergunta(v: Votacao) -> str:
 
 def _valida(dados: dict) -> dict | None:
     if dados.get("titulo") and dados.get("resumo"):
-        return {"titulo": dados["titulo"][:80], "resumo": dados["resumo"][:260]}
+        detalhes = [str(d).strip()[:120] for d in (dados.get("detalhes") or []) if str(d).strip()][:4]
+        return {"titulo": dados["titulo"][:80], "resumo": dados["resumo"][:260], "detalhes": detalhes}
     return None
 
 
@@ -171,8 +176,9 @@ def _ia_gemini(v: Votacao) -> dict | None:
             "responseMimeType": "application/json",
             "responseSchema": {
                 "type": "OBJECT",
-                "properties": {"titulo": {"type": "STRING"}, "resumo": {"type": "STRING"}},
-                "required": ["titulo", "resumo"],
+                "properties": {"titulo": {"type": "STRING"}, "resumo": {"type": "STRING"},
+                               "detalhes": {"type": "ARRAY", "items": {"type": "STRING"}}},
+                "required": ["titulo", "resumo", "detalhes"],
             },
         },
     }
@@ -267,11 +273,8 @@ def explicacoes() -> dict:
 
 
 def explicacao_escrita(v: Votacao) -> dict | None:
-    item = explicacoes().get(v.proposicao) or {}
-    titulo, resumo = str(item.get("titulo") or "").strip(), str(item.get("resumo") or "").strip()
-    if titulo and resumo:
-        return {"titulo": titulo[:80], "resumo": resumo[:260], "fonte_texto": "explicacoes.yaml"}
-    return None
+    texto = _valida(explicacoes().get(v.proposicao) or {})
+    return {**texto, "fonte_texto": "explicacoes.yaml"} if texto else None
 
 
 def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
@@ -291,6 +294,7 @@ def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
         f"🗳️ {base['titulo']}",
         "",
         base["resumo"],
+        *([""] + ["O que o projeto faz:"] + [f"• {d}" for d in base["detalhes"]] if base.get("detalhes") else []),
         "",
         f"📍 {CASA_NOME[v.casa]} · {_data_br(v.data)}",
         f"📄 {v.proposicao}" + (f" ({_NOME_TIPO[v.tipo_proposicao]})" if v.tipo_proposicao in _NOME_TIPO else "")
@@ -305,6 +309,8 @@ def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
         linhas.append(f"📏 Para aprovar, precisava de {q[0]} votos SIM ({q[1]}). {situacao}")
     if v.orientacao_governo:
         linhas.append(f"⚖️ O governo pediu voto {v.orientacao_governo.upper()}")
+    if passo := entenda.proximo_passo(v):
+        linhas.append(f"➡️ E agora? {passo}")
     if v.descricao:
         etapa = entenda.explicar_etapa(v)[0]
         linhas += [""] + ([etapa] if etapa else []) + [f"Texto oficial da votação: {v.descricao}"]

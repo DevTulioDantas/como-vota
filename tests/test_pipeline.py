@@ -483,7 +483,7 @@ def test_slide_entenda():
     ctx = renderer.contexto(v, textos, "@x", formato={"capa": "apertado", "sequencia": ["capa", "placar", "final"]})
     assert ctx["slides"][:2] == ["capa", "entenda"] and ctx["entenda_texto"] == v.ementa
     ctx = renderer.contexto(v, textos, "@x", formato={"capa": "classico", "sequencia": ["capa", "placar", "final"]})
-    assert "entenda" not in ctx["slides"], "a capa clássica já mostra a ementa"
+    assert ctx["slides"][:2] == ["capa", "entenda"], "o slide entra sempre: lista e próximo passo não estão na capa"
     assert ctx["marca_cargo"] == "Deputado" and "DEPUTADO?" in ctx["logo_svg"]
     v.casa = "senado"
     ctx = renderer.contexto(v, textos, "@x", formato={"capa": "classico", "sequencia": ["capa", "placar", "final"]})
@@ -616,6 +616,28 @@ def test_resumo_gemini():
         del _os.environ["GEMINI_API_KEY"], _os.environ["ANTHROPIC_API_KEY"]
 
 
+def test_slide_entenda_detalhes_e_proximo_passo():
+    """Lista do que o projeto faz (IA/agente) e o próximo passo tirado do informe do Senado."""
+    from bot import entenda, summarizer
+    from bot.collectors.senado import _andamento
+    from bot.models import Votacao
+    from bot.render import renderer
+    informe = ("(Sessão Deliberativa)  \r\nParecer apresentado pelo Senador Fulano e encaminhado à publicação.\r\n"
+               "Projeto aprovado.\r\nA matéria vai à sanção.\r\nA Câmara dos Deputados será comunicada.")
+    assert _andamento(informe) == "A matéria vai à sanção."
+    assert _andamento("Parecer apresentado pelo Senador Fulano e encaminhado à publicação.") == ""
+    v = Votacao(id="senado-1", casa="senado", data="2026-10-15", proposicao="PLP 186/2026", tipo_proposicao="PLP",
+                ementa="Altera a LC 123 para atualizar o limite de receita bruta anual do MEI.", descricao="",
+                aprovada=True, url_fonte="u", andamento=_andamento(informe))
+    assert "presidente da República" in entenda.proximo_passo(v)
+    v.andamento = "A matéria vai à Câmara dos Deputados."
+    assert "Câmara" in entenda.proximo_passo(v)
+    assert summarizer._valida({"titulo": "T", "resumo": "R", "detalhes": ["a", "", "b", "c", "d", "e"]})["detalhes"]         == ["a", "b", "c", "d"]
+    textos = {"titulo": "T", "resumo": "R", "resultado": "APROVADA", "detalhes": ["Muda o teto do MEI"]}
+    ctx = renderer.contexto(v, textos, "@x", formato={"capa": "estados", "sequencia": ["capa", "placar", "final"]})
+    assert ctx["detalhes"] == ["Muda o teto do MEI"] and "Câmara" in ctx["proximo_passo"]
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -639,4 +661,5 @@ if __name__ == "__main__":
     test_resumo_ia()
     test_explicacoes_do_agente()
     test_resumo_gemini()
+    test_slide_entenda_detalhes_e_proximo_passo()
     print("ok")

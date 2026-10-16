@@ -8,6 +8,7 @@ marcadas como secretas e o seletor as descarta.
 from __future__ import annotations
 
 import logging
+import re
 
 from bot.collectors.camara import _get  # mesma rotina com retry
 from bot.models import Votacao, Voto, normalizar_voto, totais_do_texto
@@ -55,10 +56,18 @@ def coletar(data_inicio: str, data_fim: str) -> list[Votacao]:
             secreta=secreta,
             totais_oficiais=_totais(r),
         ))
+        saida[-1].andamento = _andamento((r.get("informeLegislativo") or {}).get("texto") or "")
         if not secreta:
             saida[-1].apelido = apelido_oficial(codigo_materia=cod)
             saida[-1].fonte_apelido = "Senado" if saida[-1].apelido else ""
     return saida
+
+
+def _andamento(texto: str) -> str:
+    """Última frase do informe que diz para onde a matéria segue ("A matéria vai à sanção.")."""
+    frases = [f.strip() for f in texto.replace("\r", "").split("\n") if f.strip()]
+    return next((f for f in reversed(frases)
+                 if re.search(r"\b(vai|volta|retorna|segue)\b.*\b(à|ao|para)\b", f, re.I)), "")
 
 
 def _totais(r: dict) -> dict[str, int]:

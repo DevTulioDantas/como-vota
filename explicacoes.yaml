@@ -27,6 +27,11 @@
 # - resumo: 1 ou 2 frases, até 220 caracteres. A primeira responde "o que isso
 #   tem a ver comigo?"; a segunda dá o detalhe.
 #
+# - detalhes: de 2 a 4 itens (até 100 caracteres cada), um para cada parte da
+#   ementa, em palavras simples. Cubra TODAS as partes, sem omitir nenhuma (se
+#   a ementa também perdoa dívidas ou muda prazos, isso entra na lista). Vão para
+#   o slide "O que está em votação" e para a legenda.
+#
 # Formato: a chave é a proposição exatamente como aparece no post.
 
 "PLP 281/2019":
@@ -40,3 +45,8 @@
 "PLP 186/2026":
   titulo: "Teto do MEI: muda quanto dá para faturar"
   resumo: Para quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.
+  detalhes:
+    - Muda o teto de quanto o MEI pode faturar por ano
+    - Muda quantos empregados o MEI pode contratar
+    - Perdoa dívidas que MEIs têm com o governo federal
+    - Define como e quando essas regras passam a valer

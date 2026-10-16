@@ -118,6 +118,11 @@
   .ent-tipo { font-size: 24px; line-height: 1.45; color: #4A5562; padding-left: 20px; border-left: 6px solid var(--amarelo); margin: -8px 0 30px; }
   .ent-tipo b { font-family: var(--mono); color: var(--tinta); }
   .ent-texto { font-size: 33px; line-height: 1.4; font-weight: 500; }
+  .ent-rotulo { font-family: var(--titulo); text-transform: uppercase; font-size: 24px; color: #4A5562; margin-bottom: 14px; }
+  .ent-lista { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+  .ent-lista li { font-size: 29px; line-height: 1.32; font-weight: 500; padding-left: 34px; position: relative; }
+  .ent-lista li::before { content: ""; position: absolute; left: 0; top: 13px; width: 16px; height: 16px; background: var(--amarelo); border-radius: 3px; }
+  .ent-passo { margin-top: 18px; font-size: 24px; line-height: 1.45; padding: 16px 22px; border: 3px solid var(--amarelo); border-radius: 10px; }
   .ent-etapa { margin-top: 34px; font-size: 24px; line-height: 1.45; padding: 18px 22px; background: var(--papel-linha); border-radius: 10px; }
 
   /* ---------- partidos ---------- */
@@ -252,10 +257,16 @@
   {{ topo() }}
   <h2>O que está em votação</h2>
   {% if tipo_txt %}<div class="ent-tipo"><b>{{ proposicao }}</b> · {{ tipo_txt }}</div>{% endif %}
+  {% if detalhes %}
+  <div class="ent-rotulo">O que o projeto faz</div>
+  <ul class="ent-lista">{% for d in detalhes %}<li>{{ d }}</li>{% endfor %}</ul>
+  {% else %}
   <p class="ent-texto">{{ entenda_texto }}</p>
+  {% endif %}
   {% if etapa_txt %}
   <div class="ent-etapa">{{ etapa_txt }}{% if so_etapa %} <b>Esse resultado é só sobre essa parte. O projeto pode continuar sendo votado.</b>{% endif %}</div>
   {% endif %}
+  {% if proximo_passo %}<div class="ent-passo"><b>E agora?</b> {{ proximo_passo }}</div>{% endif %}
   {{ rodape(n) }}
 </section>
 

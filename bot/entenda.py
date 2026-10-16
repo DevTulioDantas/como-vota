@@ -60,6 +60,24 @@ def carimbo(v: Votacao) -> str:
     return ""
 
 
+# (trecho do andamento oficial, explicação simples). A ordem importa: "à sanção" antes de "à Câmara".
+_PASSOS = (
+    ("promulga", "A mudança vai ser oficializada pelo Congresso e passa a valer depois de publicada."),
+    ("sanção", "O projeto vai para o presidente da República, que pode aprovar (sancionar) ou barrar (vetar)."),
+    ("sancao", "O projeto vai para o presidente da República, que pode aprovar (sancionar) ou barrar (vetar)."),
+    ("câmara", "O projeto segue para a Câmara dos Deputados, que ainda precisa votar."),
+    ("camara", "O projeto segue para a Câmara dos Deputados, que ainda precisa votar."),
+    ("senado", "O projeto segue para o Senado, que ainda precisa votar."),
+    ("arquiv", "O projeto foi arquivado."),
+)
+
+
+def proximo_passo(v: Votacao) -> str:
+    """O que acontece agora, quando a Casa informa (por enquanto, o informe do Senado)."""
+    andamento = (v.andamento or "").lower()
+    return next((texto for trecho, texto in _PASSOS if trecho in andamento), "")
+
+
 def explicar_tipo(v: Votacao) -> str:
     return TIPOS.get(v.tipo_proposicao, "")
 
