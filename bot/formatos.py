@@ -50,7 +50,7 @@ VARIAVEIS = {
 PROIBIDOS = [
     "polemic", "vergonh", "absurd", "escandal", "traic", "traidor", "golpe", "chocant",
     "inacreditavel", "revoltant", "bomba", "mentir", "lacr", "destrui", "humilh",
-    "olha o que", "nao acredit", "urgente", "desmascar", "exposed", "vexame", "ridicul",
+    "olha o que", "nao acredit", "urgente", "desmascar", "exposed", "vexame", "ridicul", "drastic",
 ]
 
 
