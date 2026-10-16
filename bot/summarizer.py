@@ -1,8 +1,9 @@
 """Gera o título curto, o resumo dos slides e a legenda do post.
 
-Com ANTHROPIC_API_KEY configurada, a IA (SDK oficial da Anthropic, modelo em
-IA_MODELO) reescreve a ementa oficial em linguagem simples para leigos. Sem a
-chave, ou se a IA falhar, usa a própria ementa: o post sai do mesmo jeito.
+Com GEMINI_API_KEY (modelo em GEMINI_MODELO) ou ANTHROPIC_API_KEY (SDK oficial,
+modelo em IA_MODELO), a IA reescreve a ementa oficial em linguagem simples para
+leigos; o Gemini tem prioridade. Sem chave, ou se a IA falhar, usa a própria
+ementa: o post sai do mesmo jeito.
 
 Regra de ouro: só fatos. Nada de adjetivo, opinião ou previsão de efeito.
 """
@@ -16,6 +17,7 @@ from datetime import date
 from pathlib import Path
 
 import anthropic
+import requests
 import yaml
 
 from bot import entenda
@@ -24,6 +26,8 @@ from bot.models import ABSTENCAO, NAO, OBSTRUCAO, SIM, Votacao
 log = logging.getLogger(__name__)
 
 MODELO = os.getenv("IA_MODELO") or "claude-opus-5-5"
+GEMINI_MODELO = os.getenv("GEMINI_MODELO") or "gemini-2.5-flash"
+GEMINI_API = "https://generativelanguage.googleapis.com/v1beta"
 
 INSTRUCOES = """Você escreve para um perfil apartidário no Instagram que mostra como deputados e senadores votaram.
 O público é geral: muita gente nunca acompanhou o Congresso e não conhece os termos jurídicos.
@@ -126,18 +130,65 @@ def _fallback(v: Votacao) -> dict:
     return {"titulo": titulo, "resumo": resumo}
 
 
+def _pergunta(v: Votacao) -> str:
+    return f"Proposição: {v.proposicao}\nEmenta oficial: {v.ementa}\nO que foi votado: {v.descricao}"
+
+
+def _valida(dados: dict) -> dict | None:
+    if dados.get("titulo") and dados.get("resumo"):
+        return {"titulo": dados["titulo"][:80], "resumo": dados["resumo"][:260]}
+    return None
+
+
 def _ia(v: Votacao) -> dict | None:
-    if not os.getenv("ANTHROPIC_API_KEY"):
-        return None
+    """IA configurada: Gemini se houver GEMINI_API_KEY, senão Claude se houver ANTHROPIC_API_KEY."""
+    if os.getenv("GEMINI_API_KEY"):
+        return _ia_gemini(v)
+    if os.getenv("ANTHROPIC_API_KEY"):
+        return _ia_anthropic(v)
+    return None
+
+
+def _ia_gemini(v: Votacao) -> dict | None:
+    pedido = {
+        "systemInstruction": {"parts": [{"text": INSTRUCOES}]},
+        "contents": [{"role": "user", "parts": [{"text": _pergunta(v)}]}],
+        "generationConfig": {
+            "temperature": 0.2,  # texto informativo: pouca variação
+            "responseMimeType": "application/json",
+            "responseSchema": {
+                "type": "OBJECT",
+                "properties": {"titulo": {"type": "STRING"}, "resumo": {"type": "STRING"}},
+                "required": ["titulo", "resumo"],
+            },
+        },
+    }
+    try:
+        r = requests.post(f"{GEMINI_API}/models/{GEMINI_MODELO}:generateContent", json=pedido, timeout=60,
+                          headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]})
+        corpo = r.json()
+        if r.status_code >= 400:
+            raise RuntimeError(f"HTTP {r.status_code}: {(corpo.get('error') or {}).get('message', corpo)}")
+        candidato = (corpo.get("candidates") or [{}])[0]
+        if candidato.get("finishReason") != "STOP":
+            bloqueio = (corpo.get("promptFeedback") or {}).get("blockReason")
+            log.warning("Gemini parou com %s em %s; usando ementa", bloqueio or candidato.get("finishReason"), v.id)
+            return None
+        texto = "".join(p.get("text", "") for p in candidato["content"]["parts"])
+        return _valida(json.loads(texto))
+    except Exception as e:  # nunca derrubar o pipeline por causa do texto
+        log.warning("Gemini indisponível para %s (%s); usando ementa", v.id, e)
+    return None
+
+
+def _ia_anthropic(v: Votacao) -> dict | None:
     pedido = {
         "model": MODELO,
         "max_tokens": 4000,
         "system": INSTRUCOES,
         # texto curto e tarefa simples: esforço baixo basta e sai mais barato
         "output_config": {"effort": "low", "format": _FORMATO},
-        "messages": [{"role": "user", "content": (
-            f"Proposição: {v.proposicao}\nEmenta oficial: {v.ementa}\nO que foi votado: {v.descricao}"
-        )}],
+        "messages": [{"role": "user", "content": _pergunta(v)}],
     }
     try:
         cliente = anthropic.Anthropic(timeout=60.0)
@@ -149,9 +200,7 @@ def _ia(v: Votacao) -> dict | None:
         if resposta.stop_reason != "end_turn":
             log.warning("IA parou com %s em %s; usando ementa", resposta.stop_reason, v.id)
             return None
-        dados = json.loads(next(b.text for b in resposta.content if b.type == "text"))
-        if dados.get("titulo") and dados.get("resumo"):
-            return {"titulo": dados["titulo"][:80], "resumo": dados["resumo"][:260]}
+        return _valida(json.loads(next(b.text for b in resposta.content if b.type == "text")))
     except Exception as e:  # nunca derrubar o pipeline por causa do texto
         log.warning("IA indisponível para %s (%s); usando ementa", v.id, e)
     return None

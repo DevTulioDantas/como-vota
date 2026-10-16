@@ -30,6 +30,8 @@ jobs:
           IG_GRAPH_BASE: ${{ vars.IG_GRAPH_BASE }}
           PUBLIC_BASE_URL: ${{ vars.PUBLIC_BASE_URL }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODELO: ${{ vars.GEMINI_MODELO }}
           IA_MODELO: ${{ vars.IA_MODELO }}
           SITE_TESTE_URL: ${{ vars.SITE_TESTE_URL }}
           DRY_RUN: ${{ vars.DRY_RUN }}

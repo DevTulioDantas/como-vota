@@ -82,6 +82,8 @@ def _congresso() -> list[tuple]:
 
 
 def _ia() -> list[tuple]:
+    if os.getenv("GEMINI_API_KEY"):
+        return _gemini()
     chave = os.getenv("ANTHROPIC_API_KEY")
     if not chave:
         return [(AVISO, "IA (resumos)", "sem ANTHROPIC_API_KEY: as legendas usam a ementa oficial, sem reescrita")]
@@ -99,6 +101,19 @@ def _ia() -> list[tuple]:
         return [(ERRO, "IA (resumos)", f"erro da API (HTTP {e.status_code})")]
     except anthropic.APIConnectionError as e:
         return [(AVISO, "IA (resumos)", f"sem conexão: {e.__class__.__name__}")]
+
+
+def _gemini() -> list[tuple]:
+    from bot.summarizer import GEMINI_API, GEMINI_MODELO
+    try:  # confere a chave e se o modelo configurado existe para ela
+        r = _get(f"{GEMINI_API}/models/{GEMINI_MODELO}", headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]})
+        if r.status_code == 200:
+            return [(OK, "IA (resumos)", f"Gemini: chave válida · modelo {GEMINI_MODELO}")]
+        if r.status_code == 404:
+            return [(ERRO, "IA (resumos)", f"Gemini: modelo {GEMINI_MODELO} não encontrado: confira a variable GEMINI_MODELO")]
+        return [(ERRO, "IA (resumos)", f"Gemini: chave recusada (HTTP {r.status_code}): confira o secret GEMINI_API_KEY")]
+    except requests.RequestException as e:
+        return [(AVISO, "IA (resumos)", f"Gemini sem conexão: {e.__class__.__name__}")]
 
 
 def _site() -> list[tuple]:

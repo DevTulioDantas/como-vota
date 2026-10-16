@@ -566,6 +566,46 @@ def test_explicacoes_do_agente():
             summarizer.ARQUIVO_EXPLICACOES = antigo
 
 
+def test_resumo_gemini():
+    """Com GEMINI_API_KEY, o Gemini escreve; bloqueio ou erro caem na ementa, sem derrubar nada."""
+    import json as _json
+    import os as _os
+    from types import SimpleNamespace as NS
+
+    from bot import summarizer
+    from bot.models import Votacao
+    pedidos = []
+
+    def responde(status, corpo):
+        def post(url, json=None, timeout=None, headers=None):
+            pedidos.append((url, json, headers))
+            return NS(status_code=status, json=lambda: corpo)
+        return post
+
+    ok = {"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": _json.dumps(
+        {"titulo": "Define regras para bancos em crise", "resumo": "Cria regras para bancos que quebram."})}]}}]}
+    v = Votacao(id="x", casa="camara", data="2026-10-14", proposicao="PLP 281/2019", tipo_proposicao="PLP",
+                ementa="Dispõe sobre os regimes de resolução das instituições autorizadas a funcionar pelo Banco Central.",
+                descricao="", aprovada=False, url_fonte="u")
+    original = summarizer.requests.post
+    _os.environ["GEMINI_API_KEY"] = "teste"
+    _os.environ["ANTHROPIC_API_KEY"] = "nao-deve-ser-usada"
+    try:
+        summarizer.requests.post = responde(200, ok)
+        assert summarizer._ia(v)["titulo"] == "Define regras para bancos em crise", "Gemini tem prioridade"
+        url, corpo, cab = pedidos[-1]
+        assert url.endswith(f"/models/{summarizer.GEMINI_MODELO}:generateContent") and cab["x-goog-api-key"] == "teste"
+        assert corpo["generationConfig"]["responseMimeType"] == "application/json"
+        summarizer.requests.post = responde(200, {"promptFeedback": {"blockReason": "SAFETY"}, "candidates": []})
+        assert summarizer._ia(v) is None
+        summarizer.requests.post = responde(400, {"error": {"message": "API key not valid"}})
+        assert summarizer._ia(v) is None
+        assert summarizer.gerar_textos(v)["resumo"].startswith("Dispõe sobre"), "sem IA, volta para a ementa"
+    finally:
+        summarizer.requests.post = original
+        del _os.environ["GEMINI_API_KEY"], _os.environ["ANTHROPIC_API_KEY"]
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -588,4 +628,5 @@ if __name__ == "__main__":
     test_slide_entenda()
     test_resumo_ia()
     test_explicacoes_do_agente()
+    test_resumo_gemini()
     print("ok")
