@@ -16,6 +16,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from playwright.sync_api import sync_playwright
 
 from bot import cta, entenda
+from bot.render import visual
 from bot.models import NAO, SIM, Votacao
 
 PASTA = Path(__file__).parent
@@ -184,6 +185,10 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
         "detalhes": textos.get("detalhes") or [],
         "proximo_passo": entenda.proximo_passo(v),
         "chamada_final": textos.get("chamada") or f"E o {quem} que você elegeu, como votou?",
+        "hemiciclo": visual.hemiciclo_svg(v, 760),
+        "hemiciclo_capa": visual.hemiciclo_svg(v, 360),
+        "sem_voto": max(visual.ASSENTOS.get(v.casa, 0), total) - p[SIM] - p[NAO] - p["Abstenção"] - p["Obstrução"],
+        "fotos": {},
         "publico": textos.get("publico") or "quem quer acompanhar o Congresso",
         "faixa_capa": (formato or {}).get("faixa_capa") or "Veja o voto deles →",
         "diferenca_txt": f"{dif} voto" if dif == 1 else f"{dif} votos",
@@ -232,6 +237,8 @@ def renderizar(v: Votacao, textos: dict, pasta_saida: Path, handle: str, demo: b
     for antigo in pasta_saida.glob("slide_*.jpg"):  # ao regerar, não deixa slides sobrando
         antigo.unlink()
     ctx = contexto(v, textos, handle, demo, formato)
+    if ctx["minoria"]:  # fotos oficiais só na hora de desenhar (o contexto fica sem rede, para os testes)
+        ctx["fotos"] = {x.id: visual.foto(v.casa, x.id) for x in ctx["minoria"]["votos"] if x.id}
     html = _env.get_template("carrossel.html").render(**ctx)
 
     n = len(ctx["slides"])

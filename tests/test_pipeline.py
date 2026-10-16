@@ -663,6 +663,12 @@ def test_minoria():
     assert ctx["slides"] == ["capa", "entenda", "placar", "minoria", "final"]
     assert ctx["minoria"]["maioria"] == 461 and ctx["minoria"]["lado_maioria"] == "SIM"
     assert "🔎 Votaram NÃO (4): N0 (PB-RJ)" in summarizer.gerar_textos(v)["legenda"]
+    # hemiciclo: uma cadeira por parlamentar da Casa (a Câmara só lista quem votou; o resto é "não votou")
+    from bot.render import visual
+    svg = visual.hemiciclo_svg(v)
+    assert svg.count("<circle") == 513 and svg.count('fill="#E4433C"') == 4 and svg.count('fill="#1FA97A"') == 461
+    assert ctx["sem_voto"] == 513 - 465
+    assert visual.foto("camara", "") == "" and visual.iniciais("Hamilton Mourão") == "HM"
 
 
 def test_chamada_final():

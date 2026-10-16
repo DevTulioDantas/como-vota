@@ -65,6 +65,7 @@
     border: 7px solid currentColor; border-radius: 12px; padding: 8px 26px 6px; transform: rotate(-6deg);
   }
   .capa .carimbo { right: 70px; bottom: 170px; font-size: 52px; }
+  .capa .hemi-capa { position: absolute; left: 62px; bottom: 150px; }
   .capa .carimbo.duplo { font-size: 40px; line-height: 1.08; text-align: center; padding: 12px 26px 8px; }
   .capa h1.pergunta { font-size: 86px; color: var(--papel); }
   .capa .chamada-capa { font-family: var(--titulo); text-transform: uppercase; font-size: 40px; line-height: 1.1;
@@ -98,6 +99,15 @@
 
   /* ---------- placar ---------- */
   h2 { font-size: 54px; margin-bottom: 34px; }
+  .placar-topo { display: flex; justify-content: space-between; align-items: flex-start; }
+  .placar-topo h2 { margin-bottom: 6px; }
+  .placar-topo .carimbo { position: static; color: var(--amarelo); font-size: 30px; border-width: 5px; transform: rotate(-6deg); margin-top: 4px; }
+  .hemi-placar { display: flex; justify-content: center; margin-top: 4px; }
+  .placar-linha { display: flex; justify-content: center; align-items: center; gap: 28px; margin-top: -6px;
+    font-family: var(--mono); font-weight: 700; font-size: 88px; line-height: 1; }
+  .placar-linha span { display: flex; align-items: center; gap: 16px; }
+  .placar-linha .x { color: var(--cinza); font-size: 60px; }
+  .outros .pt { display: inline-block; width: 18px; height: 18px; border-radius: 50%; }
   .placar { display: flex; gap: 40px; align-items: flex-end; position: relative; }
   .placar .lado { flex: 1; }
   .placar .rotulo { display: flex; align-items: center; gap: 14px; font-family: var(--titulo); font-size: 34px; text-transform: uppercase; }
@@ -106,7 +116,7 @@
   .placar .carimbo { color: var(--amarelo); font-size: 34px; right: 0; top: -84px; border-width: 5px; transform: rotate(-9deg); }
   .barra-grande { display: flex; height: 30px; border-radius: 8px; overflow: hidden; margin: 36px 0 22px; background: rgba(246,243,236,.15); }
   .barra-grande div { height: 100%; }
-  .outros { display: flex; gap: 34px; font-family: var(--mono); font-size: 24px; color: var(--azul-texto); }
+  .outros { display: flex; justify-content: center; gap: 30px; margin-top: 18px; font-family: var(--mono); font-size: 22px; color: var(--azul-texto); }
   .outros span { display: flex; align-items: center; gap: 10px; }
   .votado { font-size: 25px; line-height: 1.45; color: var(--azul-texto); margin-top: 26px; }
   .quorum { margin-top: 22px; font-size: 26px; padding: 14px 18px; border: 3px solid var(--amarelo); border-radius: 10px; }
@@ -145,6 +155,18 @@
   .min-lista.grande .min-linha { height: 112px; font-size: 44px; }
   .min-lista.grande .min-linha .pu { font-size: 30px; }
   .min-lista.longa .min-linha { height: 52px; font-size: 26px; }
+  .min-linha .foto { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex: none; background: #33465A;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: var(--papel); }
+  .min-lista.grande .min-linha .foto { width: 92px; height: 92px; font-size: 32px; }
+  .min-lista.longa .min-linha .foto { width: 42px; height: 42px; font-size: 16px; }
+  .min-unico { display: flex; align-items: center; gap: 44px; margin: 30px 0 10px; }
+  .min-unico .foto { width: 300px; height: 300px; border-radius: 50%; object-fit: cover; flex: none; background: #33465A;
+    border: 6px solid var(--vermelho); display: inline-flex; align-items: center; justify-content: center;
+    font-size: 96px; font-weight: 700; color: var(--papel); }
+  .min-unico .n { font-family: var(--titulo); text-transform: uppercase; font-size: 54px; line-height: 1.05; color: var(--papel); }
+  .min-unico .pu { font-family: var(--mono); font-size: 32px; color: var(--azul-texto); margin-top: 12px; }
+  .min-unico .voto { display: flex; align-items: center; gap: 14px; margin-top: 28px; font-family: var(--titulo);
+    text-transform: uppercase; font-size: 36px; color: var(--papel); }
   .min-titulo { font-size: 58px; color: var(--papel); margin: 18px 0 26px; }
   .min-lista { display: flex; flex-direction: column; }
   .min-linha { display: flex; align-items: center; gap: 18px; height: 60px; border-bottom: 2px solid rgba(246,243,236,.14); font-size: 28px; color: var(--papel); }
@@ -262,6 +284,7 @@
   <p class="resumo">{{ resumo }}</p>
   {% endif %}
   {% set palavras = carimbo.split(" ") %}
+  <div class="hemi-capa">{{ hemiciclo_capa|safe }}</div>
   <div class="carimbo {{ resultado|lower }}{% if palavras|length > 1 %} duplo{% endif %}">{{ palavras|join("<br>")|safe }}</div>
   <div class="faixa">
     <span>{{ faixa_capa }}</span>
@@ -291,31 +314,19 @@
 {% elif s == "placar" %}
 <section class="slide escuro" id="slide-{{ n }}">
   {{ topo() }}
-  <h2>Placar</h2>
-  <div class="placar">
-    <div class="lado">
-      <div class="rotulo">{{ icone("Sim", 44) }} Sim</div>
-      <div class="num">{{ placar.Sim }}</div>
-    </div>
-    <div class="x">×</div>
-    <div class="lado">
-      <div class="rotulo">{{ icone("Não", 44) }} Não</div>
-      <div class="num">{{ placar["Não"] }}</div>
-    </div>
-    <div class="carimbo">Oficial</div>
-  </div>
-  <div class="barra-grande">
-    <div style="width: {{ pct_sim }}%; background: var(--verde)"></div>
-    <div style="width: {{ pct_nao }}%; background: var(--vermelho)"></div>
-    <div style="width: {{ pct_outros }}%; background: var(--cinza)"></div>
+  <div class="placar-topo"><h2>Placar</h2><div class="carimbo">Oficial</div></div>
+  <div class="hemi-placar">{{ hemiciclo|safe }}</div>
+  <div class="placar-linha">
+    <span class="lado-sim">{{ icone("Sim", 52) }}<b>{{ placar.Sim }}</b></span>
+    <span class="x">×</span>
+    <span class="lado-nao"><b>{{ placar["Não"] }}</b>{{ icone("Não", 52) }}</span>
   </div>
   <div class="outros">
-    <span>{{ icone("Abstenção", 26) }} Abstenção {{ placar["Abstenção"] }}</span>
-    {% if placar["Obstrução"] %}<span>{{ icone("Obstrução", 26) }} Obstrução {{ placar["Obstrução"] }}</span>{% endif %}
-    {% if placar.Outro %}<span>{{ icone("Outro", 26) }} Não votou {{ placar.Outro }}</span>{% endif %}
+    <span><i class="pt" style="background: var(--verde)"></i>Sim</span>
+    <span><i class="pt" style="background: var(--vermelho)"></i>Não</span>
+    <span><i class="pt" style="background: var(--cinza)"></i>Abstenção {{ placar["Abstenção"] + placar["Obstrução"] }}</span>
+    <span><i class="pt" style="background: #33465A"></i>Não votou {{ sem_voto }}</span>
   </div>
-  {% if etapa_txt %}<p class="votado">{{ etapa_txt }}</p>
-  {% elif descricao %}<p class="votado">O que foi votado: {{ descricao_curta }}</p>{% endif %}
   {% if quorum_num %}
   <div class="quorum">Para aprovar, precisava de <b>{{ quorum_num }} votos SIM</b> ({{ quorum_txt }}).
     {% if quorum_faltaram %}Faltaram <b>{{ quorum_faltaram }}</b>.{% else %}Conseguiu.{% endif %}</div>
@@ -362,16 +373,31 @@
   {{ topo() }}
   <div class="min-placar"><b class="c-sim">{{ placar.Sim }}</b> <span>×</span> <b class="c-nao">{{ placar["Não"] }}</b></div>
   <h2 class="min-titulo">{% if qtd == 1 %}O único voto {{ lado_txt }}{% else %}Os {{ qtd }} votos {{ lado_txt }}{% endif %}</h2>
-  <div class="min-lista{% if qtd <= 3 %} grande{% elif qtd > 8 %} longa{% endif %}">
+  {% if qtd == 1 %}
+  {% set d = minoria.votos[0] %}
+  <div class="min-unico">
+    {% if fotos.get(d.id) %}<img class="foto" src="{{ fotos[d.id] }}" alt="">{% else %}<span class="foto ini">{{ d.nome.split()[0][0] }}{{ d.nome.split()[-1][0] }}</span>{% endif %}
+    <div class="dados">
+      <div class="n">{{ d.nome }}</div>
+      <div class="pu">{{ d.partido }}-{{ d.uf }}</div>
+      <div class="voto">{{ icone(d.voto, 44) }} Votou {{ lado_txt }}</div>
+    </div>
+  </div>
+  {% else %}
+  <div class="min-lista{% if qtd <= 5 %} grande{% elif qtd > 8 %} longa{% endif %}">
     {% for d in minoria.votos %}
     <div class="min-linha">
+      {% if fotos.get(d.id) %}<img class="foto" src="{{ fotos[d.id] }}" alt="">{% else %}<span class="foto ini">{{ d.nome.split()[0][0] }}{{ d.nome.split()[-1][0] }}</span>{% endif %}
       {{ icone(d.voto, 36) }}
       <span class="n">{{ d.nome }}</span>
       <span class="pu">{{ d.partido }}-{{ d.uf }}</span>
     </div>
     {% endfor %}
   </div>
-  <p class="min-nota">Os outros {{ minoria.maioria }} votaram {{ minoria.lado_maioria }}.</p>
+  {% endif %}
+  <p class="min-nota">Os outros {{ minoria.maioria }} votaram {{ minoria.lado_maioria }}.
+    Este destaque é automático em placares muito desiguais.{% if fotos.values()|select|list %}
+    {{ "Foto oficial" if qtd == 1 else "Fotos oficiais" }}: {{ casa_nome_completo }}.{% endif %}</p>
   {{ rodape(n, com_barra=False) }}
 </section>
 

@@ -34,6 +34,7 @@ bot/entenda.py              slide "O que está em votação": tipo de projeto, e
 bot/formatos.py + formatos/ biblioteca de formatos (YAML), rodízio, peso por desempenho
 bot/render/renderer.py      HTML (Jinja) → JPEG via Playwright; mapa em grade (GRADE_UF)
 bot/render/templates/       carrossel, explicador, voto_semana, fixados, _cta_teste, logo.svg
+bot/render/visual.py        hemiciclo do plenário (uma cadeira por parlamentar) e fotos oficiais da Câmara/Senado
 bot/semana.py               Voto da Semana (rodízio de parlamentar)
 bot/frias.py + pautas_frias/  pautas frias: explicadores YAML, Bancada do Estado, repost
 bot/cta.py                  slide e linha de chamada para o teste do site (SITE_TESTE_URL)
@@ -122,6 +123,7 @@ Rode `python main.py diagnostico` e o workflow *Diagnóstico* antes de tudo, e m
 - **Fila de horários** (11h45 e 18h45 por padrão), com o botão **Agora** para notícias urgentes.
 - **Rodízio de formatos até 3 posts medidos por formato** e depois sorteio com peso pela pontuação, que é (3×salvos + 3×compart. + comentários + 0,5×curtidas) / alcance × 1000.
 - **Repost só de explicadores** que estejam entre os 30% melhores, com pelo menos 4 medidos e pelo menos 60 dias desde a última vez. Votações envelhecem e não voltam.
+- **Visual a partir dos dados:** o placar e a capa trazem o hemiciclo da Casa inteira (513 ou 81 cadeiras; SIM à esquerda, NÃO à direita, "não votou" em azul-escuro). O slide da minoria usa as fotos oficiais da Câmara/Senado, com crédito e a nota "Este destaque é automático"; sem foto, entram as iniciais.
 - **Minoria em destaque:** placar muito desigual ganha o slide "Os N votos NÃO/SIM" com nome, partido e UF de quem ficou no lado menor, e os nomes vão para a legenda. A regra é automática e igual para os dois lados (regra 7): lado menor com até 10 votos e no máximo 5% dos votos SIM + NÃO (`MINORIA_MAX_VOTOS`/`MINORIA_MAX_FRACAO` em `bot/models.py`). Ex.: 461 × 4 entra; 252 × 176 não.
 - **Quórum:** PEC 308/49 e PLP 257/41, mostrado no placar. Destaques e requerimentos ficam de fora.
 - **Mapa por estado em grade** (`GRADE_UF`), não geográfico: estados pequenos ficam visíveis. É um formato do rodízio, não fixo (decisão do dono).
