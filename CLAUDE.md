@@ -145,6 +145,16 @@ Rode `python main.py diagnostico` e o workflow *Diagnóstico* antes de tudo, e m
 - publicar os 3 posts fixados;
 - preencher `quiz/perguntas.yaml` com votações reais. O `site/quiz.json` atual é **fictício** (`"demo": true`), e o diagnóstico acusa isso se o site for ao ar assim.
 
+**Pendente, combinado para depois: despertador externo (cron-job.org).**
+O agendamento do GitHub Actions atrasa muito neste repositório (medido em 15 e 16/10/2026): o *Gerar posts do dia* das 8h47 rodou às 12h44 ou nem rodou, e o *Verificar aprovações* (a cada 15 min) rodou a cada 3 a 5 horas. Com isso, posts saem tarde, aprovações demoram horas para virar publicação e o "Descartar" só apaga as mensagens na próxima verificação.
+Solução: um serviço externo gratuito chama a API do GitHub nos horários certos (os agendamentos do próprio GitHub ficam como reserva; rodar duas vezes não duplica nada, por causa da deduplicação e do `concurrency`).
+1. O dono cria um token *fine-grained* no GitHub: só o repositório `como-vota`, permissão **Actions: Read and write**, com validade.
+2. Conta no cron-job.org, com jobs `POST https://api.github.com/repos/DevTulioDantas/como-vota/actions/workflows/<arquivo>/dispatches`, cabeçalhos `Authorization: Bearer <token>`, `Accept: application/vnd.github+json` e corpo `{"ref":"main"}`:
+   - `verificar.yml` a cada 15 minutos;
+   - `gerar-diario.yml` às 8h47 (Brasília);
+   - `metricas.yml` às 5h47 e `voto-da-semana.yml` aos sábados às 10h47.
+3. Testar disparando cada job uma vez e conferindo a execução em *Actions*.
+
 **Ideias já discutidas e não feitas:**
 - integração com um intermediário auditado do TikTok para postagem pública 100% automática (ex.: Upload-Post), pendente de decisão e da leitura da documentação deles;
 - agenda da semana (o que o Congresso vai votar), usando a API de eventos/pauta;
