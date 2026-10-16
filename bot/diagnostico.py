@@ -108,7 +108,19 @@ def _gemini() -> list[tuple]:
     try:  # confere a chave e se o modelo configurado existe para ela
         r = _get(f"{GEMINI_API}/models/{GEMINI_MODELO}", headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]})
         if r.status_code == 200:
-            return [(OK, "IA (resumos)", f"Gemini: chave válida · modelo {GEMINI_MODELO}")]
+            # escrita de verdade com uma ementa conhecida: confere formato JSON e conteúdo
+            from bot.models import Votacao
+            from bot.summarizer import _ia_gemini
+            exemplo = Votacao(id="diagnostico", casa="camara", data="2026-01-01", proposicao="PLP 281/2019",
+                              tipo_proposicao="PLP", descricao="", aprovada=True, url_fonte="",
+                              ementa="Dispõe sobre os regimes de resolução das instituições autorizadas a funcionar "
+                                     "pelo Banco Central do Brasil, pela Superintendência de Seguros Privados e pela "
+                                     "Comissão de Valores Mobiliários.")
+            texto = _ia_gemini(exemplo)
+            if not texto:
+                return [(ERRO, "IA (resumos)", f"Gemini: chave válida, mas o modelo {GEMINI_MODELO} não devolveu "
+                         "título e resumo: veja o log do workflow")]
+            return [(OK, "IA (resumos)", f"Gemini {GEMINI_MODELO} · teste: “{texto['titulo']}”")]
         if r.status_code == 404:
             lista = _get(f"{GEMINI_API}/models", params={"pageSize": 1000},
                          headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]}).json().get("models", [])
