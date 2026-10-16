@@ -139,6 +139,18 @@
   .legenda .nv { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: var(--cinza-claro); }
 
   /* ---------- cédula (dissidentes) ---------- */
+  .min-placar { font-family: var(--mono); font-weight: 700; font-size: 96px; line-height: 1; color: var(--amarelo); margin-top: 6px; }
+  .min-placar span { color: var(--azul-texto); font-size: 64px; }
+  .min-placar .c-sim { color: var(--verde); } .min-placar .c-nao { color: var(--vermelho); }
+  .min-lista.grande .min-linha { height: 112px; font-size: 44px; }
+  .min-lista.grande .min-linha .pu { font-size: 30px; }
+  .min-lista.longa .min-linha { height: 52px; font-size: 26px; }
+  .min-titulo { font-size: 58px; color: var(--papel); margin: 18px 0 26px; }
+  .min-lista { display: flex; flex-direction: column; }
+  .min-linha { display: flex; align-items: center; gap: 18px; height: 60px; border-bottom: 2px solid rgba(246,243,236,.14); font-size: 28px; color: var(--papel); }
+  .min-linha .n { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 640px; }
+  .min-linha .pu { font-family: var(--mono); font-size: 22px; color: var(--azul-texto); margin-left: auto; white-space: nowrap; }
+  .min-nota { margin-top: 22px; font-size: 24px; color: var(--azul-texto); }
   .cedula { display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; }
   .linha-cedula { display: flex; align-items: center; gap: 12px; height: 62px; border-bottom: 2px solid var(--papel-linha); font-size: 23px; }
   .linha-cedula .n { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
@@ -335,6 +347,26 @@
     {% endfor %}
   </div>
   {{ rodape(n) }}
+</section>
+
+{% elif s == "minoria" %}
+{% set lado_txt = "NÃO" if minoria.lado == "Não" else "SIM" %}
+{% set qtd = minoria.votos|length %}
+<section class="slide escuro" id="slide-{{ n }}">
+  {{ topo() }}
+  <div class="min-placar"><b class="c-sim">{{ placar.Sim }}</b> <span>×</span> <b class="c-nao">{{ placar["Não"] }}</b></div>
+  <h2 class="min-titulo">{% if qtd == 1 %}O único voto {{ lado_txt }}{% else %}Os {{ qtd }} votos {{ lado_txt }}{% endif %}</h2>
+  <div class="min-lista{% if qtd <= 3 %} grande{% elif qtd > 8 %} longa{% endif %}">
+    {% for d in minoria.votos %}
+    <div class="min-linha">
+      {{ icone(d.voto, 36) }}
+      <span class="n">{{ d.nome }}</span>
+      <span class="pu">{{ d.partido }}-{{ d.uf }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  <p class="min-nota">Os outros {{ minoria.maioria }} votaram {{ minoria.lado_maioria }}.</p>
+  {{ rodape(n, com_barra=False) }}
 </section>
 
 {% elif s == "dissidentes" %}

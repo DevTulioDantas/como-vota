@@ -145,6 +145,10 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
     capa_estilo = (formato or {}).get("capa", "classico")
     if "entenda" not in slides:
         slides.insert(1, "entenda")
+    minoria = v.minoria()
+    if minoria and "minoria" not in slides:
+        depois = slides.index("placar") + 1 if "placar" in slides else 2
+        slides.insert(depois, "minoria")
     if len(slides) > MAX_SLIDES:
         slides = slides[: MAX_SLIDES - 1] + ["final"]
     quorum = v.quorum()
@@ -198,6 +202,9 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
         "partidos": partidos,
         "maior_bancada": max((l["total"] for l in partidos), default=1),
         "dissidentes": dissidentes[:MAX_DISSIDENTES],
+        "minoria": {"lado": minoria[0], "votos": minoria[1],
+                    "maioria": p[SIM] if minoria[0] == NAO else p[NAO],
+                    "lado_maioria": "SIM" if minoria[0] == NAO else "NÃO"} if minoria else None,
         "dissidentes_restantes": max(0, len(dissidentes) - MAX_DISSIDENTES),
         "handle": handle,
         "demo": demo,

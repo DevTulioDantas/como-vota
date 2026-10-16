@@ -122,6 +122,7 @@ Rode `python main.py diagnostico` e o workflow *Diagnóstico* antes de tudo, e m
 - **Fila de horários** (11h45 e 18h45 por padrão), com o botão **Agora** para notícias urgentes.
 - **Rodízio de formatos até 3 posts medidos por formato** e depois sorteio com peso pela pontuação, que é (3×salvos + 3×compart. + comentários + 0,5×curtidas) / alcance × 1000.
 - **Repost só de explicadores** que estejam entre os 30% melhores, com pelo menos 4 medidos e pelo menos 60 dias desde a última vez. Votações envelhecem e não voltam.
+- **Minoria em destaque:** placar muito desigual ganha o slide "Os N votos NÃO/SIM" com nome, partido e UF de quem ficou no lado menor, e os nomes vão para a legenda. A regra é automática e igual para os dois lados (regra 7): lado menor com até 10 votos e no máximo 5% dos votos SIM + NÃO (`MINORIA_MAX_VOTOS`/`MINORIA_MAX_FRACAO` em `bot/models.py`). Ex.: 461 × 4 entra; 252 × 176 não.
 - **Quórum:** PEC 308/49 e PLP 257/41, mostrado no placar. Destaques e requerimentos ficam de fora.
 - **Mapa por estado em grade** (`GRADE_UF`), não geográfico: estados pequenos ficam visíveis. É um formato do rodízio, não fixo (decisão do dono).
 - **Apelido do projeto como título** ("Fim da escala 6x1"): vem do campo `apelido` da API do Senado (`/processo`), também para projetos da Câmara a partir de 2019, porque a numeração é única. O `apelidos.yaml` permite cadastrar ou trocar um apelido. Todo post com apelido gera um alerta para conferir a neutralidade: apelido criado por um dos lados ("PEC da Blindagem") não entra.

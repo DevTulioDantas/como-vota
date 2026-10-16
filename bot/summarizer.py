@@ -309,6 +309,10 @@ def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
         linhas.append(f"📏 Para aprovar, precisava de {q[0]} votos SIM ({q[1]}). {situacao}")
     if v.orientacao_governo:
         linhas.append(f"⚖️ O governo pediu voto {v.orientacao_governo.upper()}")
+    if minoria := v.minoria():
+        lado, votos = minoria
+        nomes = ", ".join(f"{x.nome} ({x.partido}-{x.uf})" for x in votos)
+        linhas.append(f"🔎 Votaram {lado.upper()} ({len(votos)}): {nomes}")
     if passo := entenda.proximo_passo(v):
         linhas.append(f"➡️ E agora? {passo}")
     if v.descricao:

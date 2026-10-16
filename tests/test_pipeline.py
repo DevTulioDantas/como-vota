@@ -638,6 +638,33 @@ def test_slide_entenda_detalhes_e_proximo_passo():
     assert ctx["detalhes"] == ["Muda o teto do MEI"] and "Câmara" in ctx["proximo_passo"]
 
 
+def test_minoria():
+    """Placar muito desigual destaca o lado menor, pela mesma regra para SIM e NÃO."""
+    from bot import summarizer
+    from bot.models import Votacao, Voto
+    from bot.render import renderer
+
+    def votacao(sim, nao):
+        votos = [Voto(nome=f"S{i}", partido="PA", uf="SP", voto=SIM) for i in range(sim)]
+        votos += [Voto(nome=f"N{i}", partido="PB", uf="RJ", voto=NAO) for i in range(nao)]
+        return Votacao(id="camara-1", casa="camara", data="2026-10-14", proposicao="PL 1/2026", tipo_proposicao="PL",
+                       ementa="Dispõe sobre algo.", descricao="", aprovada=sim > nao, url_fonte="u", votos=votos)
+
+    lado, quem = votacao(461, 4).minoria()
+    assert lado == NAO and [x.nome for x in quem] == ["N0", "N1", "N2", "N3"]
+    assert votacao(3, 300).minoria()[0] == SIM, "vale igual para o lado SIM"
+    assert votacao(252, 176).minoria() is None, "placar disputado não destaca ninguém"
+    assert votacao(100, 0).minoria() is None, "unanimidade não tem minoria"
+    assert votacao(450, 11).minoria() is None, "mais de 10 votos fica de fora"
+    assert votacao(100, 8).minoria() is None, "mais de 5% fica de fora"
+    v = votacao(461, 4)
+    textos = {"titulo": "T", "resumo": "R", "resultado": "APROVADA"}
+    ctx = renderer.contexto(v, textos, "@x", formato={"capa": "classico", "sequencia": ["capa", "placar", "final"]})
+    assert ctx["slides"] == ["capa", "entenda", "placar", "minoria", "final"]
+    assert ctx["minoria"]["maioria"] == 461 and ctx["minoria"]["lado_maioria"] == "SIM"
+    assert "🔎 Votaram NÃO (4): N0 (PB-RJ)" in summarizer.gerar_textos(v)["legenda"]
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -662,4 +689,5 @@ if __name__ == "__main__":
     test_explicacoes_do_agente()
     test_resumo_gemini()
     test_slide_entenda_detalhes_e_proximo_passo()
+    test_minoria()
     print("ok")

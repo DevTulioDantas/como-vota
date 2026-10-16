@@ -26,6 +26,10 @@ QUORUM = {
     ("camara", "PLP"): (257, "mais da metade dos 513 deputados"),
     ("senado", "PLP"): (41, "mais da metade dos 81 senadores"),
 }
+# Placar muito desigual ganha o slide "Os N votos NÃO/SIM": lado menor com até 10 votos
+# e no máximo 5% dos votos SIM + NÃO (ex.: 461 × 4 entra; 252 × 176 não).
+MINORIA_MAX_VOTOS = 10
+MINORIA_MAX_FRACAO = 0.05
 # Votações procedimentais dentro de uma PEC/PLP seguem outra regra: sem quórum no post.
 _FORA_DO_QUORUM = ("destaque", "requerimento", "adiamento", "retirada", "encerramento", "preferencia")
 
@@ -142,6 +146,20 @@ class Votacao:
         if not q or any(t in _sem_acento(self.descricao) for t in _FORA_DO_QUORUM):
             return None
         return q
+
+    def minoria(self, max_votos: int = MINORIA_MAX_VOTOS, max_fracao: float = MINORIA_MAX_FRACAO
+                ) -> tuple[str, list[Voto]] | None:
+        """Lado com poucos votos num placar muito desigual (ex.: 461 × 4): (SIM|NÃO, quem votou assim).
+        Regra automática e igual para os dois lados; None se o placar não for desigual o bastante."""
+        p = self.placar()
+        sim, nao = p[SIM], p[NAO]
+        if sim == nao:
+            return None
+        lado = NAO if nao < sim else SIM
+        n = p[lado]
+        if n == 0 or n > max_votos or n / (sim + nao) > max_fracao:
+            return None
+        return lado, sorted((v for v in self.votos if v.voto == lado), key=lambda v: (v.partido, v.nome))
 
     def dissidentes(self) -> list[Voto]:
         """Parlamentares que votaram Sim/Não contra a orientação do próprio partido."""
