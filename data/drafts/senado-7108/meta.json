@@ -1,7 +1,7 @@
 {
   "id": "senado-7108",
   "status": "enviado",
-  "criado_em": "2026-10-16T15:46:15+00:00",
+  "criado_em": "2026-10-16T16:54:11+00:00",
   "formato": "votacao-mapa",
   "alertas": [
     "a explicação foi escrita por um agente (explicacoes.yaml): confira se está correta e neutra"
@@ -15,6 +15,7 @@
       "Perdoa dívidas que MEIs têm com o governo federal",
       "Define como e quando essas regras passam a valer"
     ],
+    "chamada": "Teto do MEI: e quem você elegeu, como votou?",
     "fonte_texto": "explicacoes.yaml",
     "resultado": "APROVADA",
     "carimbo": "APROVADA",
@@ -693,7 +694,7 @@
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-10-16T15:46:17+00:00"
+      "em": "2026-10-16T16:54:14+00:00"
     }
   ],
   "demo": false
