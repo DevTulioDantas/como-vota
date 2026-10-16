@@ -13,6 +13,7 @@ import json
 import logging
 import os
 import re
+import time
 from datetime import date
 from pathlib import Path
 
@@ -164,8 +165,12 @@ def _ia_gemini(v: Votacao) -> dict | None:
         },
     }
     try:
-        r = requests.post(f"{GEMINI_API}/models/{GEMINI_MODELO}:generateContent", json=pedido, timeout=60,
-                          headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]})
+        for tentativa in range(3):  # 500/503 ("alta demanda") costumam passar em segundos; cota (429) não
+            r = requests.post(f"{GEMINI_API}/models/{GEMINI_MODELO}:generateContent", json=pedido, timeout=60,
+                              headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]})
+            if r.status_code not in (500, 503) or tentativa == 2:
+                break
+            time.sleep(5 * (tentativa + 1))
         corpo = r.json()
         if r.status_code >= 400:
             raise RuntimeError(f"HTTP {r.status_code}: {(corpo.get('error') or {}).get('message', corpo)}")

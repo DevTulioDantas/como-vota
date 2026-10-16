@@ -600,6 +600,14 @@ def test_resumo_gemini():
         assert summarizer._ia(v) is None
         summarizer.requests.post = responde(400, {"error": {"message": "API key not valid"}})
         assert summarizer._ia(v) is None
+        # "alta demanda" (503) é repetido; na terceira tentativa responde
+        respostas = [(503, {"error": {"message": "high demand"}})] * 2 + [(200, ok)]
+        summarizer.requests.post = lambda url, **k: NS(status_code=respostas[0][0], json=lambda r=respostas.pop(0): r[1])
+        dormir, summarizer.time.sleep = summarizer.time.sleep, lambda s: None
+        try:
+            assert summarizer._ia(v)["titulo"] == "Define regras para bancos em crise"
+        finally:
+            summarizer.time.sleep = dormir
         assert summarizer.gerar_textos(v)["resumo"].startswith("Dispõe sobre"), "sem IA, volta para a ementa"
     finally:
         summarizer.requests.post = original
