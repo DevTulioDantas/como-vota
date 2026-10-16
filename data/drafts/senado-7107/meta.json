@@ -1,7 +1,7 @@
 {
   "id": "senado-7107",
   "status": "enviado",
-  "criado_em": "2026-10-15T16:50:18+00:00",
+  "criado_em": "2026-10-16T15:46:05+00:00",
   "formato": "votacao-classico",
   "alertas": [
     "o título usa o apelido “Fim da escala 6x1” (registrado pelo Senado): confira se o nome é neutro",
@@ -10,6 +10,7 @@
   "textos": {
     "titulo": "Fim da escala 6x1",
     "resumo": "Muda a Constituição para diminuir o número máximo de horas de trabalho por semana e garantir 2 dias de descanso remunerado por semana, sem corte de salário.",
+    "detalhes": [],
     "fonte_texto": "explicacoes.yaml",
     "resultado": "APROVADA",
     "carimbo": "APROVADA",
@@ -423,7 +424,7 @@
         "partido": "PL",
         "uf": "AC",
         "voto": "Outro",
-        "voto_original": "Não Compareceu",
+        "voto_original": "Atividade parlamentar",
         "id": "285"
       },
       {
@@ -680,12 +681,13 @@
     "secreta": false,
     "totais_oficiais": {},
     "apelido": "Fim da escala 6x1",
-    "fonte_apelido": "Senado"
+    "fonte_apelido": "Senado",
+    "andamento": ""
   },
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-10-15T16:50:20+00:00"
+      "em": "2026-10-16T15:46:08+00:00"
     }
   ],
   "demo": false

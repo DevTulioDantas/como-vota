@@ -1,7 +1,7 @@
 {
   "id": "camara-2236186-60",
   "status": "enviado",
-  "criado_em": "2026-10-15T16:50:24+00:00",
+  "criado_em": "2026-10-16T15:46:11+00:00",
   "formato": "votacao-apertado",
   "alertas": [
     "a explicação foi escrita por um agente (explicacoes.yaml): confira se está correta e neutra"
@@ -9,6 +9,7 @@
   "textos": {
     "titulo": "Define regras para bancos e seguradoras em crise",
     "resumo": "Define as regras para quando um banco, uma seguradora ou uma corretora de investimentos entra em crise ou quebra. Vale para empresas fiscalizadas pelo Banco Central, pela Susep e pela CVM.",
+    "detalhes": [],
     "fonte_texto": "explicacoes.yaml",
     "resultado": "REJEITADA",
     "carimbo": "SUBSTITUTIVO REJEITADO",
@@ -3481,12 +3482,13 @@
       "Não": 176
     },
     "apelido": "",
-    "fonte_apelido": ""
+    "fonte_apelido": "",
+    "andamento": ""
   },
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-10-15T16:50:26+00:00"
+      "em": "2026-10-16T15:46:13+00:00"
     }
   ],
   "demo": false

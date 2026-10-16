@@ -1,7 +1,7 @@
 {
   "id": "senado-7108",
   "status": "enviado",
-  "criado_em": "2026-10-16T15:38:41+00:00",
+  "criado_em": "2026-10-16T15:46:15+00:00",
   "formato": "votacao-mapa",
   "alertas": [
     "a explicação foi escrita por um agente (explicacoes.yaml): confira se está correta e neutra"
@@ -9,10 +9,16 @@
   "textos": {
     "titulo": "Teto do MEI: muda quanto dá para faturar",
     "resumo": "Para quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.",
+    "detalhes": [
+      "Muda o teto de quanto o MEI pode faturar por ano",
+      "Muda quantos empregados o MEI pode contratar",
+      "Perdoa dívidas que MEIs têm com o governo federal",
+      "Define como e quando essas regras passam a valer"
+    ],
     "fonte_texto": "explicacoes.yaml",
     "resultado": "APROVADA",
     "carimbo": "APROVADA",
-    "legenda": "Como votou a bancada do seu estado? Teto do MEI: muda quanto dá para faturar\n\nPara quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.\n\n📍 Senado Federal · 15/10/2026\n📄 PLP 186/2026 (Projeto de Lei Complementar)\n📊 Resultado: Aprovada · SIM 78 × 0 NÃO · Abstenção 0\n📏 Para aprovar, precisava de 41 votos SIM (mais da metade dos 81 senadores). Conseguiu.\n\nTexto oficial da votação: Votação nominal do Projeto de Lei Complementar nº 186, de 2026, nos termos do parecer.\n\nO voto de cada senador está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www25.senado.leg.br/web/atividade/materias/-/materia/175969\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
+    "legenda": "Como votou a bancada do seu estado? Teto do MEI: muda quanto dá para faturar\n\nPara quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.\n\nO que o projeto faz:\n• Muda o teto de quanto o MEI pode faturar por ano\n• Muda quantos empregados o MEI pode contratar\n• Perdoa dívidas que MEIs têm com o governo federal\n• Define como e quando essas regras passam a valer\n\n📍 Senado Federal · 15/10/2026\n📄 PLP 186/2026 (Projeto de Lei Complementar)\n📊 Resultado: Aprovada · SIM 78 × 0 NÃO · Abstenção 0\n📏 Para aprovar, precisava de 41 votos SIM (mais da metade dos 81 senadores). Conseguiu.\n➡️ E agora? O projeto vai para o presidente da República, que pode aprovar (sancionar) ou barrar (vetar).\n\nTexto oficial da votação: Votação nominal do Projeto de Lei Complementar nº 186, de 2026, nos termos do parecer.\n\nO voto de cada senador está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www25.senado.leg.br/web/atividade/materias/-/materia/175969\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
   },
   "votacao": {
     "id": "senado-7108",
@@ -681,12 +687,13 @@
       "Sim": 78
     },
     "apelido": "",
-    "fonte_apelido": ""
+    "fonte_apelido": "",
+    "andamento": "A matéria vai à sanção."
   },
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-10-16T15:38:43+00:00"
+      "em": "2026-10-16T15:46:17+00:00"
     }
   ],
   "demo": false

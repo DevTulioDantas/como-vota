@@ -1,7 +1,7 @@
 {
   "id": "camara-2635476-36",
   "status": "enviado",
-  "criado_em": "2026-10-16T15:30:26+00:00",
+  "criado_em": "2026-10-16T15:46:20+00:00",
   "formato": "votacao-pergunta",
   "alertas": [
     "a explicação foi escrita por um agente (explicacoes.yaml): confira se está correta e neutra"
@@ -9,10 +9,16 @@
   "textos": {
     "titulo": "Teto do MEI: muda quanto dá para faturar",
     "resumo": "Para quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.",
+    "detalhes": [
+      "Muda o teto de quanto o MEI pode faturar por ano",
+      "Muda quantos empregados o MEI pode contratar",
+      "Perdoa dívidas que MEIs têm com o governo federal",
+      "Define como e quando essas regras passam a valer"
+    ],
     "fonte_texto": "explicacoes.yaml",
     "resultado": "APROVADA",
     "carimbo": "SUBSTITUTIVO APROVADO",
-    "legenda": "Como votaram os deputados? Teto do MEI: muda quanto dá para faturar\n\nPara quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.\n\n📍 Câmara dos Deputados · 14/10/2026\n📄 PLP 186/2026 (Projeto de Lei Complementar)\n📊 Resultado: Substitutivo aprovado · SIM 461 × 4 NÃO · Abstenção 0\n⚖️ O governo pediu voto SIM\n\nNesta votação, os deputados votaram uma nova versão do texto, escrita pelo relator (o deputado encarregado de analisar o projeto).\nTexto oficial da votação: Aprovada a Subemenda Substitutiva Global ao Projeto de Lei Complementar nº 186, de 2026, adotada pelo relator da Comissão de Indústria, Comércio e Serviços, ressalvados os destaques. Sim: 461; Não: 4; Total: 465.\n\nO voto de cada deputado está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www.camara.leg.br/propostas-legislativas/2635476\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
+    "legenda": "Como votaram os deputados? Teto do MEI: muda quanto dá para faturar\n\nPara quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.\n\nO que o projeto faz:\n• Muda o teto de quanto o MEI pode faturar por ano\n• Muda quantos empregados o MEI pode contratar\n• Perdoa dívidas que MEIs têm com o governo federal\n• Define como e quando essas regras passam a valer\n\n📍 Câmara dos Deputados · 14/10/2026\n📄 PLP 186/2026 (Projeto de Lei Complementar)\n📊 Resultado: Substitutivo aprovado · SIM 461 × 4 NÃO · Abstenção 0\n⚖️ O governo pediu voto SIM\n\nNesta votação, os deputados votaram uma nova versão do texto, escrita pelo relator (o deputado encarregado de analisar o projeto).\nTexto oficial da votação: Aprovada a Subemenda Substitutiva Global ao Projeto de Lei Complementar nº 186, de 2026, adotada pelo relator da Comissão de Indústria, Comércio e Serviços, ressalvados os destaques. Sim: 461; Não: 4; Total: 465.\n\nO voto de cada deputado está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www.camara.leg.br/propostas-legislativas/2635476\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
   },
   "votacao": {
     "id": "camara-2635476-36",
@@ -3777,12 +3783,13 @@
       "Não": 4
     },
     "apelido": "",
-    "fonte_apelido": ""
+    "fonte_apelido": "",
+    "andamento": ""
   },
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-10-16T15:30:28+00:00"
+      "em": "2026-10-16T15:46:22+00:00"
     }
   ],
   "demo": false
