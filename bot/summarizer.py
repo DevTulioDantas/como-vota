@@ -29,6 +29,32 @@ log = logging.getLogger(__name__)
 MODELO = os.getenv("IA_MODELO") or "claude-opus-5-5"
 GEMINI_MODELO = os.getenv("GEMINI_MODELO") or "gemini-2.5-flash"
 GEMINI_API = "https://generativelanguage.googleapis.com/v1beta"
+# plano gratuito: o modelo principal vive dando "alta demanda" (503); estes entram no lugar dele
+GEMINI_RESERVAS = [m.strip() for m in (os.getenv("GEMINI_RESERVAS")
+                   or "gemini-3.1-flash-lite-preview,gemini-2.5-flash,gemini-2.5-flash-lite").split(",") if m.strip()]
+
+
+def gemini_gerar(pedido: dict, timeout: int = 60) -> dict:
+    """Chama o Gemini no modelo principal e, se ele estiver sobrecarregado, sem cota ou fora do ar,
+    nos modelos reserva. Devolve o corpo da resposta ou levanta o último erro."""
+    erro = "nenhum modelo configurado"
+    for modelo in dict.fromkeys([GEMINI_MODELO, *GEMINI_RESERVAS]):
+        for tentativa in range(2):
+            r = requests.post(f"{GEMINI_API}/models/{modelo}:generateContent", json=pedido, timeout=timeout,
+                              headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]})
+            corpo = r.json()
+            if r.status_code == 200:
+                if modelo != GEMINI_MODELO:
+                    log.info("Gemini %s sobrecarregado; respondeu o reserva %s", GEMINI_MODELO, modelo)
+                return corpo
+            erro = f"{modelo}: HTTP {r.status_code}: {(corpo.get('error') or {}).get('message', corpo)}"
+            if r.status_code in (500, 503) and tentativa == 0:
+                time.sleep(5)  # "alta demanda" às vezes passa em segundos
+                continue
+            if r.status_code in (404, 429, 500, 503):
+                break  # modelo inexistente, sem cota ou ainda sobrecarregado: tenta o próximo
+            raise RuntimeError(erro)  # chave inválida, pedido errado: trocar de modelo não resolve
+    raise RuntimeError(erro)
 
 INSTRUCOES = """Você escreve para um perfil apartidário no Instagram que mostra como deputados e senadores votaram.
 O público é geral: muita gente nunca acompanhou o Congresso. O post concorre com tudo o que passa no feed, então \
@@ -190,15 +216,7 @@ def _ia_gemini(v: Votacao) -> dict | None:
         },
     }
     try:
-        for tentativa in range(3):  # 500/503 ("alta demanda") costumam passar em segundos; cota (429) não
-            r = requests.post(f"{GEMINI_API}/models/{GEMINI_MODELO}:generateContent", json=pedido, timeout=60,
-                              headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]})
-            if r.status_code not in (500, 503) or tentativa == 2:
-                break
-            time.sleep(5 * (tentativa + 1))
-        corpo = r.json()
-        if r.status_code >= 400:
-            raise RuntimeError(f"HTTP {r.status_code}: {(corpo.get('error') or {}).get('message', corpo)}")
+        corpo = gemini_gerar(pedido)
         candidato = (corpo.get("candidates") or [{}])[0]
         if candidato.get("finishReason") != "STOP":
             bloqueio = (corpo.get("promptFeedback") or {}).get("blockReason")

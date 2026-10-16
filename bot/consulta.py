@@ -7,13 +7,9 @@ from __future__ import annotations
 
 import json
 import logging
-import os
-import time
-
-import requests
 
 from bot import storage
-from bot.summarizer import GEMINI_API, GEMINI_MODELO
+from bot.summarizer import gemini_gerar
 
 log = logging.getLogger(__name__)
 
@@ -65,17 +61,8 @@ def _exemplo() -> str:
 
 def consultar(pergunta: str = "") -> str:
     texto = f"{pergunta.strip() or PERGUNTA_PADRAO}\n\n{PERFIL}\n\nPost de exemplo:\n{_exemplo()}"
-    for tentativa in range(4):  # plano gratuito: "alta demanda" (503) é comum e passa em segundos
-        r = requests.post(f"{GEMINI_API}/models/{GEMINI_MODELO}:generateContent", timeout=120,
-                          headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"]},
-                          json={"contents": [{"role": "user", "parts": [{"text": texto}]}],
-                                "generationConfig": {"temperature": 0.7, "maxOutputTokens": 6000}})
-        if r.status_code not in (500, 503) or tentativa == 3:
-            break
-        time.sleep(10 * (tentativa + 1))
-    corpo = r.json()
-    if r.status_code >= 400:
-        raise RuntimeError(f"Gemini HTTP {r.status_code}: {(corpo.get('error') or {}).get('message', corpo)}")
+    corpo = gemini_gerar({"contents": [{"role": "user", "parts": [{"text": texto}]}],
+                          "generationConfig": {"temperature": 0.7, "maxOutputTokens": 6000}}, timeout=120)
     partes = ((corpo.get("candidates") or [{}])[0].get("content") or {}).get("parts") or []
     return "".join(p.get("text", "") for p in partes).strip()
 
