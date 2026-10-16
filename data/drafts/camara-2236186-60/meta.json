@@ -1,7 +1,7 @@
 {
   "id": "camara-2236186-60",
   "status": "enviado",
-  "criado_em": "2026-10-16T16:54:06+00:00",
+  "criado_em": "2026-10-16T18:00:16+00:00",
   "formato": "votacao-apertado",
   "alertas": [
     "a explicação foi escrita por um agente (explicacoes.yaml): confira se está correta e neutra"
@@ -11,10 +11,13 @@
     "resumo": "Define as regras para quando um banco, uma seguradora ou uma corretora de investimentos entra em crise ou quebra. Vale para empresas fiscalizadas pelo Banco Central, pela Susep e pela CVM.",
     "detalhes": [],
     "chamada": "",
+    "gancho": "",
+    "hashtags": [],
+    "publico": "",
     "fonte_texto": "explicacoes.yaml",
     "resultado": "REJEITADA",
     "carimbo": "SUBSTITUTIVO REJEITADO",
-    "legenda": "252 votos SIM na Câmara, eram necessários 257: Define regras para bancos e seguradoras em crise\n\nDefine as regras para quando um banco, uma seguradora ou uma corretora de investimentos entra em crise ou quebra. Vale para empresas fiscalizadas pelo Banco Central, pela Susep e pela CVM.\n\n📍 Câmara dos Deputados · 14/10/2026\n📄 PLP 281/2019 (Projeto de Lei Complementar)\n📊 Resultado: Substitutivo rejeitado · SIM 252 × 176 NÃO · Abstenção 0\n📏 Para aprovar, precisava de 257 votos SIM (mais da metade dos 513 deputados). Faltaram 5.\n⚖️ O governo pediu voto NÃO\n\nNesta votação, os deputados votaram uma nova versão do texto, escrita pelo relator (o deputado encarregado de analisar o projeto).\nTexto oficial da votação: Rejeitada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 281, de 2019, adotada pelo relator da Comissão Especial. Sim: 252; Não: 176; Total: 428.\n\nO voto de cada deputado está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www.camara.leg.br/propostas-legislativas/2236186\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
+    "legenda": "252 votos SIM na Câmara, eram necessários 257: Define regras para bancos e seguradoras em crise\n\nDefine as regras para quando um banco, uma seguradora ou uma corretora de investimentos entra em crise ou quebra. Vale para empresas fiscalizadas pelo Banco Central, pela Susep e pela CVM.\n\n👉 Arraste para ver o placar e quem votou como.\n\n📍 Câmara dos Deputados · 14/10/2026\n📄 PLP 281/2019 (Projeto de Lei Complementar)\n📊 Resultado: Substitutivo rejeitado · SIM 252 × 176 NÃO · Abstenção 0\n📏 Para aprovar, precisava de 257 votos SIM (mais da metade dos 513 deputados). Faltaram 5.\n⚖️ O governo pediu voto NÃO\n\nNesta votação, os deputados votaram uma nova versão do texto, escrita pelo relator (o deputado encarregado de analisar o projeto).\nTexto oficial da votação: Rejeitada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 281, de 2019, adotada pelo relator da Comissão Especial. Sim: 252; Não: 176; Total: 428.\n\n💾 Salve para consultar depois\n📤 Envie para quem quer acompanhar o Congresso\n💬 Comente: essa votação muda algo para você?\n\nO voto de cada deputado está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www.camara.leg.br/propostas-legislativas/2236186\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
   },
   "votacao": {
     "id": "camara-2236186-60",
@@ -3489,7 +3492,7 @@
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-10-16T16:54:09+00:00"
+      "em": "2026-10-16T18:00:19+00:00"
     }
   ],
   "demo": false

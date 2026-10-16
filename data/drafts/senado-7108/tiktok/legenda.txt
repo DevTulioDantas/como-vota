@@ -1,4 +1,4 @@
-Como votou a bancada do seu estado? Teto do MEI: muda quanto dá para faturar
+Você é MEI? Este projeto muda o teto de faturamento e quantos empregados você pode ter.
 
 Para quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.
 
@@ -8,12 +8,12 @@ O que o projeto faz:
 • Perdoa dívidas que MEIs têm com o governo federal
 • Define como e quando essas regras passam a valer
 
+👉 Arraste para ver o placar e quem votou como.
+
 📍 Senado Federal · 15/10/2026
 📄 PLP 186/2026 (Projeto de Lei Complementar)
 📊 Resultado: Aprovada · SIM 78 × 0 NÃO · Abstenção 0
 📏 Para aprovar, precisava de 41 votos SIM (mais da metade dos 81 senadores). Conseguiu.
-➡️ E agora? O projeto vai para o presidente da República, que pode aprovar (sancionar) ou barrar (vetar).
-
-Texto oficial da votação: Votação nominal do Projeto de Lei Complementar nº 186, de 2026, nos termos do parecer.…
+➡️ E agora? O projeto vai para o presidente da República, que pode aprovar (sancionar) ou barrar (vetar).…
 
 #ComoVotaDeputado #CongressoNacional #Política #CâmaraDosDeputados #SenadoFederal

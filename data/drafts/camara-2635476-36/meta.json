@@ -1,7 +1,7 @@
 {
   "id": "camara-2635476-36",
   "status": "enviado",
-  "criado_em": "2026-10-16T16:54:18+00:00",
+  "criado_em": "2026-10-16T18:00:26+00:00",
   "formato": "votacao-pergunta",
   "alertas": [
     "a explicação foi escrita por um agente (explicacoes.yaml): confira se está correta e neutra"
@@ -16,10 +16,18 @@
       "Define como e quando essas regras passam a valer"
     ],
     "chamada": "Teto do MEI: e quem você elegeu, como votou?",
+    "gancho": "Você é MEI? Este projeto muda o teto de faturamento e quantos empregados você pode ter.",
+    "hashtags": [
+      "#MEI",
+      "#SimplesNacional",
+      "#Empreendedorismo",
+      "#PequenosNegócios"
+    ],
+    "publico": "quem é MEI",
     "fonte_texto": "explicacoes.yaml",
     "resultado": "APROVADA",
     "carimbo": "SUBSTITUTIVO APROVADO",
-    "legenda": "Como votaram os deputados? Teto do MEI: muda quanto dá para faturar\n\nPara quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.\n\nO que o projeto faz:\n• Muda o teto de quanto o MEI pode faturar por ano\n• Muda quantos empregados o MEI pode contratar\n• Perdoa dívidas que MEIs têm com o governo federal\n• Define como e quando essas regras passam a valer\n\n📍 Câmara dos Deputados · 14/10/2026\n📄 PLP 186/2026 (Projeto de Lei Complementar)\n📊 Resultado: Substitutivo aprovado · SIM 461 × 4 NÃO · Abstenção 0\n⚖️ O governo pediu voto SIM\n🔎 Votaram NÃO (4): Kim Kataguiri (MISSÃO-SP), Sargento Portugal (PODE-RJ), Antonio Andrade (PSDB-TO), Aécio Neves (PSDB-MG)\n\nNesta votação, os deputados votaram uma nova versão do texto, escrita pelo relator (o deputado encarregado de analisar o projeto).\nTexto oficial da votação: Aprovada a Subemenda Substitutiva Global ao Projeto de Lei Complementar nº 186, de 2026, adotada pelo relator da Comissão de Indústria, Comércio e Serviços, ressalvados os destaques. Sim: 461; Não: 4; Total: 465.\n\nO voto de cada deputado está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www.camara.leg.br/propostas-legislativas/2635476\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
+    "legenda": "Você é MEI? Este projeto muda o teto de faturamento e quantos empregados você pode ter.\n\nPara quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.\n\nO que o projeto faz:\n• Muda o teto de quanto o MEI pode faturar por ano\n• Muda quantos empregados o MEI pode contratar\n• Perdoa dívidas que MEIs têm com o governo federal\n• Define como e quando essas regras passam a valer\n\n👉 Arraste para ver o placar e quem votou como.\n\n📍 Câmara dos Deputados · 14/10/2026\n📄 PLP 186/2026 (Projeto de Lei Complementar)\n📊 Resultado: Substitutivo aprovado · SIM 461 × 4 NÃO · Abstenção 0\n⚖️ O governo pediu voto SIM\n🔎 Votaram NÃO (4): Kim Kataguiri (MISSÃO-SP), Sargento Portugal (PODE-RJ), Antonio Andrade (PSDB-TO), Aécio Neves (PSDB-MG)\n\nNesta votação, os deputados votaram uma nova versão do texto, escrita pelo relator (o deputado encarregado de analisar o projeto).\nTexto oficial da votação: Aprovada a Subemenda Substitutiva Global ao Projeto de Lei Complementar nº 186, de 2026, adotada pelo relator da Comissão de Indústria, Comércio e Serviços, ressalvados os destaques. Sim: 461; Não: 4; Total: 465.\n\n💾 Salve para consultar depois\n📤 Envie para quem é MEI\n💬 Comente: essa votação muda algo para você?\n\nO voto de cada deputado está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www.camara.leg.br/propostas-legislativas/2635476\n\n#MEI #SimplesNacional #Empreendedorismo #PequenosNegócios #ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
   },
   "votacao": {
     "id": "camara-2635476-36",
@@ -3790,7 +3798,7 @@
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-10-16T16:54:21+00:00"
+      "em": "2026-10-16T18:00:28+00:00"
     }
   ],
   "demo": false

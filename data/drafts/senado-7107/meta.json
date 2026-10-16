@@ -1,7 +1,7 @@
 {
   "id": "senado-7107",
   "status": "enviado",
-  "criado_em": "2026-10-16T16:53:58+00:00",
+  "criado_em": "2026-10-16T18:00:10+00:00",
   "formato": "votacao-classico",
   "alertas": [
     "o título usa o apelido “Fim da escala 6x1” (registrado pelo Senado): confira se o nome é neutro",
@@ -12,10 +12,13 @@
     "resumo": "Muda a Constituição para diminuir o número máximo de horas de trabalho por semana e garantir 2 dias de descanso remunerado por semana, sem corte de salário.",
     "detalhes": [],
     "chamada": "",
+    "gancho": "",
+    "hashtags": [],
+    "publico": "",
     "fonte_texto": "explicacoes.yaml",
     "resultado": "APROVADA",
     "carimbo": "APROVADA",
-    "legenda": "🗳️ Fim da escala 6x1\n\nMuda a Constituição para diminuir o número máximo de horas de trabalho por semana e garantir 2 dias de descanso remunerado por semana, sem corte de salário.\n\n📍 Senado Federal · 14/10/2026\n📄 PEC 221/2019 (Proposta de Emenda à Constituição) · conhecida como “Fim da escala 6x1”\n📊 Resultado: Aprovada · SIM 75 × 1 NÃO · Abstenção 0\n📏 Para aprovar, precisava de 49 votos SIM (3 em cada 5 dos 81 senadores). Conseguiu.\n🔎 Votaram NÃO (1): Hamilton Mourão (REPUBLICANOS-RS)\n\nNesta votação, os senadores fizeram a segunda e última votação da PEC no Senado.\nTexto oficial da votação: Votação nominal da Proposta de Emenda à Constituição nº 221, de 2019, em segundo turno.\n\nO voto de cada senador está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www25.senado.leg.br/web/atividade/materias/-/materia/174386\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
+    "legenda": "🗳️ Fim da escala 6x1\n\nMuda a Constituição para diminuir o número máximo de horas de trabalho por semana e garantir 2 dias de descanso remunerado por semana, sem corte de salário.\n\n👉 Arraste para ver o placar e quem votou como.\n\n📍 Senado Federal · 14/10/2026\n📄 PEC 221/2019 (Proposta de Emenda à Constituição) · conhecida como “Fim da escala 6x1”\n📊 Resultado: Aprovada · SIM 75 × 1 NÃO · Abstenção 0\n📏 Para aprovar, precisava de 49 votos SIM (3 em cada 5 dos 81 senadores). Conseguiu.\n🔎 Votaram NÃO (1): Hamilton Mourão (REPUBLICANOS-RS)\n\nNesta votação, os senadores fizeram a segunda e última votação da PEC no Senado.\nTexto oficial da votação: Votação nominal da Proposta de Emenda à Constituição nº 221, de 2019, em segundo turno.\n\n💾 Salve para consultar depois\n📤 Envie para quem quer acompanhar o Congresso\n💬 Comente: essa votação muda algo para você?\n\nO voto de cada senador está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www25.senado.leg.br/web/atividade/materias/-/materia/174386\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
   },
   "votacao": {
     "id": "senado-7107",
@@ -688,7 +691,7 @@
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-10-16T16:54:00+00:00"
+      "em": "2026-10-16T18:00:13+00:00"
     }
   ],
   "demo": false
