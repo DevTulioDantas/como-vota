@@ -50,6 +50,22 @@ def carregar_meta(rascunho_id: str) -> dict:
     return json.loads((pasta(rascunho_id) / "meta.json").read_text(encoding="utf-8"))
 
 
+def mensagens_telegram(rascunho_id: str) -> list[int]:
+    """Números das mensagens que o bot mandou para este rascunho (todas as versões)."""
+    arq = pasta(rascunho_id) / "telegram.json"
+    return json.loads(arq.read_text(encoding="utf-8")) if arq.exists() else []
+
+
+def registrar_mensagens_telegram(rascunho_id: str, ids: list[int]) -> None:
+    arq = pasta(rascunho_id) / "telegram.json"
+    arq.parent.mkdir(parents=True, exist_ok=True)
+    arq.write_text(json.dumps(mensagens_telegram(rascunho_id) + list(ids)), encoding="utf-8")
+
+
+def esquecer_mensagens_telegram(rascunho_id: str) -> None:
+    (pasta(rascunho_id) / "telegram.json").unlink(missing_ok=True)
+
+
 def imagens(rascunho_id: str) -> list[Path]:
     return sorted(pasta(rascunho_id).glob("slide_*.jpg"))
 

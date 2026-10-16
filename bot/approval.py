@@ -17,6 +17,8 @@ from pathlib import Path
 
 import requests
 
+from bot import storage
+
 log = logging.getLogger(__name__)
 
 
@@ -37,24 +39,25 @@ def _post(metodo: str, **kwargs) -> dict:
 
 
 def enviar_para_aprovacao(rascunho_id: str, imagens: list[Path], legenda: str) -> None:
+    enviadas = []
     # 1) imagens: álbum para carrossel (2 a 10), foto simples para post único
     if len(imagens) == 1:
         img = imagens[0]
-        _post("sendPhoto", data={"chat_id": _chat_id()},
-              files={"photo": (img.name, img.read_bytes(), "image/jpeg")})
+        enviadas.append(_post("sendPhoto", data={"chat_id": _chat_id()},
+                              files={"photo": (img.name, img.read_bytes(), "image/jpeg")}))
     else:
         arquivos, midia = {}, []
         for i, img in enumerate(imagens[:10]):
             chave = f"img{i}"
             arquivos[chave] = (img.name, img.read_bytes(), "image/jpeg")
             midia.append({"type": "photo", "media": f"attach://{chave}"})
-        _post("sendMediaGroup", data={"chat_id": _chat_id(), "media": json.dumps(midia)}, files=arquivos)
+        enviadas += _post("sendMediaGroup", data={"chat_id": _chat_id(), "media": json.dumps(midia)}, files=arquivos)
 
     # 2) legenda + botões
     texto = f"📝 Rascunho {rascunho_id}\n\n{legenda}"
     if len(texto) > 4000:
         texto = texto[:3990] + "…"
-    _post("sendMessage", json={
+    enviadas.append(_post("sendMessage", json={
         "chat_id": _chat_id(),
         "text": texto,
         "disable_web_page_preview": True,
@@ -63,7 +66,22 @@ def enviar_para_aprovacao(rascunho_id: str, imagens: list[Path], legenda: str) -
             {"text": "⚡ Agora", "callback_data": f"agora:{rascunho_id}"[:64]},
             {"text": "🗑️ Descartar", "callback_data": f"descartar:{rascunho_id}"[:64]},
         ]]},
-    })
+    }))
+    # guarda os números para o "Descartar" poder apagar tudo depois
+    storage.registrar_mensagens_telegram(rascunho_id, [m["message_id"] for m in enviadas if "message_id" in m])
+
+
+def apagar_mensagens(ids: list[int]) -> int:
+    """Apaga mensagens do bot no chat. O Telegram só deixa apagar até 48 horas depois do envio;
+    as mais antigas (ou já apagadas) ficam como estão. Devolve quantas foram pedidas."""
+    ids = sorted(set(ids))
+    for i in range(0, len(ids), 100):  # deleteMessages aceita até 100 por vez
+        lote = ids[i:i + 100]
+        try:
+            _post("deleteMessages", json={"chat_id": _chat_id(), "message_ids": lote})
+        except Exception as e:
+            log.warning("Não consegui apagar as mensagens %s: %s", lote, e)
+    return len(ids)
 
 
 def enviar_pacote_tiktok(rascunho_id: str, imagens: list[Path], legenda: str) -> None:

@@ -443,7 +443,9 @@ def cmd_verificar(args) -> None:
             continue  # clique repetido
         if acao == "descartar":
             storage.atualizar_status(estado, rid, "descartado")
-            log.info("%s descartado", rid)
+            apagadas = approval.apagar_mensagens(storage.mensagens_telegram(rid))
+            storage.esquecer_mensagens_telegram(rid)
+            log.info("%s descartado; %d mensagens apagadas no Telegram", rid, apagadas)
         elif acao == "agora":
             storage.atualizar_status(estado, rid, "aprovado")
             _publicar(estado, rid)

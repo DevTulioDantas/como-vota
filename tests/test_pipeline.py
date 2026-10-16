@@ -723,6 +723,49 @@ def test_legenda_engajamento():
                                                                   "gancho": "Urgente: o MEI vai mudar"}))
 
 
+def test_descartar_apaga_mensagens():
+    """O bot guarda os números das mensagens de cada versão e, ao descartar, apaga todas."""
+    import os as _os
+    import tempfile
+
+    from bot import approval, storage
+    chamadas, proximo = [], [100]
+
+    def fake_post(metodo, **kw):
+        chamadas.append((metodo, kw))
+        if metodo == "sendMediaGroup":
+            ids = [{"message_id": proximo[0] + i} for i in range(3)]
+            proximo[0] += 3
+            return ids
+        if metodo == "sendMessage":
+            proximo[0] += 1
+            return {"message_id": proximo[0]}
+        return True
+
+    original_post, original_pasta = approval._post, storage.PASTA_RASCUNHOS
+    _os.environ.setdefault("TELEGRAM_CHAT_ID", "1")
+    with tempfile.TemporaryDirectory() as d:
+        storage.PASTA_RASCUNHOS = Path(d)
+        imgs = []
+        for i in range(3):
+            img = Path(d) / f"slide_{i}.jpg"
+            img.write_bytes(b"x")
+            imgs.append(img)
+        approval._post = fake_post
+        try:
+            approval.enviar_para_aprovacao("senado-1", imgs, "legenda")
+            approval.enviar_para_aprovacao("senado-1", imgs, "versão refeita")
+            ids = storage.mensagens_telegram("senado-1")
+            assert len(ids) == 8, "as duas versões (3 fotos + 1 legenda, cada) ficam guardadas"
+            assert approval.apagar_mensagens(ids) == len(set(ids))
+            metodo, kw = chamadas[-1]
+            assert metodo == "deleteMessages" and kw["json"]["message_ids"] == sorted(set(ids))
+            storage.esquecer_mensagens_telegram("senado-1")
+            assert storage.mensagens_telegram("senado-1") == []
+        finally:
+            approval._post, storage.PASTA_RASCUNHOS = original_post, original_pasta
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -750,4 +793,5 @@ if __name__ == "__main__":
     test_minoria()
     test_chamada_final()
     test_legenda_engajamento()
+    test_descartar_apaga_mensagens()
     print("ok")
