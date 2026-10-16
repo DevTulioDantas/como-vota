@@ -230,6 +230,20 @@ def cmd_refazer(args) -> None:
     storage.salvar_estado(estado)
 
 
+def cmd_consultar(args) -> None:
+    """Pergunta livre ao Gemini (padrão: como deixar os posts mais interessantes); resposta no Telegram."""
+    from bot import consulta
+    resposta = consulta.consultar(args.pergunta or "")
+    print(resposta)
+    if os.getenv("GITHUB_STEP_SUMMARY"):
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as resumo:
+            resumo.write(resposta)
+    if _telegram_ativo():
+        partes = [resposta[i:i + 3900] for i in range(0, len(resposta), 3900)] or ["(resposta vazia)"]
+        for i, parte in enumerate(partes, 1):
+            approval.avisar(f"🤖 Consulta à IA ({i}/{len(partes)})\n\n{parte}")
+
+
 def cmd_gerar(args) -> None:
     fim = date.fromisoformat(args.fim) if args.fim else date.today()
     # Janela de alguns dias + deduplicação: pega votações que a API publicou
@@ -767,6 +781,10 @@ def main(argv=None) -> None:
                     help="também refaz os que ganharam texto novo no explicacoes.yaml")
     rf.add_argument("--sem-telegram", action="store_true")
     rf.set_defaults(func=cmd_refazer)
+
+    co = sub.add_parser("consultar", help="pergunta livre ao Gemini; a resposta vai para o Telegram")
+    co.add_argument("pergunta", nargs="?", help="padrão: como deixar os posts mais interessantes")
+    co.set_defaults(func=cmd_consultar)
 
     sub.add_parser("pendentes", help="votações em rascunho que ainda não têm texto no explicacoes.yaml"
                    ).set_defaults(func=cmd_pendentes)

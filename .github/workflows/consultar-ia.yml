@@ -1,0 +1,38 @@
+name: Consultar a IA
+
+# Pergunta livre ao Gemini (por padrão: como deixar os posts mais interessantes).
+# A resposta chega no Telegram e aparece no resumo da execução. Não mexe em post nenhum.
+on:
+  workflow_dispatch:
+    inputs:
+      pergunta:
+        description: "Pergunta (vazio = como deixar os posts mais interessantes)"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  consultar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Perguntar ao Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODELO: ${{ vars.GEMINI_MODELO }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # campo do formulário entra como variável, nunca colado no script
+          PERGUNTA: ${{ inputs.pergunta }}
+        run: python main.py consultar "$PERGUNTA"
