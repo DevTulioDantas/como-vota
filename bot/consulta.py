@@ -49,9 +49,11 @@ Os formatos de capa alternam por rodízio (clássico, pergunta, mapa, placar na 
 
 def _exemplo() -> str:
     """Um post real recente (o mais novo em rascunho) para a IA comentar."""
-    metas = sorted(storage.pasta("x").parent.glob("*/meta.json"), key=lambda p: p.stat().st_mtime, reverse=True)
-    for arq in metas:
-        meta = json.loads(arq.read_text(encoding="utf-8"))
+    metas = [json.loads(a.read_text(encoding="utf-8")) for a in storage.pasta("x").parent.glob("*/meta.json")]
+    # o mais completo (com lista e chamada) e mais recente: é o que mostra o formato atual dos posts
+    metas.sort(key=lambda m: (bool(m.get("textos", {}).get("detalhes")), bool(m.get("textos", {}).get("chamada")),
+                              m.get("criado_em", "")), reverse=True)
+    for meta in metas:
         if meta.get("textos", {}).get("legenda") and not meta.get("demo"):
             t = meta["textos"]
             detalhes = "\n".join(f"- {d}" for d in t.get("detalhes") or [])
