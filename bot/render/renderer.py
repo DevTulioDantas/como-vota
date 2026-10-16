@@ -184,6 +184,7 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
         "detalhes": textos.get("detalhes") or [],
         "proximo_passo": entenda.proximo_passo(v),
         "chamada_final": textos.get("chamada") or f"E o {quem} que você elegeu, como votou?",
+        "publico": textos.get("publico") or "quem quer acompanhar o Congresso",
         "faixa_capa": (formato or {}).get("faixa_capa") or "Veja o voto deles →",
         "diferenca_txt": f"{dif} voto" if dif == 1 else f"{dif} votos",
         "quorum_num": quorum[0] if quorum else None,

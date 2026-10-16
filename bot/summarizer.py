@@ -93,7 +93,15 @@ prazos, isso precisa estar na lista).
 chamada: até 70 caracteres, a frase do último slide, que convida a seguir o perfil. Ligue o assunto do post ao \
 representante de quem lê (ex.: "Teto do MEI: e o deputado que você elegeu, como votou?", "Escala 6x1: você sabe \
 como votou o seu senador?"). Nunca cite nome de pessoa nem de partido, nunca sugira como avaliar o voto e nada \
-de pressão ou ataque: o convite é para acompanhar, não para punir ninguém."""
+de pressão ou ataque: o convite é para acompanhar, não para punir ninguém.
+gancho: a primeira linha da legenda (é o que aparece no feed antes do "mais"), até 120 caracteres. Fale com \
+quem é afetado e diga o assunto (ex.: "Você é MEI? Este projeto muda o teto de faturamento e quantos empregados você pode ter."). \
+Não afirme que algo já vale se ainda depende de outra votação ou de sanção. Sem alarme: nada de "urgente", "atenção total", "drasticamente" ou exclamações em série.
+hashtags: de 3 a 5 hashtags do assunto, sem espaços (ex.: "#MEI", "#SimplesNacional", "#Empreendedorismo"). \
+Nunca hashtag de partido, de político ou de apoio ou oposição a alguém.
+publico: até 40 caracteres, completa a frase "Envie para ___" com quem mais se interessa pelo tema \
+(ex.: "quem é MEI", "quem trabalha de carteira assinada"). Se não houver um público claro, \
+"quem quer acompanhar o Congresso"."""
 
 _FORMATO = {
     "type": "json_schema",
@@ -101,8 +109,9 @@ _FORMATO = {
         "type": "object",
         "properties": {"titulo": {"type": "string"}, "resumo": {"type": "string"},
                        "detalhes": {"type": "array", "items": {"type": "string"}},
-                       "chamada": {"type": "string"}},
-        "required": ["titulo", "resumo", "detalhes", "chamada"],
+                       "chamada": {"type": "string"}, "gancho": {"type": "string"},
+                       "hashtags": {"type": "array", "items": {"type": "string"}}, "publico": {"type": "string"}},
+        "required": ["titulo", "resumo", "detalhes", "chamada", "gancho", "hashtags", "publico"],
         "additionalProperties": False,
     },
 }
@@ -185,8 +194,15 @@ def _pergunta(v: Votacao) -> str:
 def _valida(dados: dict) -> dict | None:
     if dados.get("titulo") and dados.get("resumo"):
         detalhes = [str(d).strip()[:120] for d in (dados.get("detalhes") or []) if str(d).strip()][:4]
+        hashtags = []
+        for h in dados.get("hashtags") or []:
+            limpa = "#" + re.sub(r"[^\wÀ-ÿ]", "", str(h))
+            if len(limpa) > 2 and limpa.lower() not in {x.lower() for x in hashtags}:
+                hashtags.append(limpa)
         return {"titulo": dados["titulo"][:80], "resumo": dados["resumo"][:260], "detalhes": detalhes,
-                "chamada": str(dados.get("chamada") or "").strip()[:90]}
+                "chamada": str(dados.get("chamada") or "").strip()[:90],
+                "gancho": str(dados.get("gancho") or "").strip()[:150],
+                "hashtags": hashtags[:5], "publico": str(dados.get("publico") or "").strip()[:50]}
     return None
 
 
@@ -210,8 +226,10 @@ def _ia_gemini(v: Votacao) -> dict | None:
                 "type": "OBJECT",
                 "properties": {"titulo": {"type": "STRING"}, "resumo": {"type": "STRING"},
                                "detalhes": {"type": "ARRAY", "items": {"type": "STRING"}},
-                               "chamada": {"type": "STRING"}},
-                "required": ["titulo", "resumo", "detalhes", "chamada"],
+                               "chamada": {"type": "STRING"}, "gancho": {"type": "STRING"},
+                               "hashtags": {"type": "ARRAY", "items": {"type": "STRING"}},
+                               "publico": {"type": "STRING"}},
+                "required": ["titulo", "resumo", "detalhes", "chamada", "gancho", "hashtags", "publico"],
             },
         },
     }
@@ -316,10 +334,12 @@ def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
     carimbo = entenda.carimbo(v) or resultado
 
     linhas = [
-        f"🗳️ {base['titulo']}",
+        base.get("gancho") or f"🗳️ {base['titulo']}",
         "",
         base["resumo"],
         *([""] + ["O que o projeto faz:"] + [f"• {d}" for d in base["detalhes"]] if base.get("detalhes") else []),
+        "",
+        "👉 Arraste para ver o placar e quem votou como.",
         "",
         f"📍 {CASA_NOME[v.casa]} · {_data_br(v.data)}",
         f"📄 {v.proposicao}" + (f" ({_NOME_TIPO[v.tipo_proposicao]})" if v.tipo_proposicao in _NOME_TIPO else "")
@@ -344,11 +364,17 @@ def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
         etapa = entenda.explicar_etapa(v)[0]
         linhas += [""] + ([etapa] if etapa else []) + [f"Texto oficial da votação: {v.descricao}"]
     quem = "deputado" if v.casa == "camara" else "senador"
+    fixas = ["#ComoVotaDeputado", "#VotoAberto", "#CongressoNacional", "#Transparência"]
+    do_tema = [h for h in base.get("hashtags") or [] if h.lower() not in {f.lower() for f in fixas}]
     linhas += [
+        "",
+        "💾 Salve para consultar depois",
+        f"📤 Envie para {base.get('publico') or 'quem quer acompanhar o Congresso'}",
+        "💬 Comente: essa votação muda algo para você?",
         "",
         f"O voto de cada {quem} está na fonte oficial abaixo.",
         f"🔎 Fonte oficial: {v.url_fonte}" if v.url_fonte else "🔎 Fonte: dados abertos do Congresso Nacional",
         "",
-        "#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência",
+        " ".join(do_tema + fixas),
     ]
     return {**base, "resultado": resultado, "carimbo": carimbo, "legenda": "\n".join(linhas)[:2200]}

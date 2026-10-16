@@ -163,6 +163,8 @@
   .final { align-items: center; text-align: center; }
   .final .logo { width: 330px; height: auto; margin-top: auto; }
   .final .cta { margin-bottom: auto; }
+  .final .acoes { margin: 26px 0 0; font-size: 28px; color: var(--azul-texto); max-width: 900px; line-height: 1.35; }
+  .final .acoes b { color: var(--amarelo); font-weight: 700; }
   .final h1 { font-size: 50px; color: var(--papel); margin-top: 14px; max-width: 940px; }
   .final .motivos { list-style: none; padding: 0; margin: 30px 0 4px; text-align: left; display: flex; flex-direction: column; gap: 16px; }
   .final .motivos li { font-size: 32px; font-weight: 600; color: var(--papel); padding-left: 40px; position: relative; }
@@ -426,6 +428,7 @@
     <li>Veja como vota quem você elegeu</li>
     <li>Cobre seu {{ quem }} com dados oficiais</li>
   </ul>
+  <p class="acoes">Salve este post e envie para <b>{{ publico }}</b></p>
   <div class="cta">Siga {{ handle }}</div>
   {{ rodape(n, com_barra=False) }}
 </section>

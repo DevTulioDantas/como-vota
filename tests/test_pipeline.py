@@ -683,6 +683,40 @@ def test_chamada_final():
     assert any("opinativo" in a for a in qualidade.checar_textos({**base, "chamada": "Vergonha: veja quem votou"}))
 
 
+def test_legenda_engajamento():
+    """Gancho na 1ª linha, chamada para arrastar, salvar/enviar/comentar e hashtags do tema."""
+    import tempfile
+
+    from bot import qualidade, summarizer
+    from bot.models import Votacao
+    v = Votacao(id="senado-1", casa="senado", data="2026-10-15", proposicao="PLP 186/2026", tipo_proposicao="PLP",
+                ementa="Altera a LC 123 para atualizar o limite de receita bruta anual do MEI.", descricao="",
+                aprovada=True, url_fonte="u")
+    antigo = summarizer.ARQUIVO_EXPLICACOES
+    with tempfile.TemporaryDirectory() as d:
+        arq = Path(d) / "explicacoes.yaml"
+        arq.write_text('"PLP 186/2026":\n  titulo: Teto do MEI\n  resumo: Muda o teto do MEI.\n'
+                       '  gancho: Você é MEI? Este projeto muda o teto.\n'
+                       '  hashtags: ["MEI", "#Simples Nacional", "#ComoVotaDeputado"]\n  publico: quem é MEI\n',
+                       encoding="utf-8")
+        summarizer.ARQUIVO_EXPLICACOES = arq
+        try:
+            leg = summarizer.gerar_textos(v)["legenda"]
+        finally:
+            summarizer.ARQUIVO_EXPLICACOES = antigo
+    linhas = leg.split("\n")
+    assert linhas[0] == "Você é MEI? Este projeto muda o teto."
+    assert "👉 Arraste para ver o placar e quem votou como." in leg
+    assert "💾 Salve para consultar depois" in leg and "📤 Envie para quem é MEI" in leg
+    assert linhas[-1] == "#MEI #SimplesNacional #ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
+    sem_texto = summarizer.gerar_textos(Votacao(id="x", casa="camara", data="2026-10-15", proposicao="PL 9/2026",
+                                                tipo_proposicao="PL", ementa="Dispõe sobre algo.", descricao="",
+                                                aprovada=True, url_fonte="u"))["legenda"]
+    assert sem_texto.startswith("🗳️ ") and "📤 Envie para quem quer acompanhar o Congresso" in sem_texto
+    assert any("opinativo" in a for a in qualidade.checar_textos({"titulo": "T", "resumo": "R",
+                                                                  "gancho": "Urgente: o MEI vai mudar"}))
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -709,4 +743,5 @@ if __name__ == "__main__":
     test_slide_entenda_detalhes_e_proximo_passo()
     test_minoria()
     test_chamada_final()
+    test_legenda_engajamento()
     print("ok")

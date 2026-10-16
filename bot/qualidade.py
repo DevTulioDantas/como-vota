@@ -71,7 +71,8 @@ def checar_textos(textos: dict) -> list[str]:
     elif textos.get("fonte_texto") == "ia":
         alertas.append("a explicação foi escrita pela IA: confira se está correta e neutra")
     escrito = _sem_acento(" ".join([textos.get("titulo", ""), textos.get("resumo", ""), textos.get("chamada") or "",
-                                    *(textos.get("detalhes") or [])]))
+                                    textos.get("gancho") or "", textos.get("publico") or "",
+                                    *(textos.get("detalhes") or []), *(textos.get("hashtags") or [])]))
     achado = next((p for p in PROIBIDOS if p in escrito), None)
     if achado:
         alertas.append(f"a explicação tem termo opinativo (\"{achado}\"): reescreva antes de aprovar")

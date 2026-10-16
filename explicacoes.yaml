@@ -34,6 +34,12 @@
 # - chamada (opcional): até 70 caracteres, a frase do último slide. Liga o assunto
 #   ao representante de quem lê ("Teto do MEI: e o deputado que você elegeu, como
 #   votou?"). Nunca cita pessoa ou partido nem sugere como avaliar o voto.
+# - gancho (opcional): a primeira linha da legenda, até 120 caracteres, falando
+#   com quem é afetado ("Você é MEI? Este projeto muda o teto de faturamento."). Sem
+#   alarme: nada de "urgente" ou "drasticamente".
+# - hashtags (opcional): de 3 a 5 do assunto ("#MEI", "#SimplesNacional"). Nunca
+#   de partido, político ou de apoio/oposição.
+# - publico (opcional): até 40 caracteres, completa "Envie para ___" ("quem é MEI").
 #
 # Formato: a chave é a proposição exatamente como aparece no post.
 
@@ -54,3 +60,6 @@
     - Perdoa dívidas que MEIs têm com o governo federal
     - Define como e quando essas regras passam a valer
   chamada: "Teto do MEI: e quem você elegeu, como votou?"
+  gancho: Você é MEI? Este projeto muda o teto de faturamento e quantos empregados você pode ter.
+  hashtags: ["#MEI", "#SimplesNacional", "#Empreendedorismo", "#PequenosNegócios"]
+  publico: quem é MEI

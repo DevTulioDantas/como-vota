@@ -137,7 +137,8 @@ def criar_rascunho(v: Votacao, estado: dict, demo: bool = False, enviar: bool = 
     textos = gerar_textos(v, HANDLE)
     fmt = formatos.escolher("votacao", estado, info=formatos.info_votacao(v), semente=v.id, forcar=formato_id)
     textos["legenda"] = cta.adicionar_na_legenda(
-        formatos.aplicar_gancho(textos["legenda"], fmt, formatos.variaveis_votacao(v, textos)))
+        formatos.aplicar_gancho(textos["legenda"], None if textos.get("gancho") else fmt,
+                                formatos.variaveis_votacao(v, textos)))
     imgs = renderizar(v, textos, storage.pasta(v.id), HANDLE, demo=demo, formato=fmt)
     _exportar_tiktok(v.id, textos["legenda"])
     from bot import qualidade
@@ -179,7 +180,7 @@ def _explicacao_nova(meta: dict) -> bool:
     nova = explicacao_escrita(Votacao.from_dict(meta["votacao"]))
     atual = meta.get("textos", {})
     # o título fica de fora: quando há apelido, o post usa o apelido, não o título do arquivo
-    return bool(nova) and any(nova.get(k) != atual.get(k) for k in ("resumo", "detalhes", "chamada"))
+    return bool(nova) and any(nova.get(k) != atual.get(k) for k in ("resumo", "detalhes", "chamada", "gancho", "hashtags", "publico"))
 
 
 def cmd_pendentes(args) -> None:
