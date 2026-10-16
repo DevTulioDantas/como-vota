@@ -62,7 +62,7 @@ def _exemplo() -> str:
 def consultar(pergunta: str = "") -> str:
     texto = f"{pergunta.strip() or PERGUNTA_PADRAO}\n\n{PERFIL}\n\nPost de exemplo:\n{_exemplo()}"
     corpo = gemini_gerar({"contents": [{"role": "user", "parts": [{"text": texto}]}],
-                          "generationConfig": {"temperature": 0.7, "maxOutputTokens": 6000}}, timeout=120)
+                          "generationConfig": {"temperature": 0.7, "maxOutputTokens": 32000}}, timeout=180)
     partes = ((corpo.get("candidates") or [{}])[0].get("content") or {}).get("parts") or []
     return "".join(p.get("text", "") for p in partes).strip()
 
