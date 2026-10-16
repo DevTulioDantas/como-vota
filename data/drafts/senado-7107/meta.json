@@ -1,7 +1,7 @@
 {
   "id": "senado-7107",
   "status": "enviado",
-  "criado_em": "2026-10-16T18:00:10+00:00",
+  "criado_em": "2026-10-16T18:16:11+00:00",
   "formato": "votacao-classico",
   "alertas": [
     "o título usa o apelido “Fim da escala 6x1” (registrado pelo Senado): confira se o nome é neutro",
@@ -691,7 +691,7 @@
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-10-16T18:00:13+00:00"
+      "em": "2026-10-16T18:16:14+00:00"
     }
   ],
   "demo": false
