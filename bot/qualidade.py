@@ -68,6 +68,8 @@ def checar_textos(textos: dict) -> list[str]:
     alertas: list[str] = []
     if textos.get("fonte_texto") == "explicacoes.yaml":
         alertas.append("a explicação foi escrita por um agente (explicacoes.yaml): confira se está correta e neutra")
+    elif textos.get("fonte_texto") == "ia":
+        alertas.append("a explicação foi escrita pela IA: confira se está correta e neutra")
     escrito = _sem_acento(f"{textos.get('titulo', '')} {textos.get('resumo', '')}")
     achado = next((p for p in PROIBIDOS if p in escrito), None)
     if achado:

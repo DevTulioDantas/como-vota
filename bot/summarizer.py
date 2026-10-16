@@ -265,7 +265,10 @@ def explicacao_escrita(v: Votacao) -> dict | None:
 def gerar_textos(v: Votacao, handle: str = "@comovotadeputado") -> dict:
     aplicar_apelido_manual(v)
     # ordem: texto escrito (agente ou dono) > IA pela API > ementa oficial
-    base = explicacao_escrita(v) or _ia(v) or _fallback(v)
+    base = explicacao_escrita(v)
+    if not base and (ia := _ia(v)):
+        base = {**ia, "fonte_texto": "ia"}
+    base = base or {**_fallback(v), "fonte_texto": "ementa"}
     if v.apelido:  # o nome conhecido do projeto é o melhor título; a ementa segue no resumo
         base = {**base, "titulo": v.apelido}
     p = v.placar()

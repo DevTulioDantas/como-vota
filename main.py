@@ -181,10 +181,12 @@ def _explicacao_nova(meta: dict) -> bool:
 
 
 def cmd_pendentes(args) -> None:
-    """O que o agente precisa explicar: rascunhos abertos sem texto no explicacoes.yaml."""
+    """O que o agente precisa explicar: rascunhos abertos sem texto no explicacoes.yaml e sem texto da IA."""
     from bot.summarizer import explicacoes
     feitas = explicacoes()
-    pendentes = [m for m in _rascunhos_abertos() if m["votacao"]["proposicao"] not in feitas]
+    # texto escrito pela IA na geração não precisa do agente: ele só cobre as falhas (cota, bloqueio...)
+    pendentes = [m for m in _rascunhos_abertos() if m["votacao"]["proposicao"] not in feitas
+                 and m.get("textos", {}).get("fonte_texto") != "ia"]
     if not pendentes:
         print("Nenhuma votação pendente de explicação.")
     for m in pendentes:

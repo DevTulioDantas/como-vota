@@ -593,6 +593,7 @@ def test_resumo_gemini():
     try:
         summarizer.requests.post = responde(200, ok)
         assert summarizer._ia(v)["titulo"] == "Define regras para bancos em crise", "Gemini tem prioridade"
+        assert summarizer.gerar_textos(v)["fonte_texto"] == "ia", "o agente pula posts que a IA já explicou"
         url, corpo, cab = pedidos[-1]
         assert url.endswith(f"/models/{summarizer.GEMINI_MODELO}:generateContent") and cab["x-goog-api-key"] == "teste"
         assert corpo["generationConfig"]["responseMimeType"] == "application/json"
