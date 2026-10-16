@@ -63,15 +63,20 @@ titulo: até 60 caracteres. Ex.: "Teto do MEI: muda quanto dá para faturar", "R
 resumo: 1 ou 2 frases, até 220 caracteres.
 detalhes: de 2 a 4 itens, cada um com até 100 caracteres, explicando em palavras simples cada parte do que a \
 ementa diz. Cubra TODAS as partes da ementa, sem omitir nenhuma (ex.: se ela também perdoa dívidas ou muda \
-prazos, isso precisa estar na lista)."""
+prazos, isso precisa estar na lista).
+chamada: até 70 caracteres, a frase do último slide, que convida a seguir o perfil. Ligue o assunto do post ao \
+representante de quem lê (ex.: "Teto do MEI: e o deputado que você elegeu, como votou?", "Escala 6x1: você sabe \
+como votou o seu senador?"). Nunca cite nome de pessoa nem de partido, nunca sugira como avaliar o voto e nada \
+de pressão ou ataque: o convite é para acompanhar, não para punir ninguém."""
 
 _FORMATO = {
     "type": "json_schema",
     "schema": {
         "type": "object",
         "properties": {"titulo": {"type": "string"}, "resumo": {"type": "string"},
-                       "detalhes": {"type": "array", "items": {"type": "string"}}},
-        "required": ["titulo", "resumo", "detalhes"],
+                       "detalhes": {"type": "array", "items": {"type": "string"}},
+                       "chamada": {"type": "string"}},
+        "required": ["titulo", "resumo", "detalhes", "chamada"],
         "additionalProperties": False,
     },
 }
@@ -154,7 +159,8 @@ def _pergunta(v: Votacao) -> str:
 def _valida(dados: dict) -> dict | None:
     if dados.get("titulo") and dados.get("resumo"):
         detalhes = [str(d).strip()[:120] for d in (dados.get("detalhes") or []) if str(d).strip()][:4]
-        return {"titulo": dados["titulo"][:80], "resumo": dados["resumo"][:260], "detalhes": detalhes}
+        return {"titulo": dados["titulo"][:80], "resumo": dados["resumo"][:260], "detalhes": detalhes,
+                "chamada": str(dados.get("chamada") or "").strip()[:90]}
     return None
 
 
@@ -177,8 +183,9 @@ def _ia_gemini(v: Votacao) -> dict | None:
             "responseSchema": {
                 "type": "OBJECT",
                 "properties": {"titulo": {"type": "STRING"}, "resumo": {"type": "STRING"},
-                               "detalhes": {"type": "ARRAY", "items": {"type": "STRING"}}},
-                "required": ["titulo", "resumo", "detalhes"],
+                               "detalhes": {"type": "ARRAY", "items": {"type": "STRING"}},
+                               "chamada": {"type": "STRING"}},
+                "required": ["titulo", "resumo", "detalhes", "chamada"],
             },
         },
     }

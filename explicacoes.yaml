@@ -31,6 +31,9 @@
 #   ementa, em palavras simples. Cubra TODAS as partes, sem omitir nenhuma (se
 #   a ementa também perdoa dívidas ou muda prazos, isso entra na lista). Vão para
 #   o slide "O que está em votação" e para a legenda.
+# - chamada (opcional): até 70 caracteres, a frase do último slide. Liga o assunto
+#   ao representante de quem lê ("Teto do MEI: e o deputado que você elegeu, como
+#   votou?"). Nunca cita pessoa ou partido nem sugere como avaliar o voto.
 #
 # Formato: a chave é a proposição exatamente como aparece no post.
 
@@ -50,3 +53,4 @@
     - Muda quantos empregados o MEI pode contratar
     - Perdoa dívidas que MEIs têm com o governo federal
     - Define como e quando essas regras passam a valer
+  chamada: "Teto do MEI: e quem você elegeu, como votou?"

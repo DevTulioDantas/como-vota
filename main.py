@@ -179,7 +179,7 @@ def _explicacao_nova(meta: dict) -> bool:
     nova = explicacao_escrita(Votacao.from_dict(meta["votacao"]))
     atual = meta.get("textos", {})
     # o título fica de fora: quando há apelido, o post usa o apelido, não o título do arquivo
-    return bool(nova) and any(nova.get(k) != atual.get(k) for k in ("resumo", "detalhes"))
+    return bool(nova) and any(nova.get(k) != atual.get(k) for k in ("resumo", "detalhes", "chamada"))
 
 
 def cmd_pendentes(args) -> None:

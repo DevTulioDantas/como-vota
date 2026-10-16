@@ -665,6 +665,24 @@ def test_minoria():
     assert "🔎 Votaram NÃO (4): N0 (PB-RJ)" in summarizer.gerar_textos(v)["legenda"]
 
 
+def test_chamada_final():
+    """Último slide: chamada escrita pela IA/agente, ou a fixa quando não houver."""
+    from bot import qualidade, summarizer
+    from bot.models import Votacao
+    from bot.render import renderer
+    assert summarizer._valida({"titulo": "T", "resumo": "R", "chamada": "MEI: e quem você elegeu?"})["chamada"] \
+        == "MEI: e quem você elegeu?"
+    v = Votacao(id="senado-1", casa="senado", data="2026-10-15", proposicao="PL 1/2026", tipo_proposicao="PL",
+                ementa="Dispõe sobre algo.", descricao="", aprovada=True, url_fonte="u")
+    base = {"titulo": "T", "resumo": "R", "resultado": "APROVADA"}
+    ctx = renderer.contexto(v, base, "@x", formato={"capa": "classico", "sequencia": ["capa", "final"]})
+    assert ctx["chamada_final"] == "E o senador que você elegeu, como votou?"
+    ctx = renderer.contexto(v, {**base, "chamada": "Teto do MEI: e quem você elegeu?"}, "@x",
+                            formato={"capa": "classico", "sequencia": ["capa", "final"]})
+    assert ctx["chamada_final"] == "Teto do MEI: e quem você elegeu?"
+    assert any("opinativo" in a for a in qualidade.checar_textos({**base, "chamada": "Vergonha: veja quem votou"}))
+
+
 if __name__ == "__main__":
     test_camara_e_seletor()
     test_senado_secreta_descartada()
@@ -690,4 +708,5 @@ if __name__ == "__main__":
     test_resumo_gemini()
     test_slide_entenda_detalhes_e_proximo_passo()
     test_minoria()
+    test_chamada_final()
     print("ok")

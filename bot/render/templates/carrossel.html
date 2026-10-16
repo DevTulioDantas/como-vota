@@ -161,8 +161,12 @@
 
   /* ---------- final ---------- */
   .final { align-items: center; text-align: center; }
-  .final .logo { width: 560px; height: auto; margin-top: -6px; }
-  .final h1 { font-size: 50px; color: var(--papel); margin-top: 20px; }
+  .final .logo { width: 330px; height: auto; margin-top: auto; }
+  .final .cta { margin-bottom: auto; }
+  .final h1 { font-size: 50px; color: var(--papel); margin-top: 14px; max-width: 940px; }
+  .final .motivos { list-style: none; padding: 0; margin: 30px 0 4px; text-align: left; display: flex; flex-direction: column; gap: 16px; }
+  .final .motivos li { font-size: 32px; font-weight: 600; color: var(--papel); padding-left: 40px; position: relative; }
+  .final .motivos li::before { content: ""; position: absolute; left: 0; top: 12px; width: 18px; height: 18px; background: var(--amarelo); border-radius: 3px; }
   .cta {
     display: inline-block; margin-top: 26px; background: var(--amarelo); color: var(--azul);
     font-family: var(--titulo); font-size: 34px; text-transform: uppercase; padding: 16px 34px; border-radius: 12px;
@@ -416,9 +420,13 @@
 {% elif s == "final" %}
 <section class="slide escuro final" id="slide-{{ n }}">
   {{ logo_svg|safe }}
-  <h1>Acompanhe como vota o seu {{ quem }}</h1>
+  <h1>{{ chamada_final }}</h1>
+  <ul class="motivos">
+    <li>Acompanhe o Congresso todo dia</li>
+    <li>Veja como vota quem você elegeu</li>
+    <li>Cobre seu {{ quem }} com dados oficiais</li>
+  </ul>
   <div class="cta">Siga {{ handle }}</div>
-  <p class="siga">Novas votações aparecem aqui todos os dias.</p>
   {{ rodape(n, com_barra=False) }}
 </section>
 {% endif %}
