@@ -67,6 +67,8 @@
   .capa .carimbo { right: 70px; bottom: 170px; font-size: 52px; }
   .capa .carimbo.duplo { font-size: 40px; line-height: 1.08; text-align: center; padding: 12px 26px 8px; }
   .capa h1.pergunta { font-size: 86px; color: var(--papel); }
+  .capa .chamada-capa { font-family: var(--titulo); text-transform: uppercase; font-size: 40px; line-height: 1.1;
+    color: var(--amarelo); margin-top: 34px; }
   .capa .tema-capa { font-size: 40px; line-height: 1.25; font-weight: 700; color: var(--papel); margin-top: 28px; max-width: 900px; }
   .capa .placar-capa { display: flex; align-items: center; gap: 20px; font-family: var(--mono); font-weight: 700; font-size: 150px;
                        line-height: 1; letter-spacing: -.04em; margin: 4px 0 34px; color: var(--papel); }
@@ -214,14 +216,16 @@
   </div>
   <div class="ref">{{ proposicao }} · {{ data_br }}</div>
   {% if capa_estilo == "pergunta" %}
-  <h1 class="pergunta">Como votaram os {{ quem_plural }}?</h1>
-  <p class="tema-capa">{{ titulo }}</p>
+  <h1 style="font-size: {{ tamanho_titulo + (8 if titulo|length <= 45 else 0) }}px">{{ titulo }}</h1>
+  <p class="resumo">{{ resumo }}</p>
+  <p class="chamada-capa">Como votaram os {{ quem_plural }}?</p>
   {% elif capa_estilo == "numero" %}
   <div class="placar-capa">{{ icone("Sim", 66) }}{{ placar.Sim }}<span>×</span>{{ placar["Não"] }}{{ icone("Não", 66) }}</div>
   <h1 style="font-size: {{ tamanho_titulo - 8 }}px">{{ titulo }}</h1>
   {% elif capa_estilo == "estados" %}
-  <h1 class="pergunta">Como votou cada estado?</h1>
-  <p class="tema-capa">{{ titulo }}</p>
+  <h1 style="font-size: {{ tamanho_titulo + (8 if titulo|length <= 45 else 0) }}px">{{ titulo }}</h1>
+  <p class="resumo">{{ resumo }}</p>
+  <p class="chamada-capa">Como votou cada estado?</p>
   {% elif capa_estilo == "apertado" and quorum_num %}
   <h1 class="apertado">Teve <em>{{ placar.Sim }}</em>. Precisava de {{ quorum_num }}.</h1>
   <p class="tema-capa">{{ titulo }}</p>

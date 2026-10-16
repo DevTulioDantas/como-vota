@@ -17,9 +17,15 @@
 # - Sem opinião, ironia, adjetivo de valor ou previsão ("histórico", "polêmico",
 #   "vai prejudicar", "importante"). Descreva, não avalie.
 # - Não diga se foi aprovada ou rejeitada: o post já mostra isso.
-# - titulo: até 60 caracteres, como manchete, verbo no presente quando der.
+# - Prenda a atenção pelo assunto, nunca pelo exagero: o tema pelo nome que as
+#   pessoas usam ("MEI", "conta de luz", "escala 6x1") nas primeiras palavras,
+#   a quem aquilo diz respeito ("quem é MEI") e o concreto no lugar do abstrato
+#   ("quanto o MEI pode faturar", não "limite de receita bruta anual").
+# - titulo: até 60 caracteres, é o texto grande da capa. Manchete curta, com o
+#   assunto no começo (ex.: "Teto do MEI: muda quanto dá para faturar").
 #   Se o projeto tiver apelido (apelidos.yaml ou Senado), o apelido vira o título.
-# - resumo: 1 ou 2 frases, até 220 caracteres.
+# - resumo: 1 ou 2 frases, até 220 caracteres. A primeira responde "o que isso
+#   tem a ver comigo?"; a segunda dá o detalhe.
 #
 # Formato: a chave é a proposição exatamente como aparece no post.
 
@@ -32,5 +38,5 @@
   resumo: Muda a Constituição para diminuir o número máximo de horas de trabalho por semana e garantir 2 dias de descanso remunerado por semana, sem corte de salário.
 
 "PLP 186/2026":
-  titulo: Muda o limite de faturamento e de empregados do MEI
-  resumo: Muda a lei do Simples Nacional para alterar quanto o Microempreendedor Individual (MEI) pode faturar por ano e quantos empregados ele pode ter.
+  titulo: "Teto do MEI: muda quanto dá para faturar"
+  resumo: Para quem é MEI, muda o limite de quanto se pode faturar por ano e de quantos empregados se pode ter. Essas regras ficam na lei do Simples Nacional.

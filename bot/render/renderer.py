@@ -171,7 +171,7 @@ def contexto(v: Votacao, textos: dict, handle: str, demo: bool = False, formato:
         "casa_nome": casa_completa,
         "casa_nome_completo": casa_completa,
         "quem": quem,
-        "quem_plural": quem + "s",
+        "quem_plural": {"senador": "senadores"}.get(quem, quem + "s"),
         "capa_estilo": capa_estilo,
         "tipo_txt": entenda.explicar_tipo(v),
         "entenda_texto": _curto(texto_entenda, 380),

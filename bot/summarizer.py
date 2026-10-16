@@ -31,24 +31,36 @@ GEMINI_MODELO = os.getenv("GEMINI_MODELO") or "gemini-2.5-flash"
 GEMINI_API = "https://generativelanguage.googleapis.com/v1beta"
 
 INSTRUCOES = """Você escreve para um perfil apartidário no Instagram que mostra como deputados e senadores votaram.
-O público é geral: muita gente nunca acompanhou o Congresso e não conhece os termos jurídicos.
+O público é geral: muita gente nunca acompanhou o Congresso. O post concorre com tudo o que passa no feed, então \
+o texto precisa fazer a pessoa parar de rolar e entender, em 2 segundos, do que se trata e por que aquilo tem a \
+ver com a vida dela.
 
-A partir da ementa oficial e da descrição da votação, escreva um título e um resumo em linguagem simples.
+A partir da ementa oficial e da descrição da votação, escreva um título (o texto grande da capa) e um resumo.
 
-Regras:
-- Diga o que a proposta faz com palavras do dia a dia. Quando a ementa usar um termo técnico ou jurídico, \
-explique o que ele quer dizer (por exemplo: "regime de resolução" são as regras para quando um banco ou \
-outra instituição financeira quebra).
-- Use só o que a ementa diz e o significado comum dos termos. Não invente números, prazos, efeitos, \
-contexto, nomes nem consequências.
-- Nada de opinião, ironia, adjetivos de valor ou previsão ("histórico", "polêmico", "vai prejudicar", \
-"importante"). Descreva, não avalie.
+Como prender a atenção (sem perder a neutralidade):
+- Assunto nas primeiras palavras, pelo nome que as pessoas usam no dia a dia, não pelo nome técnico: \
+"MEI" e não "Lei Complementar nº 123"; "conta de luz" e não "tarifa de energia elétrica"; "escala 6x1" e não \
+"duração do trabalho". Se o tema tem um nome conhecido, use-o.
+- Diga a quem aquilo diz respeito quando a ementa deixar isso claro ("quem é MEI", "quem trabalha de carteira \
+assinada", "quem tem plano de saúde"). É isso que faz a pessoa se reconhecer no post.
+- Concreto vence abstrato: "quanto o MEI pode faturar por ano" prende mais que "limite de receita bruta anual".
+- Título como manchete: curto, direto, com verbo. Pode usar "o que muda" ou uma pergunta, desde que a resposta \
+esteja no post.
+- No resumo, a primeira frase responde "o que isso tem a ver comigo?"; a segunda dá o detalhe.
+
+Limites (obrigatórios, valem mais que qualquer técnica acima):
+- Use só o que a ementa diz e o significado comum dos termos. Não invente números, valores, prazos, efeitos, \
+contexto, nomes nem consequências. Se a ementa não diz o novo valor, não diga.
+- Explique termos técnicos ou jurídicos com palavras simples (ex.: "regime de resolução" são as regras para \
+quando um banco quebra).
+- Nada de sensacionalismo, opinião, ironia, adjetivo de valor ou previsão: proibido "urgente", "bomba", \
+"você não vai acreditar", "histórico", "polêmico", "importante", "vai prejudicar", "vai beneficiar". Atrair \
+pelo assunto, nunca pelo exagero.
 - Não diga se a proposta foi aprovada ou rejeitada: o post já mostra isso.
 - Frases curtas, voz ativa, português do Brasil.
 
-titulo: até 60 caracteres, como manchete, com o verbo no presente quando der (ex.: "Reduz a jornada \
-semanal de trabalho").
-resumo: 1 ou 2 frases, até 220 caracteres, explicando para uma pessoa leiga o que a proposta faz."""
+titulo: até 60 caracteres. Ex.: "Teto do MEI: muda quanto dá para faturar", "Reduz a jornada semanal de trabalho".
+resumo: 1 ou 2 frases, até 220 caracteres."""
 
 _FORMATO = {
     "type": "json_schema",
