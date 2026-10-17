@@ -1,0 +1,46 @@
+{
+  "id": "semana-camara-2026-w42",
+  "tipo": "semana",
+  "status": "enviado",
+  "criado_em": "2026-10-17T16:40:58+00:00",
+  "textos": {
+    "legenda": "🗳️ Como Silvia Cristina (PP-RO) votou essa semana?\n\n• PLP 281/2019 — Define regras para bancos e seguradoras em crise: SIM\n• PLP 186/2026 — Teto do MEI: muda quanto dá para faturar: SIM\n\n\"Não votou\" quer dizer que não há registro de voto. Pode ser licença, viagem oficial ou ausência.\nParlamentar escolhido por rodízio automático entre os que participaram das votações da semana.\n\nSalve para conferir depois. 📌\n🔎 Fontes oficiais:\nPLP 281/2019: https://www.camara.leg.br/propostas-legislativas/2236186\nPLP 186/2026: https://www.camara.leg.br/propostas-legislativas/2635476\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
+  },
+  "dados": {
+    "casa": "camara",
+    "semana": "SEMANA 42 · 2026",
+    "nome": "Silvia Cristina",
+    "partido": "PP",
+    "uf": "RO",
+    "iniciais": "SC",
+    "cargo": "Deputado(a) federal",
+    "itens": [
+      {
+        "proposicao": "PLP 281/2019",
+        "tema": "Define regras para bancos e seguradoras em crise",
+        "rotulo": "SIM",
+        "classe": "Sim",
+        "resultado": "REJEITADA",
+        "data": "2026-10-14",
+        "url_fonte": "https://www.camara.leg.br/propostas-legislativas/2236186"
+      },
+      {
+        "proposicao": "PLP 186/2026",
+        "tema": "Teto do MEI: muda quanto dá para faturar",
+        "rotulo": "SIM",
+        "classe": "Sim",
+        "resultado": "APROVADA",
+        "data": "2026-10-14",
+        "url_fonte": "https://www.camara.leg.br/propostas-legislativas/2635476"
+      }
+    ],
+    "chave": "204360"
+  },
+  "historico": [
+    {
+      "status": "enviado",
+      "em": "2026-10-17T16:41:00+00:00"
+    }
+  ],
+  "demo": false
+}

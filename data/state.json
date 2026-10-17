@@ -4,7 +4,8 @@
     "senado-7107": "enviado",
     "camara-2236186-60": "enviado",
     "senado-7108": "enviado",
-    "camara-2635476-36": "enviado"
+    "camara-2635476-36": "enviado",
+    "semana-camara-2026-w42": "enviado"
   },
   "instagram": {},
   "formatos": {
@@ -14,5 +15,10 @@
       "votacao-mapa": 1,
       "votacao-pergunta": 1
     }
+  },
+  "voto_da_semana": {
+    "camara": [
+      "204360"
+    ]
   }
 }
