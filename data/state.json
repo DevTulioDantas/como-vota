@@ -5,7 +5,8 @@
     "camara-2236186-60": "enviado",
     "senado-7108": "enviado",
     "camara-2635476-36": "enviado",
-    "semana-camara-2026-w42": "enviado"
+    "semana-camara-2026-w42": "enviado",
+    "fria-01-o-que-e-uma-pec": "enviado"
   },
   "instagram": {},
   "formatos": {
@@ -13,12 +14,21 @@
       "votacao-classico": 1,
       "votacao-apertado": 1,
       "votacao-mapa": 1,
-      "votacao-pergunta": 1
+      "votacao-pergunta": 1,
+      "fria-classico": 1
     }
   },
   "voto_da_semana": {
     "camara": [
       "204360"
     ]
+  },
+  "frias": {
+    "usadas": [
+      "fria-01-o-que-e-uma-pec"
+    ],
+    "ufs_feitas": [],
+    "reposts": {},
+    "ultima_fonte": "explicador"
   }
 }

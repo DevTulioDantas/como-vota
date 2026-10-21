@@ -1,0 +1,66 @@
+{
+  "id": "fria-01-o-que-e-uma-pec",
+  "tipo": "fria",
+  "fonte_tipo": "explicador",
+  "status": "enviado",
+  "formato": "fria-classico",
+  "base_id": "fria-01-o-que-e-uma-pec",
+  "criado_em": "2026-10-21T16:07:50+00:00",
+  "textos": {
+    "titulo": "O que é uma PEC?",
+    "legenda": "📌 O que é uma PEC?\n\nPEC quer dizer Proposta de Emenda à Constituição. Ela muda a Constituição, a lei mais importante do país. É a votação mais difícil do Congresso.\n\nArraste para o lado e salve para consultar depois.\n🔎 Fonte: Constituição Federal, art. 60\n\n#ComoVotaDeputado #EntendaOCongresso #CongressoNacional #Transparência"
+  },
+  "item": {
+    "titulo": "O que é uma PEC?",
+    "resumo": "PEC quer dizer Proposta de Emenda à Constituição. Ela muda a Constituição, a lei mais importante do país. É a votação mais difícil do Congresso.",
+    "fonte": "Constituição Federal, art. 60",
+    "slides": [
+      {
+        "tipo": "texto",
+        "titulo": "Quem pode propor",
+        "itens": [
+          "Um terço dos deputados (171) ou um terço dos senadores (27)",
+          "O presidente da República",
+          "Mais da metade das Assembleias Legislativas, que fazem as leis de cada estado"
+        ]
+      },
+      {
+        "tipo": "numero",
+        "numero": "308",
+        "rotulo": "votos SIM na Câmara",
+        "texto": "É preciso o SIM de 3 em cada 5 deputados, ou seja, 308 de 513. E a PEC é votada duas vezes na Câmara."
+      },
+      {
+        "tipo": "numero",
+        "numero": "49",
+        "rotulo": "votos SIM no Senado",
+        "texto": "No Senado, a regra é igual. É preciso o SIM de 3 em cada 5 senadores (49 de 81), também em duas votações."
+      },
+      {
+        "tipo": "texto",
+        "titulo": "O presidente não pode vetar",
+        "texto": "Aprovada na Câmara e no Senado, a PEC passa a valer sem passar pelo presidente da República. Ele não pode aprovar nem barrar o texto. Quem oficializa a mudança são as direções da Câmara e do Senado."
+      },
+      {
+        "tipo": "texto",
+        "titulo": "O que nenhuma PEC pode eliminar",
+        "texto": "A Constituição protege alguns pontos para sempre. Eles são chamados de cláusulas pétreas:",
+        "itens": [
+          "A divisão do país em União, estados e municípios, cada um com sua autonomia",
+          "O voto direto, secreto, para todos e com eleições de tempos em tempos",
+          "A separação entre os três Poderes (Executivo, Legislativo e Judiciário)",
+          "Os direitos e garantias de cada pessoa"
+        ]
+      }
+    ],
+    "id": "fria-01-o-que-e-uma-pec",
+    "fonte_tipo": "explicador"
+  },
+  "historico": [
+    {
+      "status": "enviado",
+      "em": "2026-10-21T16:07:57+00:00"
+    }
+  ],
+  "demo": false
+}
