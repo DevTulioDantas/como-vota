@@ -1,0 +1,101 @@
+{
+  "id": "fria-bancada-ac-20261025",
+  "tipo": "fria",
+  "fonte_tipo": "bancada",
+  "status": "enviado",
+  "formato": "fria-salve",
+  "base_id": "fria-bancada-ac-20261025",
+  "criado_em": "2026-10-25T15:04:08+00:00",
+  "textos": {
+    "titulo": "Quem representa Acre na Câmara",
+    "legenda": "💾 Salve para consultar depois: Quem representa Acre na Câmara\n\nConheça os 8 deputados federais em exercício que representam Acre e veja de quais partidos eles são.\n\nPartido atual de cada deputado, que pode ser diferente do partido pelo qual foi eleito.\n\nArraste para o lado e salve para consultar depois.\n🔎 Fonte: Câmara dos Deputados · Dados Abertos (em exercício em 25/10/2026)\n\n#ComoVotaDeputado #EntendaOCongresso #CongressoNacional #Transparência"
+  },
+  "item": {
+    "id": "fria-bancada-ac-20261025",
+    "fonte_tipo": "bancada",
+    "serie": "Bancada do Estado",
+    "titulo": "Quem representa Acre na Câmara",
+    "resumo": "Conheça os 8 deputados federais em exercício que representam Acre e veja de quais partidos eles são.",
+    "fonte": "Câmara dos Deputados · Dados Abertos (em exercício em 25/10/2026)",
+    "nota": "Partido atual de cada deputado, que pode ser diferente do partido pelo qual foi eleito.",
+    "slides": [
+      {
+        "tipo": "numero",
+        "numero": "8",
+        "rotulo": "deputados federais em exercício",
+        "texto": "Acre tem hoje 8 representantes na Câmara dos Deputados, de 5 partidos diferentes."
+      },
+      {
+        "tipo": "partidos",
+        "titulo": "Por partido",
+        "linhas": [
+          {
+            "partido": "PP",
+            "total": 3
+          },
+          {
+            "partido": "UNIÃO",
+            "total": 2
+          },
+          {
+            "partido": "MDB",
+            "total": 1
+          },
+          {
+            "partido": "REPUBLICANOS",
+            "total": 1
+          },
+          {
+            "partido": "SOLIDARIEDADE",
+            "total": 1
+          }
+        ]
+      },
+      {
+        "tipo": "lista",
+        "titulo": "Os deputados",
+        "linhas": [
+          {
+            "nome": "Antônia Lúcia",
+            "detalhe": "MDB"
+          },
+          {
+            "nome": "Coronel Ulysses",
+            "detalhe": "UNIÃO"
+          },
+          {
+            "nome": "Eduardo Velloso",
+            "detalhe": "SOLIDARIEDADE"
+          },
+          {
+            "nome": "Meire Serafim",
+            "detalhe": "UNIÃO"
+          },
+          {
+            "nome": "Roberto Duarte",
+            "detalhe": "REPUBLICANOS"
+          },
+          {
+            "nome": "Socorro Neri",
+            "detalhe": "PP"
+          },
+          {
+            "nome": "Zezinho Barbary",
+            "detalhe": "PP"
+          },
+          {
+            "nome": "Zé Adriano",
+            "detalhe": "PP"
+          }
+        ]
+      }
+    ]
+  },
+  "historico": [
+    {
+      "status": "enviado",
+      "em": "2026-10-25T15:04:10+00:00"
+    }
+  ],
+  "demo": false
+}
