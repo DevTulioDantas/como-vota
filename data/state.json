@@ -7,7 +7,8 @@
     "camara-2635476-36": "enviado",
     "semana-camara-2026-w42": "enviado",
     "fria-01-o-que-e-uma-pec": "enviado",
-    "fria-bancada-ac-20261025": "enviado"
+    "fria-bancada-ac-20261025": "enviado",
+    "fria-02-pl-plp-pec-mp": "enviado"
   },
   "instagram": {},
   "formatos": {
@@ -17,7 +18,8 @@
       "votacao-mapa": 1,
       "votacao-pergunta": 1,
       "fria-classico": 1,
-      "fria-salve": 1
+      "fria-salve": 1,
+      "fria-voce-sabia": 1
     }
   },
   "voto_da_semana": {
@@ -27,12 +29,13 @@
   },
   "frias": {
     "usadas": [
-      "fria-01-o-que-e-uma-pec"
+      "fria-01-o-que-e-uma-pec",
+      "fria-02-pl-plp-pec-mp"
     ],
     "ufs_feitas": [
       "AC"
     ],
     "reposts": {},
-    "ultima_fonte": "bancada"
+    "ultima_fonte": "explicador"
   }
 }

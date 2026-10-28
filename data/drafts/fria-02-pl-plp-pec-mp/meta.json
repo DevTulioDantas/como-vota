@@ -1,0 +1,56 @@
+{
+  "id": "fria-02-pl-plp-pec-mp",
+  "tipo": "fria",
+  "fonte_tipo": "explicador",
+  "status": "enviado",
+  "formato": "fria-voce-sabia",
+  "base_id": "fria-02-pl-plp-pec-mp",
+  "criado_em": "2026-10-28T17:25:01+00:00",
+  "textos": {
+    "titulo": "PL, PLP, PEC ou MP? Entenda a diferença",
+    "legenda": "Você sabia? PL, PLP, PEC ou MP? Entenda a diferença\n\nCada tipo de proposta precisa de um número diferente de votos para passar. A sigla mostra se a votação é mais fácil ou mais difícil.\n\nArraste para o lado e salve para consultar depois.\n🔎 Fonte: Constituição Federal, arts. 47, 60, 62 e 69\n\n#ComoVotaDeputado #EntendaOCongresso #CongressoNacional #Transparência"
+  },
+  "item": {
+    "titulo": "PL, PLP, PEC ou MP? Entenda a diferença",
+    "resumo": "Cada tipo de proposta precisa de um número diferente de votos para passar. A sigla mostra se a votação é mais fácil ou mais difícil.",
+    "fonte": "Constituição Federal, arts. 47, 60, 62 e 69",
+    "slides": [
+      {
+        "tipo": "texto",
+        "titulo": "PL · Projeto de Lei",
+        "texto": "Cria ou muda as leis comuns, que são a maioria das leis do país. Passa se tiver mais votos SIM do que NÃO, desde que mais da metade dos deputados ou senadores esteja presente."
+      },
+      {
+        "tipo": "numero",
+        "numero": "257",
+        "rotulo": "votos SIM na Câmara para um PLP",
+        "texto": "O Projeto de Lei Complementar trata de temas que a Constituição pede que sejam decididos com mais apoio. Precisa do SIM de mais da metade de todos os deputados (257) e dos senadores (41)."
+      },
+      {
+        "tipo": "numero",
+        "numero": "308",
+        "rotulo": "votos SIM na Câmara para uma PEC",
+        "texto": "A Proposta de Emenda à Constituição precisa do SIM de 3 em cada 5 deputados (308) e senadores (49). E é votada duas vezes em cada um."
+      },
+      {
+        "tipo": "texto",
+        "titulo": "MP · Medida Provisória",
+        "texto": "É criada pelo presidente da República e já vale como lei assim que é publicada. Depois, precisa ser aprovada pela Câmara e pelo Senado para continuar valendo."
+      },
+      {
+        "tipo": "texto",
+        "titulo": "Por que isso importa",
+        "texto": "Quando você vê um placar aqui no perfil, a sigla ajuda a entender se era fácil ou difícil aprovar."
+      }
+    ],
+    "id": "fria-02-pl-plp-pec-mp",
+    "fonte_tipo": "explicador"
+  },
+  "historico": [
+    {
+      "status": "enviado",
+      "em": "2026-10-28T17:25:04+00:00"
+    }
+  ],
+  "demo": false
+}
