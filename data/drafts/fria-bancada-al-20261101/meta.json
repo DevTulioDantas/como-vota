@@ -1,0 +1,109 @@
+{
+  "id": "fria-bancada-al-20261101",
+  "tipo": "fria",
+  "fonte_tipo": "bancada",
+  "status": "enviado",
+  "formato": "fria-classico",
+  "base_id": "fria-bancada-al-20261101",
+  "criado_em": "2026-11-01T17:15:24+00:00",
+  "textos": {
+    "titulo": "Quem representa Alagoas na Câmara",
+    "legenda": "📌 Quem representa Alagoas na Câmara\n\nConheça os 9 deputados federais em exercício que representam Alagoas e veja de quais partidos eles são.\n\nPartido atual de cada deputado, que pode ser diferente do partido pelo qual foi eleito.\n\nArraste para o lado e salve para consultar depois.\n🔎 Fonte: Câmara dos Deputados · Dados Abertos (em exercício em 01/11/2026)\n\n#ComoVotaDeputado #EntendaOCongresso #CongressoNacional #Transparência"
+  },
+  "item": {
+    "id": "fria-bancada-al-20261101",
+    "fonte_tipo": "bancada",
+    "serie": "Bancada do Estado",
+    "titulo": "Quem representa Alagoas na Câmara",
+    "resumo": "Conheça os 9 deputados federais em exercício que representam Alagoas e veja de quais partidos eles são.",
+    "fonte": "Câmara dos Deputados · Dados Abertos (em exercício em 01/11/2026)",
+    "nota": "Partido atual de cada deputado, que pode ser diferente do partido pelo qual foi eleito.",
+    "slides": [
+      {
+        "tipo": "numero",
+        "numero": "9",
+        "rotulo": "deputados federais em exercício",
+        "texto": "Alagoas tem hoje 9 representantes na Câmara dos Deputados, de 6 partidos diferentes."
+      },
+      {
+        "tipo": "partidos",
+        "titulo": "Por partido",
+        "linhas": [
+          {
+            "partido": "PP",
+            "total": 3
+          },
+          {
+            "partido": "MDB",
+            "total": 2
+          },
+          {
+            "partido": "PL",
+            "total": 1
+          },
+          {
+            "partido": "PSD",
+            "total": 1
+          },
+          {
+            "partido": "PT",
+            "total": 1
+          },
+          {
+            "partido": "UNIÃO",
+            "total": 1
+          }
+        ]
+      },
+      {
+        "tipo": "lista",
+        "titulo": "Os deputados",
+        "linhas": [
+          {
+            "nome": "Alfredo Gaspar",
+            "detalhe": "PL"
+          },
+          {
+            "nome": "Arthur Lira",
+            "detalhe": "PP"
+          },
+          {
+            "nome": "Daniel Barbosa",
+            "detalhe": "PP"
+          },
+          {
+            "nome": "Delegado Fabio Costa",
+            "detalhe": "PP"
+          },
+          {
+            "nome": "Isnaldo Bulhões Jr.",
+            "detalhe": "MDB"
+          },
+          {
+            "nome": "Luciano Amaral",
+            "detalhe": "PSD"
+          },
+          {
+            "nome": "Marx Beltrão",
+            "detalhe": "UNIÃO"
+          },
+          {
+            "nome": "Paulão",
+            "detalhe": "PT"
+          },
+          {
+            "nome": "Rafael Brito",
+            "detalhe": "MDB"
+          }
+        ]
+      }
+    ]
+  },
+  "historico": [
+    {
+      "status": "enviado",
+      "em": "2026-11-01T17:15:29+00:00"
+    }
+  ],
+  "demo": false
+}
