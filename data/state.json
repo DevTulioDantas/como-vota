@@ -9,7 +9,8 @@
     "fria-01-o-que-e-uma-pec": "enviado",
     "fria-bancada-ac-20261025": "enviado",
     "fria-02-pl-plp-pec-mp": "enviado",
-    "fria-bancada-al-20261101": "enviado"
+    "fria-bancada-al-20261101": "enviado",
+    "senado-7111": "enviado"
   },
   "instagram": {},
   "formatos": {
@@ -20,7 +21,8 @@
       "votacao-pergunta": 1,
       "fria-classico": 2,
       "fria-salve": 1,
-      "fria-voce-sabia": 1
+      "fria-voce-sabia": 1,
+      "votacao-placar-na-capa": 1
     }
   },
   "voto_da_semana": {
