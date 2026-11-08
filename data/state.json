@@ -10,7 +10,8 @@
     "fria-bancada-ac-20261025": "enviado",
     "fria-02-pl-plp-pec-mp": "enviado",
     "fria-bancada-al-20261101": "enviado",
-    "senado-7111": "enviado"
+    "senado-7111": "enviado",
+    "fria-03-medida-provisoria": "enviado"
   },
   "instagram": {},
   "formatos": {
@@ -20,7 +21,7 @@
       "votacao-mapa": 1,
       "votacao-pergunta": 1,
       "fria-classico": 2,
-      "fria-salve": 1,
+      "fria-salve": 2,
       "fria-voce-sabia": 1,
       "votacao-placar-na-capa": 1
     }
@@ -33,13 +34,14 @@
   "frias": {
     "usadas": [
       "fria-01-o-que-e-uma-pec",
-      "fria-02-pl-plp-pec-mp"
+      "fria-02-pl-plp-pec-mp",
+      "fria-03-medida-provisoria"
     ],
     "ufs_feitas": [
       "AC",
       "AL"
     ],
     "reposts": {},
-    "ultima_fonte": "bancada"
+    "ultima_fonte": "explicador"
   }
 }
