@@ -12,14 +12,15 @@
     "fria-bancada-al-20261101": "enviado",
     "senado-7111": "enviado",
     "fria-03-medida-provisoria": "enviado",
-    "senado-7113": "enviado"
+    "senado-7113": "enviado",
+    "senado-7114": "enviado"
   },
   "instagram": {},
   "formatos": {
     "uso": {
       "votacao-classico": 2,
       "votacao-apertado": 1,
-      "votacao-mapa": 1,
+      "votacao-mapa": 2,
       "votacao-pergunta": 1,
       "fria-classico": 2,
       "fria-salve": 2,
