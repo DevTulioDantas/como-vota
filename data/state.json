@@ -13,7 +13,8 @@
     "senado-7111": "enviado",
     "fria-03-medida-provisoria": "enviado",
     "senado-7113": "enviado",
-    "senado-7114": "enviado"
+    "senado-7114": "enviado",
+    "senado-7116": "enviado"
   },
   "instagram": {},
   "formatos": {
@@ -21,7 +22,7 @@
       "votacao-classico": 2,
       "votacao-apertado": 1,
       "votacao-mapa": 2,
-      "votacao-pergunta": 1,
+      "votacao-pergunta": 2,
       "fria-classico": 2,
       "fria-salve": 2,
       "fria-voce-sabia": 1,
