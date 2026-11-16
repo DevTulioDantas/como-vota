@@ -1,0 +1,101 @@
+{
+  "id": "fria-bancada-am-20261116",
+  "tipo": "fria",
+  "fonte_tipo": "bancada",
+  "status": "enviado",
+  "formato": "fria-voce-sabia",
+  "base_id": "fria-bancada-am-20261116",
+  "criado_em": "2026-11-16T21:15:00+00:00",
+  "textos": {
+    "titulo": "Quem representa Amazonas na Câmara",
+    "legenda": "Você sabia? Quem representa Amazonas na Câmara\n\nConheça os 8 deputados federais em exercício que representam Amazonas e veja de quais partidos eles são.\n\nPartido atual de cada deputado, que pode ser diferente do partido pelo qual foi eleito.\n\nArraste para o lado e salve para consultar depois.\n🔎 Fonte: Câmara dos Deputados · Dados Abertos (em exercício em 16/11/2026)\n\n#ComoVotaDeputado #EntendaOCongresso #CongressoNacional #Transparência"
+  },
+  "item": {
+    "id": "fria-bancada-am-20261116",
+    "fonte_tipo": "bancada",
+    "serie": "Bancada do Estado",
+    "titulo": "Quem representa Amazonas na Câmara",
+    "resumo": "Conheça os 8 deputados federais em exercício que representam Amazonas e veja de quais partidos eles são.",
+    "fonte": "Câmara dos Deputados · Dados Abertos (em exercício em 16/11/2026)",
+    "nota": "Partido atual de cada deputado, que pode ser diferente do partido pelo qual foi eleito.",
+    "slides": [
+      {
+        "tipo": "numero",
+        "numero": "8",
+        "rotulo": "deputados federais em exercício",
+        "texto": "Amazonas tem hoje 8 representantes na Câmara dos Deputados, de 5 partidos diferentes."
+      },
+      {
+        "tipo": "partidos",
+        "titulo": "Por partido",
+        "linhas": [
+          {
+            "partido": "MDB",
+            "total": 2
+          },
+          {
+            "partido": "PSD",
+            "total": 2
+          },
+          {
+            "partido": "REPUBLICANOS",
+            "total": 2
+          },
+          {
+            "partido": "PL",
+            "total": 1
+          },
+          {
+            "partido": "UNIÃO",
+            "total": 1
+          }
+        ]
+      },
+      {
+        "tipo": "lista",
+        "titulo": "Os deputados",
+        "linhas": [
+          {
+            "nome": "Adail Filho",
+            "detalhe": "MDB"
+          },
+          {
+            "nome": "Amom Mandel",
+            "detalhe": "REPUBLICANOS"
+          },
+          {
+            "nome": "Capitão Alberto Neto",
+            "detalhe": "PL"
+          },
+          {
+            "nome": "Fausto Jr.",
+            "detalhe": "UNIÃO"
+          },
+          {
+            "nome": "Saullo Vianna",
+            "detalhe": "MDB"
+          },
+          {
+            "nome": "Sidney Leite",
+            "detalhe": "PSD"
+          },
+          {
+            "nome": "Silas Câmara",
+            "detalhe": "REPUBLICANOS"
+          },
+          {
+            "nome": "Átila Lins",
+            "detalhe": "PSD"
+          }
+        ]
+      }
+    ]
+  },
+  "historico": [
+    {
+      "status": "enviado",
+      "em": "2026-11-16T21:15:03+00:00"
+    }
+  ],
+  "demo": false
+}

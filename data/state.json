@@ -14,7 +14,8 @@
     "fria-03-medida-provisoria": "enviado",
     "senado-7113": "enviado",
     "senado-7114": "enviado",
-    "senado-7116": "enviado"
+    "senado-7116": "enviado",
+    "fria-bancada-am-20261116": "enviado"
   },
   "instagram": {},
   "formatos": {
@@ -25,7 +26,7 @@
       "votacao-pergunta": 2,
       "fria-classico": 2,
       "fria-salve": 2,
-      "fria-voce-sabia": 1,
+      "fria-voce-sabia": 2,
       "votacao-placar-na-capa": 1
     }
   },
@@ -42,9 +43,10 @@
     ],
     "ufs_feitas": [
       "AC",
-      "AL"
+      "AL",
+      "AM"
     ],
     "reposts": {},
-    "ultima_fonte": "explicador"
+    "ultima_fonte": "bancada"
   }
 }
