@@ -15,13 +15,14 @@
     "senado-7113": "enviado",
     "senado-7114": "enviado",
     "senado-7116": "enviado",
-    "fria-bancada-am-20261116": "enviado"
+    "fria-bancada-am-20261116": "enviado",
+    "senado-7118": "enviado"
   },
   "instagram": {},
   "formatos": {
     "uso": {
       "votacao-classico": 2,
-      "votacao-apertado": 1,
+      "votacao-apertado": 2,
       "votacao-mapa": 2,
       "votacao-pergunta": 2,
       "fria-classico": 2,
