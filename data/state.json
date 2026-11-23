@@ -16,7 +16,8 @@
     "senado-7114": "enviado",
     "senado-7116": "enviado",
     "fria-bancada-am-20261116": "enviado",
-    "senado-7118": "enviado"
+    "senado-7118": "enviado",
+    "fria-04-votacao-nominal-simbolica": "enviado"
   },
   "instagram": {},
   "formatos": {
@@ -25,7 +26,7 @@
       "votacao-apertado": 2,
       "votacao-mapa": 2,
       "votacao-pergunta": 2,
-      "fria-classico": 2,
+      "fria-classico": 3,
       "fria-salve": 2,
       "fria-voce-sabia": 2,
       "votacao-placar-na-capa": 1
@@ -40,7 +41,8 @@
     "usadas": [
       "fria-01-o-que-e-uma-pec",
       "fria-02-pl-plp-pec-mp",
-      "fria-03-medida-provisoria"
+      "fria-03-medida-provisoria",
+      "fria-04-votacao-nominal-simbolica"
     ],
     "ufs_feitas": [
       "AC",
@@ -48,6 +50,6 @@
       "AM"
     ],
     "reposts": {},
-    "ultima_fonte": "bancada"
+    "ultima_fonte": "explicador"
   }
 }

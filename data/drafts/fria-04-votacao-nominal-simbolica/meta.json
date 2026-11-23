@@ -1,0 +1,54 @@
+{
+  "id": "fria-04-votacao-nominal-simbolica",
+  "tipo": "fria",
+  "fonte_tipo": "explicador",
+  "status": "enviado",
+  "formato": "fria-classico",
+  "base_id": "fria-04-votacao-nominal-simbolica",
+  "criado_em": "2026-11-23T22:55:46+00:00",
+  "textos": {
+    "titulo": "Por que algumas votações não mostram quem votou?",
+    "legenda": "📌 Por que algumas votações não mostram quem votou?\n\nNem toda votação no Congresso registra o voto de cada deputado ou senador. Entenda a diferença entre votação simbólica, nominal e secreta.\n\nArraste para o lado e salve para consultar depois.\n🔎 Fonte: Constituição Federal, art. 52; Regimentos Internos da Câmara e do Senado\n\n#ComoVotaDeputado #EntendaOCongresso #CongressoNacional #Transparência"
+  },
+  "item": {
+    "titulo": "Por que algumas votações não mostram quem votou?",
+    "resumo": "Nem toda votação no Congresso registra o voto de cada deputado ou senador. Entenda a diferença entre votação simbólica, nominal e secreta.",
+    "fonte": "Constituição Federal, art. 52; Regimentos Internos da Câmara e do Senado",
+    "slides": [
+      {
+        "tipo": "texto",
+        "titulo": "Votação simbólica",
+        "texto": "Quem preside a sessão pede que quem é a favor fique como está e anuncia o resultado olhando o plenário, o salão onde acontecem as votações. Não fica registrado como cada um votou."
+      },
+      {
+        "tipo": "texto",
+        "titulo": "Votação nominal",
+        "texto": "Cada deputado ou senador registra o voto no painel eletrônico, e o resultado sai nome por nome. Só esse tipo de votação aparece aqui no perfil."
+      },
+      {
+        "tipo": "texto",
+        "titulo": "Pedido de conferência",
+        "texto": "Depois de uma votação simbólica, deputados e senadores podem pedir uma conferência, chamada verificação. Se o pedido for aceito, a votação é refeita no painel, com o nome de cada um."
+      },
+      {
+        "tipo": "texto",
+        "titulo": "E a votação secreta?",
+        "texto": "Algumas votações são secretas por regra da Constituição, como a escolha de autoridades pelo Senado (ministros de tribunais superiores e embaixadores, por exemplo). Nelas, só o resultado é divulgado."
+      },
+      {
+        "tipo": "texto",
+        "titulo": "Por isso",
+        "texto": "Só publicamos votações nominais. É o único jeito de mostrar, com dados oficiais, como cada um votou."
+      }
+    ],
+    "id": "fria-04-votacao-nominal-simbolica",
+    "fonte_tipo": "explicador"
+  },
+  "historico": [
+    {
+      "status": "enviado",
+      "em": "2026-11-23T22:55:48+00:00"
+    }
+  ],
+  "demo": false
+}
