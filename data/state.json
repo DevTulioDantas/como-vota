@@ -17,7 +17,8 @@
     "senado-7116": "enviado",
     "fria-bancada-am-20261116": "enviado",
     "senado-7118": "enviado",
-    "fria-04-votacao-nominal-simbolica": "enviado"
+    "fria-04-votacao-nominal-simbolica": "enviado",
+    "camara-2655570-57": "enviado"
   },
   "instagram": {},
   "formatos": {
@@ -29,7 +30,7 @@
       "fria-classico": 3,
       "fria-salve": 2,
       "fria-voce-sabia": 2,
-      "votacao-placar-na-capa": 1
+      "votacao-placar-na-capa": 2
     }
   },
   "voto_da_semana": {
