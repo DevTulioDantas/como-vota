@@ -19,14 +19,15 @@
     "senado-7118": "enviado",
     "fria-04-votacao-nominal-simbolica": "enviado",
     "camara-2655570-57": "enviado",
-    "camara-2332174-59": "enviado"
+    "camara-2332174-59": "enviado",
+    "camara-2394518-60": "enviado"
   },
   "instagram": {},
   "formatos": {
     "uso": {
       "votacao-classico": 3,
       "votacao-apertado": 2,
-      "votacao-mapa": 2,
+      "votacao-mapa": 3,
       "votacao-pergunta": 2,
       "fria-classico": 3,
       "fria-salve": 2,
