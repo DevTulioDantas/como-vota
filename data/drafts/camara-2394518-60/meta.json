@@ -1,16 +1,33 @@
 {
   "id": "camara-2394518-60",
   "status": "enviado",
-  "criado_em": "2026-11-26T20:35:04+00:00",
+  "criado_em": "2026-11-27T12:33:30+00:00",
   "formato": "votacao-mapa",
-  "alertas": [],
+  "alertas": [
+    "a explicação foi escrita por um agente (explicacoes.yaml): confira se está correta e neutra"
+  ],
   "textos": {
-    "titulo": "Cria o Protocolo de Acolhimento e Atendimento às vítimas…",
-    "resumo": "Cria o Protocolo de Acolhimento  e Atendimento às vítimas de discriminação racial e condutas análogas nos estabelecimentos de ensino do país, altera as Leis nº 13.431, de 4 de abril de 2017, e nº 8.069, de 13 de…",
-    "fonte_texto": "ementa",
+    "titulo": "Racismo na escola: cria regras para acolher as vítimas",
+    "resumo": "Para quem estuda, trabalha ou tem filhos na escola, cria um protocolo de como acolher e atender quem sofre discriminação racial. Vale para escolas e outros estabelecimentos de ensino do país.",
+    "detalhes": [
+      "Cria um protocolo para acolher e atender vítimas de racismo nas escolas",
+      "Vale também para condutas parecidas com a discriminação racial",
+      "Muda o Estatuto da Criança e do Adolescente (ECA)",
+      "Muda a lei de 2017 sobre crianças e adolescentes vítimas de violência"
+    ],
+    "chamada": "Racismo na escola: e quem você elegeu, como votou?",
+    "gancho": "Você estuda, trabalha ou tem filhos na escola? Este projeto trata do atendimento a vítimas de racismo.",
+    "hashtags": [
+      "#Educação",
+      "#Racismo",
+      "#Escola",
+      "#ECA"
+    ],
+    "publico": "quem estuda ou trabalha em escola",
+    "fonte_texto": "explicacoes.yaml",
     "resultado": "APROVADA",
     "carimbo": "SUBSTITUTIVO APROVADO",
-    "legenda": "Como votou a bancada do seu estado? Cria o Protocolo de Acolhimento e Atendimento às vítimas…\n\nCria o Protocolo de Acolhimento  e Atendimento às vítimas de discriminação racial e condutas análogas nos estabelecimentos de ensino do país, altera as Leis nº 13.431, de 4 de abril de 2017, e nº 8.069, de 13 de…\n\n👉 Arraste para ver o placar e quem votou como.\n\n📍 Câmara dos Deputados · 25/11/2026\n📄 PL 4887/2023 (Projeto de Lei)\n📊 Resultado: Substitutivo aprovado · SIM 320 × 102 NÃO · Abstenção 0\n⚖️ O governo pediu voto SIM\n\nNesta votação, os deputados votaram uma nova versão do texto, escrita pelo relator (o deputado encarregado de analisar o projeto).\nTexto oficial da votação: Aprovado o Substitutivo ao Projeto de Lei nº 4.887, de 2023, adotado pela relatora da Comissão de Previdência, Assistência Social, Infância, Adolescência e Família. Sim: 320; Não: 102; Total: 422.\n\n💾 Salve para consultar depois\n📤 Envie para quem quer acompanhar o Congresso\n💬 Comente: essa votação muda algo para você?\n\nO voto de cada deputado está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www.camara.leg.br/propostas-legislativas/2394518\n\n#ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
+    "legenda": "Você estuda, trabalha ou tem filhos na escola? Este projeto trata do atendimento a vítimas de racismo.\n\nPara quem estuda, trabalha ou tem filhos na escola, cria um protocolo de como acolher e atender quem sofre discriminação racial. Vale para escolas e outros estabelecimentos de ensino do país.\n\nO que o projeto faz:\n• Cria um protocolo para acolher e atender vítimas de racismo nas escolas\n• Vale também para condutas parecidas com a discriminação racial\n• Muda o Estatuto da Criança e do Adolescente (ECA)\n• Muda a lei de 2017 sobre crianças e adolescentes vítimas de violência\n\n👉 Arraste para ver o placar e quem votou como.\n\n📍 Câmara dos Deputados · 25/11/2026\n📄 PL 4887/2023 (Projeto de Lei)\n📊 Resultado: Substitutivo aprovado · SIM 320 × 102 NÃO · Abstenção 0\n⚖️ O governo pediu voto SIM\n\nNesta votação, os deputados votaram uma nova versão do texto, escrita pelo relator (o deputado encarregado de analisar o projeto).\nTexto oficial da votação: Aprovado o Substitutivo ao Projeto de Lei nº 4.887, de 2023, adotado pela relatora da Comissão de Previdência, Assistência Social, Infância, Adolescência e Família. Sim: 320; Não: 102; Total: 422.\n\n💾 Salve para consultar depois\n📤 Envie para quem estuda ou trabalha em escola\n💬 Comente: essa votação muda algo para você?\n\nO voto de cada deputado está na fonte oficial abaixo.\n🔎 Fonte oficial: https://www.camara.leg.br/propostas-legislativas/2394518\n\n#Educação #Racismo #Escola #ECA #ComoVotaDeputado #VotoAberto #CongressoNacional #Transparência"
   },
   "votacao": {
     "id": "camara-2394518-60",
@@ -3437,7 +3454,7 @@
   "historico": [
     {
       "status": "enviado",
-      "em": "2026-11-26T20:35:07+00:00"
+      "em": "2026-11-27T12:33:33+00:00"
     }
   ],
   "demo": false
